@@ -14,7 +14,7 @@
 
 ## Global constraints & runtime discipline (final review round)
 
-- **Repo/commits:** private GitHub repo **`nlp-research-rosu/sample-data`**, branch **`master`** (created in T0 via `gh repo create`). Commit after every meaningful step, push after every task — commit often.
+- **Repo/commits:** private GitHub repo, branch **`master`** (created in T0 via `gh repo create`). Commit after every meaningful step, push after every task — commit often.
 - **K-tool watchdogs — never wait blindly:** these programs are tiny, so every K invocation should finish in minutes. All calls are wrapped in `timeout` with budgets ≈2× the expected time: `kompile` llvm ≤ 600 s (observed ~2–4 min), `kompile` haskell ≤ 600 s (observed ~3–5 min), `krun`/`kast` ≤ 120 s (expected seconds), `kprove` ≤ 900 s (range-loop class proves in seconds–minutes), kore-rpc ≤ 120 s per request / ≤ 10 min per program. A fired timeout or anything running well past its expected time is treated as **stuck or looping** — kill it, inspect partial output/configuration, shrink the program or claim, and fix the cause; do not simply re-run with a bigger timeout. `kprove` additionally runs under a memory cap (klever's own `systemd-run … MemoryMax=8G` recipe, or `ulimit -v` fallback) so a runaway prover can't take down the box.
 
 ## Changes from v1 (feedback merge)
@@ -109,7 +109,7 @@ Trace overlay mechanics (settled during research):
 ## 4. Tasks (timeboxed; each ends with a commit)
 
 ### Task 0: Scaffold + env (20 min)
-- [ ] `git init -b master`; create the private repo `gh repo create nlp-research-rosu/sample-data --private`, add it as `origin`, and push `master` (every task below ends with commit + push).
+- [ ] `git init -b master`; create the private origin repo (via `gh repo create … --private`), add it as `origin`, and push `master` (every task below ends with commit + push).
 - [ ] Vendor `reference/src/{semantics,lemmas}` + `tests/verification/range-loop` + `scripts/py2mpy.py` from klever at HEAD, record sha in `vendor/klever/VENDOR.md`.
 - [ ] `uv venv .venv && uv pip install 'kframework==7.1.337' pyyaml` (uv installed via astral.sh script; nix/`kup shell` is the fallback).
 - [ ] `Makefile`: `check-env` (K version grep, `import pyk`, z3 present), `kompile-traced`, `kompile-haskell`, `data`, `validate`, `vendor-diff`. Run `make check-env` → `env OK`. Commit.

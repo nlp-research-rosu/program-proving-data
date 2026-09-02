@@ -1,0 +1,7 @@
+Module(
+  FuncDef("f", Params("n"),
+    Assign(Name("total"), Int(0))
+    Assign(Name("i"), Int(0))
+    For(Name("i"), Call(Name("range"), Name("n")),
+      AugAssign(Name("total"), "+", Name("i")))
+    Return(Name("total"))))

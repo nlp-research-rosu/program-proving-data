@@ -1,0 +1,64 @@
+# rules.yaml — the "annotated semantics": one entry per K rule (or strictness
+# context) that appears at rewrite depth 0 in the A-family traces.
+#
+# Keys are `<file>:<line>` of the rule's source location as reported by
+# kore-proof-trace against the traced-hints build (patched/* line numbers are
+# the patched copies' — they differ from vendor by the patch insertions).
+# `kind: structural` marks K-machinery steps (sequencing, strictness);
+# `kind: semantic` marks rules that give Python constructs their meaning;
+# `kind: instrumentation` marks the trace overlay itself.
+
+trace.k:28:        {name: trace.line-mark,     kind: instrumentation, desc: "LineMark(N) dissolves, logging (line, locals, heap) BEFORE the next statement — the CWM observation"}
+patched/call.k:70: {name: frame.push,          kind: semantic, desc: "apply a user function: allocate a fresh callee scope, push frame(continuation, caller-env, loc) [traced: also logs the call event]"}
+patched/functions.k:86: {name: frame.pop,      kind: semantic, desc: "#pop: return value flows to the caller's continuation; callee frame deallocated, env restored [traced: also logs the return event]"}
+
+patched/core.k:126: {name: load.module,        kind: structural, desc: "#loadAll(Module(SS)) unwraps the program into its statement list"}
+patched/core.k:127: {name: seq.step,           kind: structural, desc: "statement sequencing: `S SS` splits into S followed by the rest"}
+patched/core.k:128: {name: seq.done,           kind: structural, desc: "empty statement list dissolves"}
+patched/core.k:132: {name: name.lookup-begin,  kind: semantic, desc: "Name(x) starts a scope-chain lookup #look(x, current-scope)"}
+patched/core.k:133: {name: name.lookup-hit,    kind: semantic, desc: "#look finds x bound in this scope's map and returns its value"}
+patched/core.k:153: {name: name.lookup-parent, kind: semantic, desc: "x unbound in this scope: continue the lookup in the parent scope (LEGB chain)"}
+patched/core.k:190: {name: args.eval-next,     kind: structural, desc: "argument loop: schedule evaluation of the next argument expression"}
+patched/core.k:191: {name: args.eval-collect,  kind: structural, desc: "argument loop: collect an evaluated argument value"}
+patched/core.k:192: {name: args.apply,         kind: structural, desc: "argument loop finished: dispatch #applyK to the callee with all values"}
+patched/core.k:195: {name: lit.int,            kind: semantic, desc: "Int(i) literal evaluates to the integer value i"}
+patched/core.k:196: {name: lit.bool,           kind: semantic, desc: "Bool(b) literal evaluates to the boolean value b"}
+patched/core.k:197: {name: lit.none,           kind: semantic, desc: "NoneVal literal evaluates to noneV"}
+
+controls.k:9:  {name: assign.store,        kind: semantic, desc: "Assign(Name(x), v): write the evaluated RHS into x's slot in the current scope map"}
+controls.k:20: {name: augassign.store,     kind: semantic, desc: "AugAssign(x, op, v): combine x's current value with v via applyBin(op) and store"}
+controls.k:44: {name: if.dispatch,         kind: semantic, desc: "If(c, T, E) with evaluated condition becomes #branch(truthy(c), T, E)"}
+controls.k:45: {name: if.true,             kind: semantic, desc: "#branch(true): continue with the then-branch statements"}
+controls.k:46: {name: if.false,            kind: semantic, desc: "#branch(false): continue with the else-branch statements"}
+controls.k:69: {name: while.begin,         kind: semantic, desc: "While(c, B) enters the #while loop form"}
+controls.k:70: {name: while.cond-eval,     kind: semantic, desc: "#while: schedule evaluation of the condition, then judge it at #whileCond"}
+controls.k:71: {name: while.iterate,       kind: semantic, desc: "condition truthy: run the body, then re-enter the loop via #loopLbl"}
+controls.k:73: {name: while.exit,          kind: semantic, desc: "condition falsy: the loop dissolves"}
+controls.k:77: {name: loop.label-unfold,   kind: semantic, desc: "#loopLbl unwraps into the next loop cycle (also the break/continue anchor)"}
+
+patched/functions.k:15: {name: def.bind,           kind: semantic, desc: "FuncDef binds a closureVal(params, body, defining-scope) under the function's name"}
+patched/functions.k:64: {name: params.done,        kind: semantic, desc: "#bindP: all parameters bound"}
+patched/functions.k:65: {name: params.bind-next,   kind: semantic, desc: "#bindP: bind the next parameter name to its argument value in the callee scope"}
+patched/functions.k:79: {name: return.set,         kind: semantic, desc: "Return(v): record retV(v) in <ret> and discard the rest of the body, heading to #pop"}
+patched/functions.k:82: {name: return.implicit,    kind: semantic, desc: "#endcall (control fell off the body): implicit `return None`"}
+
+patched/call.k:21: {name: call.eval-callee,        kind: semantic, desc: "Call(f, args): evaluate the callee expression to a value first"}
+patched/call.k:22: {name: call.eval-args,          kind: semantic, desc: "callee value known: evaluate the arguments left-to-right (#evalArgs), then dispatch on the callee"}
+
+operators.k:10: {name: op.unary-dispatch,  kind: semantic, desc: "UnaryOp(op, v) dispatches to the applyUn function (domain modules own the cases)"}
+operators.k:12: {name: op.binop-dispatch,  kind: semantic, desc: "BinOp(op, l, r) dispatches to the applyBin function (Int/Float/Str/List cases in the domain modules)"}
+operators.k:15: {name: strict.compare-lhs, kind: structural, desc: "strictness context: evaluate Compare's left operand in place"}
+operators.k:16: {name: strict.compare-rhs, kind: structural, desc: "strictness context: evaluate Compare's right operand (under the CmpOp wrapper)"}
+operators.k:17: {name: op.compare-dispatch, kind: semantic, desc: "Compare(l, CmpOp(op, r)) dispatches to the applyCmp function"}
+
+assert.k:6: {name: assert.pass,            kind: semantic, desc: "Assert(v) with truthy v dissolves — the assertion holds"}
+assert.k:8: {name: assert.fail,            kind: semantic, desc: "Assert(v) with falsy v: clear the continuation, set <exc> AssertionError, exit-code 1 — the program halts"}
+
+syntax.k:14: {name: strict.unaryop,        kind: structural, desc: "strictness: schedule/plug UnaryOp's operand evaluation"}
+syntax.k:15: {name: strict.binop,          kind: structural, desc: "strictness: schedule/plug BinOp's operands, left-to-right (heat argument out / cool value back in)"}
+syntax.k:41: {name: strict.assign-rhs,     kind: structural, desc: "strictness: schedule/plug evaluation of Assign's right-hand side"}
+syntax.k:44: {name: strict.augassign-rhs,  kind: structural, desc: "strictness: schedule/plug evaluation of AugAssign's right-hand side"}
+syntax.k:49: {name: strict.if-cond,        kind: structural, desc: "strictness: schedule/plug evaluation of If's condition"}
+syntax.k:50: {name: strict.return-value,   kind: structural, desc: "strictness: schedule/plug evaluation of Return's value"}
+syntax.k:51: {name: strict.assert-test,    kind: structural, desc: "strictness: schedule/plug evaluation of Assert's test"}
+syntax.k:52: {name: strict.exprstmt,       kind: structural, desc: "strictness: schedule/plug evaluation of an expression statement"}

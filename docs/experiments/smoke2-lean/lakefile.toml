@@ -1,0 +1,9 @@
+name = "smoke2-lean"
+version = "0.1.0"
+defaultTargets = ["Smoke2Lean"]
+weakLeanArgs = [
+    "-D", "maxHeartbeats=10000000",
+]
+
+[[lean_lib]]
+name = "Smoke2Lean"

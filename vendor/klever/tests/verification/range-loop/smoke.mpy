@@ -1,0 +1,12 @@
+Module(
+  FuncDef("f", Params("n"),
+    Assign(Name("total"), Int(0))
+    Assign(Name("i"), Int(0))
+    For(Name("i"), Call(Name("range"), Name("n")),
+      AugAssign(Name("total"), "+", Name("i")))
+    Return(Name("total")))
+  Assert(Compare(Call(Name("f"), Int(0)), CmpOp("==", Int(0))))
+  Assert(Compare(Call(Name("f"), Int(1)), CmpOp("==", Int(0))))
+  Assert(Compare(Call(Name("f"), Int(4)), CmpOp("==", Int(6))))
+  Assert(Compare(Call(Name("f"), Int(5)), CmpOp("==", Int(10))))
+  Assert(Compare(Call(Name("f"), Int(10)), CmpOp("==", Int(45)))))

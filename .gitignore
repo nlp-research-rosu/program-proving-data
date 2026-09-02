@@ -1,0 +1,8 @@
+build/
+.venv/
+__pycache__/
+*.pyc
+vendor/klever/tests/verification/range-loop/verification-kompiled/
+
+# lean
+data/lean/.lake/

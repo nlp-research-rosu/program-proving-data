@@ -1,0 +1,6 @@
+import Smoke2Lean.Func
+
+inductive Rewrites : SortGeneratedTopCell → SortGeneratedTopCell → Prop where
+  | tran {s1 s2 s3 : SortGeneratedTopCell} (t1 : Rewrites s1 s2) (t2 : Rewrites s2 s3) : Rewrites s1 s3
+  | bump {I _Val1 : SortInt} {_DotVar0 : SortGeneratedCounterCell} {_DotVar1 : SortK} {_Val0 : SortBool} (defn_Val0 : «_<Int_» I 10 = some _Val0) (defn_Val1 : «_+Int_» I 1 = some _Val1) (req : _Val0 = true) : Rewrites { k := { val := SortK.kseq ((@inj SortState SortKItem) (SortState.«run(_)_SMOKE2_State_Int» I)) _DotVar1 }, generatedCounter := _DotVar0 } { k := { val := SortK.kseq ((@inj SortState SortKItem) (SortState.«run(_)_SMOKE2_State_Int» _Val1)) _DotVar1 }, generatedCounter := _DotVar0 }
+  | finish {I : SortInt} {_DotVar0 : SortGeneratedCounterCell} {_DotVar1 : SortK} {_Val0 : SortBool} (defn_Val0 : «_>=Int_» I 10 = some _Val0) (req : _Val0 = true) : Rewrites { k := { val := SortK.kseq ((@inj SortState SortKItem) (SortState.«run(_)_SMOKE2_State_Int» I)) _DotVar1 }, generatedCounter := _DotVar0 } { k := { val := SortK.kseq ((@inj SortState SortKItem) (SortState.«done(_)_SMOKE2_State_Int» I)) _DotVar1 }, generatedCounter := _DotVar0 }

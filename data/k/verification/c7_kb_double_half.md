@@ -1,0 +1,49 @@
+# verification/kb-double-half — **PROVED**
+
+```python
+r = a + a
+r = r // 2
+```
+
+- requires: `True (any int a)`
+- ensures: `r == a (doubling then floor-halving is exact); a unchanged`
+
+Prover: kprove (K haskell backend + z3) — **#Top** in 7.0s (mem cap 8G (systemd-run scope))
+
+IMP `/` becomes `//`; a + a is always even, so the division is exact and z3 discharges the floor algebra with no lemma imports.
+
+Ported from KleverBench [`problems/imp/double-half`](https://github.com/nlp-research-rosu/KleverBench) @ `b5eced3` — original IMP: `r = a + a ; r = r / 2 ;`
+
+## K claims (verbatim)
+
+```k
+requires "verification.k"
+
+module KB-DOUBLE-HALF-SPEC
+  imports KB-DOUBLE-HALF-VERIFICATION
+
+  // ---- Entry claim: doubling a then halving lands r exactly back on a, for every int a ----
+  // KleverBench problems/imp/double-half: `r = a + a ; r = r / 2 ;`
+  claim
+    <k>
+      Assign(Name("a"), A:Int)
+      Assign(Name("r"), BinOp("+", Name("a"), Name("a")))
+      Assign(Name("r"), BinOp("//", Name("r"), Int(2)))
+    => .K ... </k>
+    <env> 0 </env>
+    <scopes>
+      -1 |-> builtinsScope
+      0 |-> scope(.Map, parent(-1))
+    =>
+      -1 |-> builtinsScope
+      0 |-> scope(.Map [ "a" <- A ] [ "r" <- ?R:Int ], parent(-1))
+    </scopes>
+    <scopeLoc> 1 </scopeLoc>
+    <stack> .List </stack>
+    <ret> noRet </ret>
+    <exc> NoExc </exc>
+    <exit-code> 0 </exit-code>
+    ensures ?R ==Int A
+    [all-path]
+endmodule
+```

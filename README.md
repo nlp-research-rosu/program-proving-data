@@ -119,6 +119,10 @@ make harbor-oracle-lean  # Docker: harbor run -a oracle / -a nop on the Lean tas
 make harbor-oracle-k     # Docker: the same on the K tasks (kompile once, ~5 min)
 ```
 
+Before repeating an oracle check, move previous `jobs/oracle-*` and `jobs/nop-*`
+results aside. Reward validation rejects duplicate task results; to inspect an existing
+run, pass its individual timestamped job directory to `scripts/harbor/ci_rewards.py`.
+
 [`.github/workflows/harbor.yml`](.github/workflows/harbor.yml) runs all of it on pull requests
 and pushes to `main`:
 the pure-Python checks and lint, `lake build` of the whole Lean corpus, and the oracle/nop

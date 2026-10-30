@@ -42,13 +42,14 @@ The inputs are the module variables `a`, `n`, written as the literals `31337`, `
 
 Add the loop-invariant claim(s) — K *circularities* — to `/app/spec.k` so that `kprove`
 proves the whole module. Write them in the marked region before the entry claim. Do not
-change the entry claim. Loop claims must not contain a `<scopeLoc>` cell: the verifier
-recognizes the entry claim as the unique claim whose `<k>` cell is the frozen program.
+change the entry claim. The verifier recognizes it as the unique claim whose `<k>` cell
+is the frozen program; loop claims use the loop anchor described below and may include
+`<scopeLoc>` when needed.
 
 ## Checking your work
 
 ```
-cd /app && timeout 900 kprove spec.k --definition /opt/klever/kompiled --spec-module KB-LOOP-MAX-SPEC --smt-timeout 10000 --smt-retry-limit 3
+cd /app && timeout 900 kprove spec.k --definition /opt/klever/kompiled --spec-module KB-LOOP-MAX-SPEC --smt-timeout 10000 --haskell-backend-command 'kore-exec --smt-retry-limit 3'
 ```
 
 Success prints `#Top`; a failed proof prints the stuck configuration(s). The reference

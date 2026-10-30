@@ -25,8 +25,8 @@
   "kprove_flags": [
     "--smt-timeout",
     "10000",
-    "--smt-retry-limit",
-    "3"
+    "--haskell-backend-command",
+    "kore-exec --smt-retry-limit 3"
   ],
   "entry_k": "FuncDef(\"f\",Params(\"n\"),Assign(Name(\"total\"),Int(0))Assign(Name(\"i\"),Int(0))For(Name(\"i\"),Call(Name(\"range\"),Name(\"n\")),AugAssign(Name(\"total\"),\"+\",Name(\"i\")))Return(Name(\"total\")))Assign(Name(\"result\"),Call(Name(\"f\"),N:Int))=>.K...",
   "frozen_parts": {

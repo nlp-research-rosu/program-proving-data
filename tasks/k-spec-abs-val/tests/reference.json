@@ -25,8 +25,8 @@
   "kprove_flags": [
     "--smt-timeout",
     "10000",
-    "--smt-retry-limit",
-    "3"
+    "--haskell-backend-command",
+    "kore-exec --smt-retry-limit 3"
   ],
   "entry_k": "FuncDef(\"abs_val\",Params(\"x\"),If(Compare(Name(\"x\"),CmpOp(\"<\",Int(0))),Return(UnaryOp(\"-\",Name(\"x\"))),.Stmts)Return(Name(\"x\")))Assign(Name(\"result\"),Call(Name(\"abs_val\"),X:Int))=>.K...",
   "frozen_parts": {

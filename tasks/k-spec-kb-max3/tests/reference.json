@@ -31,8 +31,8 @@
   "kprove_flags": [
     "--smt-timeout",
     "10000",
-    "--smt-retry-limit",
-    "3"
+    "--haskell-backend-command",
+    "kore-exec --smt-retry-limit 3"
   ],
   "entry_k": "Assign(Name(\"a\"),A:Int)Assign(Name(\"b\"),B:Int)Assign(Name(\"n\"),N:Int)Assign(Name(\"max\"),Name(\"a\"))If(Compare(Name(\"max\"),CmpOp(\"<=\",Name(\"b\"))),Assign(Name(\"max\"),Name(\"b\")),.Stmts)If(Compare(Name(\"max\"),CmpOp(\"<=\",Name(\"n\"))),Assign(Name(\"max\"),Name(\"n\")),.Stmts)=>.K...",
   "frozen_parts": {

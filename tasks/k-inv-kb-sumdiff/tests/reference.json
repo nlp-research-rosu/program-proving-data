@@ -27,8 +27,8 @@
   "kprove_flags": [
     "--smt-timeout",
     "10000",
-    "--smt-retry-limit",
-    "3"
+    "--haskell-backend-command",
+    "kore-exec --smt-retry-limit 3"
   ],
   "entry_k": "Assign(Name(\"a\"),A:Int)Assign(Name(\"b\"),B:Int)If(Compare(Name(\"a\"),CmpOp(\"<\",Name(\"b\"))),Assign(Name(\"t\"),BinOp(\"-\",Name(\"b\"),Name(\"a\"))),Assign(Name(\"t\"),BinOp(\"-\",Name(\"a\"),Name(\"b\"))))Assign(Name(\"res\"),Int(0))While(Compare(Int(0),CmpOp(\"<\",Name(\"t\"))),Assign(Name(\"res\"),BinOp(\"+\",Name(\"res\"),Int(2)))Assign(Name(\"t\"),BinOp(\"-\",Name(\"t\"),Int(1))))=>.K...",
   "entry_normalized": "<k>Assign(Name(\"a\"),A:Int)Assign(Name(\"b\"),B:Int)If(Compare(Name(\"a\"),CmpOp(\"<\",Name(\"b\"))),Assign(Name(\"t\"),BinOp(\"-\",Name(\"b\"),Name(\"a\"))),Assign(Name(\"t\"),BinOp(\"-\",Name(\"a\"),Name(\"b\"))))Assign(Name(\"res\"),Int(0))While(Compare(Int(0),CmpOp(\"<\",Name(\"t\"))),Assign(Name(\"res\"),BinOp(\"+\",Name(\"res\"),Int(2)))Assign(Name(\"t\"),BinOp(\"-\",Name(\"t\"),Int(1))))=>.K...</k><env>0</env><scopes>-1|->builtinsScope0|->scope(.Map,parent(-1))=>-1|->builtinsScope0|->scope(.Map[\"a\"<-A][\"b\"<-B][\"t\"<-?F:Int][\"res\"<-?RES:Int],parent(-1))</scopes><scopeLoc>1</scopeLoc><stack>.List</stack><ret>noRet</ret><exc>NoExc</exc><exit-code>0</exit-code>ensures?F==Int0andBool?RES==Int2*IntabsInt(A-IntB)[all-path]"

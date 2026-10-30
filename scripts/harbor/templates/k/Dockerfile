@@ -5,6 +5,9 @@
 # across every K task in this dataset, so Docker's build cache shares them.
 FROM {{k_image}}@sha256:a63698c015f2b349bb9807d486bf2a48a764237a018fd207c23ac7571519b12b
 
+# Fail before the expensive compile if grader flags do not match the pinned CLI.
+RUN timeout 30 kprove {{kprove_flags}} --help-hidden > /dev/null
+
 # The semantics and the verification module (read-only for the agent).
 COPY klever/ /opt/klever/
 

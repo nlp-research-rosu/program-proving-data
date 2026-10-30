@@ -25,8 +25,8 @@
   "kprove_flags": [
     "--smt-timeout",
     "10000",
-    "--smt-retry-limit",
-    "3"
+    "--haskell-backend-command",
+    "kore-exec --smt-retry-limit 3"
   ],
   "entry_k": "FuncDef(\"f\",Params(\"n\"),Assign(Name(\"total\"),Int(0))Assign(Name(\"i\"),Int(0))For(Name(\"i\"),Call(Name(\"range\"),Name(\"n\")),AugAssign(Name(\"total\"),\"+\",Name(\"i\")))Return(Name(\"total\")))Assign(Name(\"result\"),Call(Name(\"f\"),N:Int))=>.K...",
   "entry_normalized": "<k>FuncDef(\"f\",Params(\"n\"),Assign(Name(\"total\"),Int(0))Assign(Name(\"i\"),Int(0))For(Name(\"i\"),Call(Name(\"range\"),Name(\"n\")),AugAssign(Name(\"total\"),\"+\",Name(\"i\")))Return(Name(\"total\")))Assign(Name(\"result\"),Call(Name(\"f\"),N:Int))=>.K...</k><env>0</env><scopes>-1|->builtinsScope0|->scope(.Map,parent(-1))=>-1|->builtinsScope0|->scope(.Map[\"f\"<-?_:Val][\"result\"<-?R:Int],parent(-1))</scopes><scopeLoc>1</scopeLoc><stack>.List</stack><ret>noRet</ret><exc>NoExc</exc><exit-code>0</exit-code>requiresN>=Int0ensures?R==Int(N*Int(N-Int1))/Int2[all-path]"

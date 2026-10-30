@@ -116,6 +116,7 @@ harbor-tasks:
 
 harbor-check:
 	$(PY) scripts/harbor/check_tasks.py
+	$(PY) -m unittest discover -s scripts/harbor -p 'test_*.py'
 	$(HARBOR) lint tasks/*/
 
 harbor-oracle-lean:

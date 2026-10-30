@@ -61,8 +61,9 @@ Concretely, in `/app/spec.k`:
    input satisfying the precondition.
 3. If the program has loops, add the claims `kprove` needs to get past them: one
    loop-invariant claim per loop level (a *circularity*), placed before the entry claim.
-   Loop claims must not contain a `<scopeLoc>` cell: the verifier recognizes the entry
-   claim as the unique claim whose `<k>` cell is the frozen program.
+   The verifier recognizes the entry claim as the unique claim whose `<k>` cell is the
+   frozen program; loop claims use the loop anchor described below and may include
+   `<scopeLoc>` when needed.
 
 Everything else in the entry claim is frozen: the `<k>` cell, the initial `<scopes>`, the
 other cells, the `requires` clause and the `[all-path]` attribute are compared with the
@@ -71,7 +72,7 @@ reference modulo whitespace and comments.
 ## Checking your work
 
 ```
-cd /app && timeout 900 kprove spec.k --definition /opt/klever/kompiled --spec-module KB-ABS-TIMES-SPEC --smt-timeout 10000 --smt-retry-limit 3
+cd /app && timeout 900 kprove spec.k --definition /opt/klever/kompiled --spec-module KB-ABS-TIMES-SPEC --smt-timeout 10000 --haskell-backend-command 'kore-exec --smt-retry-limit 3'
 ```
 
 Success prints `#Top`; a failed proof prints the stuck configuration(s). The reference

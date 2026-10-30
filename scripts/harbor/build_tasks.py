@@ -23,6 +23,7 @@ import argparse
 import ast
 import json
 import re
+import shlex
 import shutil
 import subprocess
 import sys
@@ -50,8 +51,10 @@ N_SAMPLES = 24
 SEED = 20261030
 KPROVE_TIMEOUT = 900
 # z3 on a slow or shared verifier host returns `unknown` on the nonlinear side
-# conditions far more often than on the corpus VPS; give it room.
-KPROVE_FLAGS = ["--smt-timeout", "10000", "--smt-retry-limit", "3"]
+# conditions far more often than on the corpus VPS; give it room. The retry
+# limit belongs to kore-exec, not kprove's command-line parser.
+KPROVE_FLAGS = ["--smt-timeout", "10000", "--haskell-backend-command",
+                "kore-exec --smt-retry-limit 3"]
 # Reference `ensures` clauses rewritten into the verifier's canonical
 # `?X ==Int TERM` form (logically equivalent to the corpus claim; CI's oracle
 # re-proves the rewritten claim with kprove).
@@ -375,7 +378,7 @@ def build_k_task(out: Out, prog: Program, family: str, registry: list[dict]) -> 
         "prover_seconds": str(prog.record["prover"]["wall_seconds"]),
         "program_code": program_display(prog).rstrip("\n"),
         "inputs_sentence": inputs_sentence_k(prog), "loop_phrase": prog.loop_phrase,
-        "kprove_timeout": str(KPROVE_TIMEOUT), "kprove_flags": " ".join(KPROVE_FLAGS),
+        "kprove_timeout": str(KPROVE_TIMEOUT), "kprove_flags": shlex.join(KPROVE_FLAGS),
         "loop_scope_note": loop_scope_note(prog), "fn_binding_note": fn_binding_note(prog),
     }
     # environment

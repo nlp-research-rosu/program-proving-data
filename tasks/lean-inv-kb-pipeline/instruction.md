@@ -93,7 +93,7 @@ lake env lean KMiniPy/Verification/C32KbPipeline.lean
 
 shows the errors of your file alone. To audit axioms, put `#print axioms C32KbPipeline.spec`
 in a scratch file that is NOT imported (for example `/app/Scratch.lean`, with
-`import KMiniPy.Verification.KMiniPy.Verification.C32KbPipeline`) and run `lake env lean /app/Scratch.lean`; it
+`import KMiniPy.Verification.C32KbPipeline`) and run `lake env lean /app/Scratch.lean`; it
 must list only `propext`, `Classical.choice`, `Quot.sound`, `eqStringHook` and
 `«_==String__STRING-COMMON_Bool_String_String»`.
 

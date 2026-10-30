@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import json
 import re
+import shlex
 import subprocess
 import sys
 import tempfile
@@ -98,6 +99,16 @@ def k_offline(t: Path) -> None:
     sol = (t / "solution" / "spec.k").read_text(encoding="utf-8")
     skel = (t / "environment" / "app" / "spec.k").read_text(encoding="utf-8")
     fam = ref["family"]
+    instruction = (t / "instruction.md").read_text(encoding="utf-8")
+    cmd = re.search(r"(?m)^cd /app && (timeout .+)$", instruction)
+    expected = ["timeout", str(ref["kprove_timeout"]), "kprove", "spec.k",
+                "--definition", "/opt/klever/kompiled", "--spec-module", ref["spec_module"],
+                *ref["kprove_flags"]]
+    check(cmd is not None and shlex.split(cmd.group(1)) == expected,
+          f"{t.name}: instruction command preserves the grader's argument boundaries")
+    preflight = f"kprove {shlex.join(ref['kprove_flags'])} --help-hidden"
+    check(preflight in (t / "environment" / "Dockerfile").read_text(encoding="utf-8"),
+          f"{t.name}: image checks prover flags before compiling")
 
     def grade(text: str) -> list[str]:
         """Every grader step except kprove, as a list of problems."""
@@ -177,6 +188,10 @@ def k_offline(t: Path) -> None:
 def lean_offline(t: Path) -> None:
     cfg = tomllib.loads((t / "task.toml").read_text(encoding="utf-8"))
     mod = cfg["metadata"]["lean_module"].split(".")[-1]
+    instruction = (t / "instruction.md").read_text(encoding="utf-8")
+    scratch_imports = re.findall(r"`import ([\w.]+)`", instruction)
+    check(scratch_imports == [cfg["metadata"]["lean_module"]],
+          f"{t.name}: scratch-file example imports the proof module")
     stub = (t / "environment" / "task" / "KMiniPy" / "Verification" / f"{mod}.lean").read_text(encoding="utf-8")
     sol = (t / "solution" / f"{mod}.lean").read_text(encoding="utf-8")
     chk = (t / "tests" / "Check.lean").read_text(encoding="utf-8")

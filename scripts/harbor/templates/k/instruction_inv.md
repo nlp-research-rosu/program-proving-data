@@ -33,8 +33,9 @@ Python subset written in K. There is no network access.
 
 Add the loop-invariant claim(s) — K *circularities* — to `/app/spec.k` so that `kprove`
 proves the whole module. Write them in the marked region before the entry claim. Do not
-change the entry claim. Loop claims must not contain a `<scopeLoc>` cell: the verifier
-recognizes the entry claim as the unique claim whose `<k>` cell is the frozen program.
+change the entry claim. The verifier recognizes it as the unique claim whose `<k>` cell
+is the frozen program; loop claims use the loop anchor described below and may include
+`<scopeLoc>` when needed.
 
 ## Checking your work
 

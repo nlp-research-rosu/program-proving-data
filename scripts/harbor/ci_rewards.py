@@ -5,7 +5,8 @@
     python scripts/harbor/ci_rewards.py JOBS_DIR --expect 0   # nop: every trial 0
 
 Walks every trial result.json under JOBS_DIR, prints one line per trial and
-exits 1 if any trial is missing a reward or has a reward other than --expect.
+exits 1 if any task appears more than once, any trial reports an exception,
+or any trial is missing a reward or has a reward other than --expect.
 """
 from __future__ import annotations
 
@@ -21,9 +22,10 @@ def main() -> int:
     ap.add_argument("--expect", type=float, required=True)
     ap.add_argument("--min-trials", type=int, default=1)
     a = ap.parse_args()
-    results = sorted(p for p in a.jobs_dir.rglob("result.json") if p.parent.parent != a.jobs_dir or True)
+    results = sorted(a.jobs_dir.rglob("result.json"))
     bad = 0
     n = 0
+    seen_tasks: set[str] = set()
     for p in results:
         data = json.loads(p.read_text(encoding="utf-8"))
         if "task_name" not in data:  # a job-level result.json
@@ -32,10 +34,15 @@ def main() -> int:
         vr = data.get("verifier_result") or {}
         rewards = vr.get("rewards") or {}
         reward = rewards.get("reward", next(iter(rewards.values()), None)) if rewards else None
-        exc = (data.get("exception_info") or {}).get("exception_type")
-        ok = reward is not None and float(reward) == a.expect
+        exception = data.get("exception_info")
+        exc = (exception or {}).get("exception_type")
+        duplicate = data["task_name"] in seen_tasks
+        seen_tasks.add(data["task_name"])
+        ok = not duplicate and not exception and reward is not None and float(reward) == a.expect
         bad += not ok
-        print(f"[{'ok' if ok else 'FAIL'}] {data['task_name']:34s} reward={reward!r}" + (f" exception={exc}" if exc else ""))
+        print(f"[{'ok' if ok else 'FAIL'}] {data['task_name']:34s} reward={reward!r}"
+              + (f" exception={exc or 'reported'}" if exception else "")
+              + (" duplicate task" if duplicate else ""))
     print(f"{n} trial(s), {bad} unexpected")
     if n < a.min_trials:
         print(f"expected at least {a.min_trials} trial(s)")

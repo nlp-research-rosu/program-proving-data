@@ -23,8 +23,8 @@
   "kprove_flags": [
     "--smt-timeout",
     "10000",
-    "--smt-retry-limit",
-    "3"
+    "--haskell-backend-command",
+    "kore-exec --smt-retry-limit 3"
   ],
   "entry_k": "Assign(Name(\"n\"),N:Int)Assign(Name(\"sum\"),Int(0))Assign(Name(\"i\"),Int(1))While(Compare(Name(\"i\"),CmpOp(\"<=\",Name(\"n\"))),Assign(Name(\"sum\"),BinOp(\"+\",Name(\"sum\"),Name(\"i\")))Assign(Name(\"i\"),BinOp(\"+\",Name(\"i\"),Int(1))))=>.K...",
   "entry_normalized": "<k>Assign(Name(\"n\"),N:Int)Assign(Name(\"sum\"),Int(0))Assign(Name(\"i\"),Int(1))While(Compare(Name(\"i\"),CmpOp(\"<=\",Name(\"n\"))),Assign(Name(\"sum\"),BinOp(\"+\",Name(\"sum\"),Name(\"i\")))Assign(Name(\"i\"),BinOp(\"+\",Name(\"i\"),Int(1))))=>.K...</k><env>0</env><scopes>-1|->builtinsScope0|->scope(.Map,parent(-1))=>-1|->builtinsScope0|->scope(.Map[\"n\"<-N][\"sum\"<-?S2:Int][\"i\"<-?I2:Int],parent(-1))</scopes><scopeLoc>1</scopeLoc><stack>.List</stack><ret>noRet</ret><exc>NoExc</exc><exit-code>0</exit-code>requiresN>=Int0ensures?S2==Int(N*Int(N+Int1))/Int2andBool?I2==IntN+Int1[all-path]"

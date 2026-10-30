@@ -119,7 +119,8 @@ make harbor-oracle-lean  # Docker: harbor run -a oracle / -a nop on the Lean tas
 make harbor-oracle-k     # Docker: the same on the K tasks (kompile once, ~5 min)
 ```
 
-[`.github/workflows/harbor.yml`](.github/workflows/harbor.yml) runs all of it on every push:
+[`.github/workflows/harbor.yml`](.github/workflows/harbor.yml) runs all of it on pull requests
+and pushes to `main`:
 the pure-Python checks and lint, `lake build` of the whole Lean corpus, and the oracle/nop
 runs for both toolchains. The generator is
 [`scripts/harbor/build_tasks.py`](scripts/harbor/build_tasks.py); the templates it renders are

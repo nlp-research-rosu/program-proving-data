@@ -27,8 +27,8 @@
   "kprove_flags": [
     "--smt-timeout",
     "10000",
-    "--smt-retry-limit",
-    "3"
+    "--haskell-backend-command",
+    "kore-exec --smt-retry-limit 3"
   ],
   "entry_k": "Assign(Name(\"n\"),N:Int)Assign(Name(\"r\"),R:Int)While(Compare(Name(\"r\"),CmpOp(\"<\",Name(\"n\"))),Assign(Name(\"r\"),BinOp(\"+\",Name(\"r\"),Int(1))))=>.K...",
   "entry_normalized": "<k>Assign(Name(\"n\"),N:Int)Assign(Name(\"r\"),R:Int)While(Compare(Name(\"r\"),CmpOp(\"<\",Name(\"n\"))),Assign(Name(\"r\"),BinOp(\"+\",Name(\"r\"),Int(1))))=>.K...</k><env>0</env><scopes>-1|->builtinsScope0|->scope(.Map,parent(-1))=>-1|->builtinsScope0|->scope(.Map[\"n\"<-N][\"r\"<-?R2:Int],parent(-1))</scopes><scopeLoc>1</scopeLoc><stack>.List</stack><ret>noRet</ret><exc>NoExc</exc><exit-code>0</exit-code>ensures?R2==IntmaxInt(N,R)[all-path]"

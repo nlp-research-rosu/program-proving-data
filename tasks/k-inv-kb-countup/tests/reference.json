@@ -1,0 +1,28 @@
+{
+  "task": "k-inv-kb-countup",
+  "family": "loop-invariant",
+  "program": "kb_countup",
+  "record": "c13_kb_countup",
+  "verification_module": "MPY-VERIFICATION",
+  "spec_module": "KB-COUNTUP-SPEC",
+  "code": "while r < n:\n    r = r + 1\n",
+  "inputs": {
+    "module": [
+      [
+        "n",
+        "N"
+      ],
+      [
+        "r",
+        "R"
+      ]
+    ],
+    "call": []
+  },
+  "fn_names": [],
+  "requires": null,
+  "n_samples": 24,
+  "seed": 20261030,
+  "kprove_timeout": 600,
+  "entry_normalized": "<k>Assign(Name(\"n\"),N:Int)Assign(Name(\"r\"),R:Int)While(Compare(Name(\"r\"),CmpOp(\"<\",Name(\"n\"))),Assign(Name(\"r\"),BinOp(\"+\",Name(\"r\"),Int(1))))=>.K...</k><env>0</env><scopes>-1|->builtinsScope0|->scope(.Map,parent(-1))=>-1|->builtinsScope0|->scope(.Map[\"n\"<-N][\"r\"<-?R2:Int],parent(-1))</scopes><scopeLoc>1</scopeLoc><stack>.List</stack><ret>noRet</ret><exc>NoExc</exc><exit-code>0</exit-code>ensures?R2==IntmaxInt(N,R)[all-path]"
+}

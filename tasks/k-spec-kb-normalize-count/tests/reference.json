@@ -1,0 +1,43 @@
+{
+  "task": "k-spec-kb-normalize-count",
+  "family": "proved-spec",
+  "program": "kb_normalize_count",
+  "record": "c34_kb_normalize_count",
+  "verification_module": "MPY-VERIFICATION",
+  "spec_module": "KB-NORMALIZE-COUNT-SPEC",
+  "code": "if n < 0:\n    n = 0 - n\ncount = 0\nwhile 0 < n:\n    n = n - 1\n    count = count + 1\nres = count * a + b\n",
+  "inputs": {
+    "module": [
+      [
+        "a",
+        "A"
+      ],
+      [
+        "b",
+        "B"
+      ],
+      [
+        "n",
+        "N"
+      ]
+    ],
+    "call": []
+  },
+  "fn_names": [],
+  "requires": null,
+  "n_samples": 24,
+  "seed": 20261030,
+  "kprove_timeout": 600,
+  "frozen_parts": {
+    "cell:k": "Assign(Name(\"a\"),A:Int)Assign(Name(\"b\"),B:Int)Assign(Name(\"n\"),N:Int)If(Compare(Name(\"n\"),CmpOp(\"<\",Int(0))),Assign(Name(\"n\"),BinOp(\"-\",Int(0),Name(\"n\"))),.Stmts)Assign(Name(\"count\"),Int(0))While(Compare(Int(0),CmpOp(\"<\",Name(\"n\"))),Assign(Name(\"n\"),BinOp(\"-\",Name(\"n\"),Int(1)))Assign(Name(\"count\"),BinOp(\"+\",Name(\"count\"),Int(1))))Assign(Name(\"res\"),BinOp(\"+\",BinOp(\"*\",Name(\"count\"),Name(\"a\")),Name(\"b\")))=>.K...",
+    "cell:env": "0",
+    "cell:scopeLoc": "1",
+    "cell:stack": ".List",
+    "cell:ret": "noRet",
+    "cell:exc": "NoExc",
+    "cell:exit-code": "0",
+    "scopes_lhs": "-1|->builtinsScope0|->scope(.Map,parent(-1))",
+    "requires": "",
+    "attrs": "all-path"
+  }
+}

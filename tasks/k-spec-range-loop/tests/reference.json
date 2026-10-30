@@ -1,0 +1,37 @@
+{
+  "task": "k-spec-range-loop",
+  "family": "proved-spec",
+  "program": "range_loop",
+  "record": "c1_range_loop",
+  "verification_module": "MPY-VERIFICATION",
+  "spec_module": "RANGE-LOOP-SPEC",
+  "code": "def f(n):\n    total = 0\n    i = 0\n    for i in range(n):\n        total += i\n    return total\n\nresult = f(n)\n",
+  "inputs": {
+    "module": [],
+    "call": [
+      [
+        "n",
+        "N"
+      ]
+    ]
+  },
+  "fn_names": [
+    "f"
+  ],
+  "requires": "N >=Int 0",
+  "n_samples": 24,
+  "seed": 20261030,
+  "kprove_timeout": 600,
+  "frozen_parts": {
+    "cell:k": "FuncDef(\"f\",Params(\"n\"),Assign(Name(\"total\"),Int(0))Assign(Name(\"i\"),Int(0))For(Name(\"i\"),Call(Name(\"range\"),Name(\"n\")),AugAssign(Name(\"total\"),\"+\",Name(\"i\")))Return(Name(\"total\")))Assign(Name(\"result\"),Call(Name(\"f\"),N:Int))=>.K...",
+    "cell:env": "0",
+    "cell:scopeLoc": "1",
+    "cell:stack": ".List",
+    "cell:ret": "noRet",
+    "cell:exc": "NoExc",
+    "cell:exit-code": "0",
+    "scopes_lhs": "-1|->builtinsScope0|->scope(.Map,parent(-1))",
+    "requires": "N>=Int0",
+    "attrs": "all-path"
+  }
+}

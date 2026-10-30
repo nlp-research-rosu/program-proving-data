@@ -200,18 +200,36 @@ generic. The same recipe applies to any corpus the semantics covers, and to any 
 K-defined language — the KleverBench port exercised exactly this: 31 new programs went from
 IMP source to proved, validated records with no changes to the semantics or the extractors.
 
+## The corpus as Harbor tasks
+
+The verification records and their Lean mirrors are also packaged as 87
+[Harbor](https://docs.harborframework.com/tasks/overview) tasks under `tasks/` (see the
+top-level [README.md](README.md) for the task families, the verifier contracts and the
+anti-gaming rules). The tasks are generated from the corpus by
+`scripts/harbor/build_tasks.py`: each K record yields a proved-spec task (write the
+final-state claim and prove it) and, when it has loop invariants, a loop-invariant task
+(write the circularity claims for the frozen entry claim); each Lean mirror yields the
+corresponding Lean task over its proved execution legs or path theorems. The reference
+solutions are exactly the corpus artifacts (`corpus/specs/*/spec.k` with the verification
+module renamed to the shared `MPY-VERIFICATION`; the `corpus/lean` derivation files), so the
+oracle runs in CI re-check what this report describes. The concrete and symbolic families
+(a1–a4, b1–b2) have no task counterpart and stay in the corpus as training data.
+
 ## Repository layout
 
 ```
-corpus/k/          the K dataset (concrete/, symbolic/, verification/): *.jsonl canonical, *.md readable
-corpus/lean/       the Lean 4 package: klean translation + theorem files (lakefile at this root)
+tasks/           87 Harbor tasks generated from corpus/ (k-spec-*, k-inv-*, lean-spec-*, lean-inv-*)
+registry.json    named Harbor datasets over tasks/
+corpus/k/        the K dataset (concrete/, symbolic/, verification/): *.jsonl canonical, *.md readable
+corpus/lean/     the Lean 4 package: klean translation + theorem files (lakefile at this root)
+corpus/specs/    abs-val and buggy-abs K claim modules (c2, c3; c1 reuses the vendored
+                 range-loop spec) + kb-*/ claim modules for the 31 ported KleverBench problems
 programs/        the Python subjects (self-contained: defs + entry call)
 semantics/       mpy-traced/ = vendor MPY + trace overlay (trace.k, patched/{core,call,functions}.k,
                  rules.yaml rule annotations); minipy-lean.k = the klean-translatable semantics
-specs/           abs-val and buggy-abs K claim modules (c2, c3; c1 reuses the vendored
-                 range-loop spec) + kb-*/ claim modules for the 31 ported KleverBench problems
-scripts/         py2mpy_traced.py (vendored py2mpy + --linemarks); k/ = generation + validation
-                 pipeline for corpus/k; lean/ = theorem generators for corpus/lean
+scripts/         harbor/ = task generator, graders, offline checks; py2mpy_traced.py (vendored
+                 py2mpy + --linemarks); k/ = generation + validation pipeline for corpus/k;
+                 lean/ = theorem generators for corpus/lean
 docs/            the approved plans (historical record) and the klean feasibility experiment
 vendor/klever/   pinned upstream (sha in VENDOR.md; never modified — `make vendor-diff`)
 build/           gitignored: kompiled definitions, mpy files, proof hints (build/k, build/lean)
@@ -224,6 +242,8 @@ make check-env    # K v7.1.337, pyk, z3
 make k-data       # regenerate the K dataset (first run kompiles ~6 min of definitions)
 make k-validate   # standalone re-checks of the committed K data
 make vendor-diff  # the entire semantics delta vs the pinned upstream
+make harbor-tasks # regenerate tasks/ + registry.json from the corpus (python only)
+make harbor-check # drift, shape, offline graders, leak checks, harbor lint
 ```
 
 Regeneration prerequisites (the committed data needs none of this): K v7.1.337

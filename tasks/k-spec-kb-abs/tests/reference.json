@@ -1,0 +1,35 @@
+{
+  "task": "k-spec-kb-abs",
+  "family": "proved-spec",
+  "program": "kb_abs",
+  "record": "c9_kb_abs",
+  "verification_module": "MPY-VERIFICATION",
+  "spec_module": "KB-ABS-SPEC",
+  "code": "if a < 0:\n    res = 0 - a\nelse:\n    res = a\n",
+  "inputs": {
+    "module": [
+      [
+        "a",
+        "A"
+      ]
+    ],
+    "call": []
+  },
+  "fn_names": [],
+  "requires": null,
+  "n_samples": 24,
+  "seed": 20261030,
+  "kprove_timeout": 600,
+  "frozen_parts": {
+    "cell:k": "Assign(Name(\"a\"),A:Int)If(Compare(Name(\"a\"),CmpOp(\"<\",Int(0))),Assign(Name(\"res\"),BinOp(\"-\",Int(0),Name(\"a\"))),Assign(Name(\"res\"),Name(\"a\")))=>.K...",
+    "cell:env": "0",
+    "cell:scopeLoc": "1",
+    "cell:stack": ".List",
+    "cell:ret": "noRet",
+    "cell:exc": "NoExc",
+    "cell:exit-code": "0",
+    "scopes_lhs": "-1|->builtinsScope0|->scope(.Map,parent(-1))",
+    "requires": "",
+    "attrs": "all-path"
+  }
+}

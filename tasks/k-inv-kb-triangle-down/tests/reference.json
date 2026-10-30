@@ -1,0 +1,24 @@
+{
+  "task": "k-inv-kb-triangle-down",
+  "family": "loop-invariant",
+  "program": "kb_triangle_down",
+  "record": "c22_kb_triangle_down",
+  "verification_module": "MPY-VERIFICATION",
+  "spec_module": "KB-TRIANGLE-DOWN-SPEC",
+  "code": "sum = 0\nwhile 0 < n:\n    sum = sum + n\n    n = n - 1\n",
+  "inputs": {
+    "module": [
+      [
+        "n",
+        "N"
+      ]
+    ],
+    "call": []
+  },
+  "fn_names": [],
+  "requires": null,
+  "n_samples": 24,
+  "seed": 20261030,
+  "kprove_timeout": 600,
+  "entry_normalized": "<k>Assign(Name(\"n\"),N:Int)Assign(Name(\"sum\"),Int(0))While(Compare(Int(0),CmpOp(\"<\",Name(\"n\"))),Assign(Name(\"sum\"),BinOp(\"+\",Name(\"sum\"),Name(\"n\")))Assign(Name(\"n\"),BinOp(\"-\",Name(\"n\"),Int(1))))=>.K...</k><env>0</env><scopes>-1|->builtinsScope0|->scope(.Map,parent(-1))=>-1|->builtinsScope0|->scope(.Map[\"n\"<-minInt(N,0)][\"sum\"<-?T:Int],parent(-1))</scopes><scopeLoc>1</scopeLoc><stack>.List</stack><ret>noRet</ret><exc>NoExc</exc><exit-code>0</exit-code>ensures?T==Int(maxInt(N,0)*Int(maxInt(N,0)+Int1))/Int2[all-path]"
+}

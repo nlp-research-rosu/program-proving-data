@@ -1,0 +1,24 @@
+{
+  "task": "k-inv-kb-sum-up",
+  "family": "loop-invariant",
+  "program": "kb_sum_up",
+  "record": "c23_kb_sum_up",
+  "verification_module": "MPY-VERIFICATION",
+  "spec_module": "KB-SUM-UP-SPEC",
+  "code": "sum = 0\ni = 1\nwhile i <= n:\n    sum = sum + i\n    i = i + 1\n",
+  "inputs": {
+    "module": [
+      [
+        "n",
+        "N"
+      ]
+    ],
+    "call": []
+  },
+  "fn_names": [],
+  "requires": "N >=Int 0",
+  "n_samples": 24,
+  "seed": 20261030,
+  "kprove_timeout": 600,
+  "entry_normalized": "<k>Assign(Name(\"n\"),N:Int)Assign(Name(\"sum\"),Int(0))Assign(Name(\"i\"),Int(1))While(Compare(Name(\"i\"),CmpOp(\"<=\",Name(\"n\"))),Assign(Name(\"sum\"),BinOp(\"+\",Name(\"sum\"),Name(\"i\")))Assign(Name(\"i\"),BinOp(\"+\",Name(\"i\"),Int(1))))=>.K...</k><env>0</env><scopes>-1|->builtinsScope0|->scope(.Map,parent(-1))=>-1|->builtinsScope0|->scope(.Map[\"n\"<-N][\"sum\"<-?S2:Int][\"i\"<-?I2:Int],parent(-1))</scopes><scopeLoc>1</scopeLoc><stack>.List</stack><ret>noRet</ret><exc>NoExc</exc><exit-code>0</exit-code>requiresN>=Int0ensures?S2==Int(N*Int(N+Int1))/Int2andBool?I2==IntN+Int1[all-path]"
+}

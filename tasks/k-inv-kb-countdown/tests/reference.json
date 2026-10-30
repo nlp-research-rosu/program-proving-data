@@ -1,0 +1,24 @@
+{
+  "task": "k-inv-kb-countdown",
+  "family": "loop-invariant",
+  "program": "kb_countdown",
+  "record": "c12_kb_countdown",
+  "verification_module": "MPY-VERIFICATION",
+  "spec_module": "KB-COUNTDOWN-SPEC",
+  "code": "while 0 < n:\n    n = n - 1\n",
+  "inputs": {
+    "module": [
+      [
+        "n",
+        "N"
+      ]
+    ],
+    "call": []
+  },
+  "fn_names": [],
+  "requires": "N >=Int 0",
+  "n_samples": 24,
+  "seed": 20261030,
+  "kprove_timeout": 600,
+  "entry_normalized": "<k>Assign(Name(\"n\"),N:Int)While(Compare(Int(0),CmpOp(\"<\",Name(\"n\"))),Assign(Name(\"n\"),BinOp(\"-\",Name(\"n\"),Int(1))))=>.K...</k><env>0</env><scopes>-1|->builtinsScope0|->scope(.Map,parent(-1))=>-1|->builtinsScope0|->scope(.Map[\"n\"<-?F:Int],parent(-1))</scopes><scopeLoc>1</scopeLoc><stack>.List</stack><ret>noRet</ret><exc>NoExc</exc><exit-code>0</exit-code>requiresN>=Int0ensures?F==Int0[all-path]"
+}

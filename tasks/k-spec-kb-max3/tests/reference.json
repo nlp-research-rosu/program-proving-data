@@ -1,0 +1,43 @@
+{
+  "task": "k-spec-kb-max3",
+  "family": "proved-spec",
+  "program": "kb_max3",
+  "record": "c17_kb_max3",
+  "verification_module": "MPY-VERIFICATION",
+  "spec_module": "KB-MAX3-SPEC",
+  "code": "max = a\nif max <= b:\n    max = b\nif max <= n:\n    max = n\n",
+  "inputs": {
+    "module": [
+      [
+        "a",
+        "A"
+      ],
+      [
+        "b",
+        "B"
+      ],
+      [
+        "n",
+        "N"
+      ]
+    ],
+    "call": []
+  },
+  "fn_names": [],
+  "requires": null,
+  "n_samples": 24,
+  "seed": 20261030,
+  "kprove_timeout": 600,
+  "frozen_parts": {
+    "cell:k": "Assign(Name(\"a\"),A:Int)Assign(Name(\"b\"),B:Int)Assign(Name(\"n\"),N:Int)Assign(Name(\"max\"),Name(\"a\"))If(Compare(Name(\"max\"),CmpOp(\"<=\",Name(\"b\"))),Assign(Name(\"max\"),Name(\"b\")),.Stmts)If(Compare(Name(\"max\"),CmpOp(\"<=\",Name(\"n\"))),Assign(Name(\"max\"),Name(\"n\")),.Stmts)=>.K...",
+    "cell:env": "0",
+    "cell:scopeLoc": "1",
+    "cell:stack": ".List",
+    "cell:ret": "noRet",
+    "cell:exc": "NoExc",
+    "cell:exit-code": "0",
+    "scopes_lhs": "-1|->builtinsScope0|->scope(.Map,parent(-1))",
+    "requires": "",
+    "attrs": "all-path"
+  }
+}

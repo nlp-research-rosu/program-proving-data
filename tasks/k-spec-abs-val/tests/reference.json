@@ -1,0 +1,37 @@
+{
+  "task": "k-spec-abs-val",
+  "family": "proved-spec",
+  "program": "abs_val",
+  "record": "c2_abs_val",
+  "verification_module": "MPY-VERIFICATION",
+  "spec_module": "ABS-VAL-SPEC",
+  "code": "def abs_val(x):\n    if x < 0:\n        return -x\n    return x\n\nresult = abs_val(x)\n",
+  "inputs": {
+    "module": [],
+    "call": [
+      [
+        "x",
+        "X"
+      ]
+    ]
+  },
+  "fn_names": [
+    "abs_val"
+  ],
+  "requires": null,
+  "n_samples": 24,
+  "seed": 20261030,
+  "kprove_timeout": 600,
+  "frozen_parts": {
+    "cell:k": "FuncDef(\"abs_val\",Params(\"x\"),If(Compare(Name(\"x\"),CmpOp(\"<\",Int(0))),Return(UnaryOp(\"-\",Name(\"x\"))),.Stmts)Return(Name(\"x\")))Assign(Name(\"result\"),Call(Name(\"abs_val\"),X:Int))=>.K...",
+    "cell:env": "0",
+    "cell:scopeLoc": "1",
+    "cell:stack": ".List",
+    "cell:ret": "noRet",
+    "cell:exc": "NoExc",
+    "cell:exit-code": "0",
+    "scopes_lhs": "-1|->builtinsScope0|->scope(.Map,parent(-1))",
+    "requires": "",
+    "attrs": "all-path"
+  }
+}

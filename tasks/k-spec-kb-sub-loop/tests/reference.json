@@ -1,0 +1,39 @@
+{
+  "task": "k-spec-kb-sub-loop",
+  "family": "proved-spec",
+  "program": "kb_sub_loop",
+  "record": "c16_kb_sub_loop",
+  "verification_module": "MPY-VERIFICATION",
+  "spec_module": "KB-SUB-LOOP-SPEC",
+  "code": "while 0 < b:\n    a = a - 1\n    b = b - 1\n",
+  "inputs": {
+    "module": [
+      [
+        "a",
+        "A"
+      ],
+      [
+        "b",
+        "B"
+      ]
+    ],
+    "call": []
+  },
+  "fn_names": [],
+  "requires": null,
+  "n_samples": 24,
+  "seed": 20261030,
+  "kprove_timeout": 600,
+  "frozen_parts": {
+    "cell:k": "Assign(Name(\"a\"),A:Int)Assign(Name(\"b\"),B:Int)While(Compare(Int(0),CmpOp(\"<\",Name(\"b\"))),Assign(Name(\"a\"),BinOp(\"-\",Name(\"a\"),Int(1)))Assign(Name(\"b\"),BinOp(\"-\",Name(\"b\"),Int(1))))=>.K...",
+    "cell:env": "0",
+    "cell:scopeLoc": "1",
+    "cell:stack": ".List",
+    "cell:ret": "noRet",
+    "cell:exc": "NoExc",
+    "cell:exit-code": "0",
+    "scopes_lhs": "-1|->builtinsScope0|->scope(.Map,parent(-1))",
+    "requires": "",
+    "attrs": "all-path"
+  }
+}

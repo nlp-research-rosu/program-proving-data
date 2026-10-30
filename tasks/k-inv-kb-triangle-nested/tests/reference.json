@@ -1,0 +1,24 @@
+{
+  "task": "k-inv-kb-triangle-nested",
+  "family": "loop-invariant",
+  "program": "kb_triangle_nested",
+  "record": "c28_kb_triangle_nested",
+  "verification_module": "MPY-VERIFICATION",
+  "spec_module": "KB-TRIANGLE-NESTED-SPEC",
+  "code": "count = 0\ni = n\nwhile 0 < i:\n    j = i\n    while 0 < j:\n        count = count + 1\n        j = j - 1\n    i = i - 1\n",
+  "inputs": {
+    "module": [
+      [
+        "n",
+        "N"
+      ]
+    ],
+    "call": []
+  },
+  "fn_names": [],
+  "requires": "N >=Int 1",
+  "n_samples": 24,
+  "seed": 20261030,
+  "kprove_timeout": 600,
+  "entry_normalized": "<k>Assign(Name(\"n\"),N:Int)Assign(Name(\"count\"),Int(0))Assign(Name(\"i\"),Name(\"n\"))While(Compare(Int(0),CmpOp(\"<\",Name(\"i\"))),Assign(Name(\"j\"),Name(\"i\"))While(Compare(Int(0),CmpOp(\"<\",Name(\"j\"))),Assign(Name(\"count\"),BinOp(\"+\",Name(\"count\"),Int(1)))Assign(Name(\"j\"),BinOp(\"-\",Name(\"j\"),Int(1))))Assign(Name(\"i\"),BinOp(\"-\",Name(\"i\"),Int(1))))=>.K...</k><env>0</env><scopes>-1|->builtinsScope0|->scope(.Map,parent(-1))=>-1|->builtinsScope0|->scope(.Map[\"n\"<-N][\"count\"<-?C2:Int][\"i\"<-?I2:Int][\"j\"<-?J2:Int],parent(-1))</scopes><scopeLoc>1</scopeLoc><stack>.List</stack><ret>noRet</ret><exc>NoExc</exc><exit-code>0</exit-code>requiresN>=Int1ensures?C2==Int(N*Int(N+Int1))/Int2andBool?I2==Int0andBool?J2==Int0[all-path]"
+}

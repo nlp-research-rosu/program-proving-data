@@ -1,0 +1,39 @@
+{
+  "task": "k-spec-kb-pure-nested",
+  "family": "proved-spec",
+  "program": "kb_pure_nested",
+  "record": "c26_kb_pure_nested",
+  "verification_module": "MPY-VERIFICATION",
+  "spec_module": "KB-PURE-NESTED-SPEC",
+  "code": "i = a\nwhile 0 < i:\n    j = b\n    while 0 < j:\n        j = j - 1\n    i = i - 1\n",
+  "inputs": {
+    "module": [
+      [
+        "a",
+        "A"
+      ],
+      [
+        "b",
+        "B"
+      ]
+    ],
+    "call": []
+  },
+  "fn_names": [],
+  "requires": "A >=Int 1",
+  "n_samples": 24,
+  "seed": 20261030,
+  "kprove_timeout": 600,
+  "frozen_parts": {
+    "cell:k": "Assign(Name(\"a\"),A:Int)Assign(Name(\"b\"),B:Int)Assign(Name(\"i\"),Name(\"a\"))While(Compare(Int(0),CmpOp(\"<\",Name(\"i\"))),Assign(Name(\"j\"),Name(\"b\"))While(Compare(Int(0),CmpOp(\"<\",Name(\"j\"))),Assign(Name(\"j\"),BinOp(\"-\",Name(\"j\"),Int(1))))Assign(Name(\"i\"),BinOp(\"-\",Name(\"i\"),Int(1))))=>.K...",
+    "cell:env": "0",
+    "cell:scopeLoc": "1",
+    "cell:stack": ".List",
+    "cell:ret": "noRet",
+    "cell:exc": "NoExc",
+    "cell:exit-code": "0",
+    "scopes_lhs": "-1|->builtinsScope0|->scope(.Map,parent(-1))",
+    "requires": "A>=Int1",
+    "attrs": "all-path"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "task": "k-spec-kb-mult-loop",
+  "family": "proved-spec",
+  "program": "kb_mult_loop",
+  "record": "c21_kb_mult_loop",
+  "verification_module": "MPY-VERIFICATION",
+  "spec_module": "KB-MULT-LOOP-SPEC",
+  "code": "res = 0\nwhile 0 < n:\n    res = res + a\n    n = n - 1\n",
+  "inputs": {
+    "module": [
+      [
+        "n",
+        "N"
+      ],
+      [
+        "a",
+        "A"
+      ]
+    ],
+    "call": []
+  },
+  "fn_names": [],
+  "requires": null,
+  "n_samples": 24,
+  "seed": 20261030,
+  "kprove_timeout": 600,
+  "frozen_parts": {
+    "cell:k": "Assign(Name(\"n\"),N:Int)Assign(Name(\"a\"),A:Int)Assign(Name(\"res\"),Int(0))While(Compare(Int(0),CmpOp(\"<\",Name(\"n\"))),Assign(Name(\"res\"),BinOp(\"+\",Name(\"res\"),Name(\"a\")))Assign(Name(\"n\"),BinOp(\"-\",Name(\"n\"),Int(1))))=>.K...",
+    "cell:env": "0",
+    "cell:scopeLoc": "1",
+    "cell:stack": ".List",
+    "cell:ret": "noRet",
+    "cell:exc": "NoExc",
+    "cell:exit-code": "0",
+    "scopes_lhs": "-1|->builtinsScope0|->scope(.Map,parent(-1))",
+    "requires": "",
+    "attrs": "all-path"
+  }
+}

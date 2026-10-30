@@ -1,0 +1,39 @@
+{
+  "task": "k-spec-kb-abs-times",
+  "family": "proved-spec",
+  "program": "kb_abs_times",
+  "record": "c19_kb_abs_times",
+  "verification_module": "MPY-VERIFICATION",
+  "spec_module": "KB-ABS-TIMES-SPEC",
+  "code": "if a < 0:\n    t = 0 - a\nelse:\n    t = a\nres = t * b\n",
+  "inputs": {
+    "module": [
+      [
+        "a",
+        "A"
+      ],
+      [
+        "b",
+        "B"
+      ]
+    ],
+    "call": []
+  },
+  "fn_names": [],
+  "requires": null,
+  "n_samples": 24,
+  "seed": 20261030,
+  "kprove_timeout": 600,
+  "frozen_parts": {
+    "cell:k": "Assign(Name(\"a\"),A:Int)Assign(Name(\"b\"),B:Int)If(Compare(Name(\"a\"),CmpOp(\"<\",Int(0))),Assign(Name(\"t\"),BinOp(\"-\",Int(0),Name(\"a\"))),Assign(Name(\"t\"),Name(\"a\")))Assign(Name(\"res\"),BinOp(\"*\",Name(\"t\"),Name(\"b\")))=>.K...",
+    "cell:env": "0",
+    "cell:scopeLoc": "1",
+    "cell:stack": ".List",
+    "cell:ret": "noRet",
+    "cell:exc": "NoExc",
+    "cell:exit-code": "0",
+    "scopes_lhs": "-1|->builtinsScope0|->scope(.Map,parent(-1))",
+    "requires": "",
+    "attrs": "all-path"
+  }
+}

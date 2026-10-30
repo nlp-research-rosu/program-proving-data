@@ -12,7 +12,7 @@ RUN apt-get update \
  && apt-get install -y --no-install-recommends ca-certificates curl git python3 \
  && rm -rf /var/lib/apt/lists/*
 
-RUN curl -sSfL https://github.com/leanprover/elan/releases/latest/download/elan-init.sh -o /tmp/elan-init.sh \
+RUN curl -sSfL https://elan.lean-lang.org/elan-init.sh -o /tmp/elan-init.sh \
  && sh /tmp/elan-init.sh -y --no-modify-path --default-toolchain {{lean_toolchain}} \
  && rm /tmp/elan-init.sh \
  && chmod -R a+rX /opt/elan

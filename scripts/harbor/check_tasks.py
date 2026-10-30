@@ -186,6 +186,21 @@ def lean_offline(t: Path) -> None:
     stub_sigs = [re.sub(r"\s+", " ", m.group(0)) for m in re.finditer(r"(?m)^theorem (\w+)\b(.*?):=", stub, re.S)]
     sol_sigs = [re.sub(r"\s+", " ", m.group(0)) for m in re.finditer(r"(?m)^theorem (\w+)\b(.*?):=", sol, re.S)]
     check(len(stub_sigs) == 1 and stub_sigs[0] in sol_sigs, f"{t.name}: stub theorem statement is the solution's")
+    # the reference solution (and the stub) must pass the grader's lexical ban
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(f"grade_{t.name}".replace("-", "_"), t / "tests" / "grade.py")
+    g = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(g)
+    for label, text in (("solution", sol), ("stub", stub)):
+        code = g.strip_lean_comments(text)
+        hits = [w for w in g.FORBIDDEN_LEAN if re.search(r"(?<![\w.#])" + re.escape(w) + r"(?![\w])", code)]
+        opts = [m.group(1) for m in re.finditer(r"set_option\s+([\w.]+)", code) if not g.ALLOWED_OPTIONS.match(m.group(1))]
+        check(not hits and not opts, f"{t.name}: {label} passes the lexical ban" + (f" ({hits + opts})" if hits or opts else ""))
+    for bad in ("set_option debug.skipKernelTC true in\n", "unsafe def x := 1\n", "#eval IO.println 1\n", "import Lean\n"):
+        code = g.strip_lean_comments(bad + sol)
+        hits = [w for w in g.FORBIDDEN_LEAN if re.search(r"(?<![\w.#])" + re.escape(w) + r"(?![\w])", code)]
+        opts = [m.group(1) for m in re.finditer(r"set_option\s+([\w.]+)", code) if not g.ALLOWED_OPTIONS.match(m.group(1))]
+        check(bool(hits or opts), f"{t.name}: lexical ban catches {bad.strip()!r}")
 
 
 def registry() -> None:

@@ -58,7 +58,19 @@ KPROVE_FLAGS = ["--smt-timeout", "10000", "--haskell-backend-command",
 # Reference `ensures` clauses rewritten into the verifier's canonical
 # `?X ==Int TERM` form (logically equivalent to the corpus claim; CI's oracle
 # re-proves the rewritten claim with kprove).
-CANONICAL_ENSURES = {"abs_val": "?R ==Int absInt(X)"}
+CANONICAL_ENSURES = {
+    "abs_val": "?R ==Int absInt(X)",
+    # The circularities already split A <= B from B < A. Preserve that split
+    # in the entry target: simplifying minInt there asks the solver to decide
+    # the finer A < B / A >= B partition amid nonlinear arithmetic. The
+    # corpus's extra minInt simplification rules are not in the task semantics.
+    # This is the same triangular number, including A = B, without new rules.
+    "kb_nested_with_branch": (
+        "?R2 ==Int (#if A <=Int B #then (A *Int (A +Int 1)) /Int 2 "
+        "#else (B *Int (B +Int 1)) /Int 2 #fi) "
+        "andBool ?I2 ==Int 0 andBool ?J2 ==Int 0"
+    ),
+}
 DATASET_VERSION = "1.0.0"
 
 # programs outside the KleverBench port: structural tier by analogy with PROVENANCE.md

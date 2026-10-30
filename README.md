@@ -106,9 +106,12 @@ every step but `kprove`; untouched skeletons, `[trusted]`, lemma rules, extra im
 attribute groups, `ensures true`, band-restricted and disjunctive postconditions, `==Bool`
 tautologies and modified entry claims are rejected), exercises the Lean lexical ban on a
 dozen known bypasses, and checks that no agent-visible file contains a reference
-circularity, postcondition or derivation plan. The one reference claim not already in the
-canonical `?X ==Int TERM` form (`abs_val`: `?R >= 0 ∧ (?R = X ∨ ?R = -X)`) is rewritten to
-`?R ==Int absInt(X)` for its task; CI's oracle re-proves it.
+circularity, postcondition or derivation plan. The `abs_val` postcondition
+(`?R >= 0 ∧ (?R = X ∨ ?R = -X)`) is rewritten to the canonical `?R ==Int absInt(X)`.
+For `kb_nested_with_branch`, the triangular number of `minInt(A, B)` is written as an
+equivalent `#if A <=Int B` expression. This matches the circularities' branch split and
+avoids an ambiguous `minInt` simplification in nonlinear arithmetic. The corpus claims
+remain unchanged; CI's oracle re-proves both generated forms.
 
 ## Regeneration and checking
 

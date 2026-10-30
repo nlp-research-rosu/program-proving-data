@@ -140,6 +140,23 @@ def k_offline(t: Path) -> None:
           f"{t.name}: no circularity anchor in the skeleton")
     m = K.parse_module(sol, verification_module=ref["verification_module"])
     ref_entry, ref_others = K.entry_claim(m)
+    if ref["program"] == "kb_nested_with_branch":
+        # Compare the task's conditional target with the corpus minInt target
+        # on both regions, their equality boundary, and incorrect outputs.
+        corpus_text = (ROOT / "corpus/specs/kb-nested-with-branch/spec.k").read_text(encoding="utf-8")
+        corpus_mod = K.parse_module(corpus_text, verification_module="KB-NESTED-WITH-BRANCH-VERIFICATION")
+        corpus_entry, _ = K.entry_claim(corpus_mod)
+        original = K.parse_expr(corpus_entry.ensures)
+        canonical = K.parse_expr(ref_entry.ensures)
+        equivalent = True
+        for a, b in ((1, 1), (1, 2), (2, 1), (7, 7), (7, 8), (8, 7),
+                     (1000, 1000), (1000, 1001), (1001, 1000)):
+            correct = min(a, b) * (min(a, b) + 1) // 2
+            for result in (0, correct, correct + 1):
+                for i, j in ((0, 0), (1, 0), (0, 1)):
+                    env = {"A": a, "B": b, "?R2": result, "?I2": i, "?J2": j}
+                    equivalent &= K.eval_expr(original, env) == K.eval_expr(canonical, env)
+        check(equivalent, f"{t.name}: conditional target preserves the corpus postcondition at branch boundaries")
     entry_ens = K.normalize(ref_entry.ensures or "")
     for i, c in enumerate(ref_others):
         ens = K.normalize(c.ensures or "")

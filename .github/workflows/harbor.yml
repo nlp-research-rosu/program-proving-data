@@ -99,6 +99,10 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install "harbor==${HARBOR_VERSION}"
+      - name: nested-branch reference proofs avoid ambiguous minInt simplification
+        run: |
+          harbor run -p tasks -i 'k-*-kb-nested-with-branch' -a oracle -n 2 -y -q --jobs-dir jobs/smoke-k
+          python scripts/harbor/ci_rewards.py jobs/smoke-k --expect 1 --min-trials 2
       - name: oracle must score 1 on every K task
         run: |
           harbor run -p tasks -i 'k-*' -a oracle -n 2 -y -q --jobs-dir jobs/oracle-k

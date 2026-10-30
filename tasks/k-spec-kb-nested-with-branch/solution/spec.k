@@ -185,8 +185,6 @@ module KB-NESTED-WITH-BRANCH-SPEC
     <exc> NoExc </exc>
     <exit-code> 0 </exit-code>
     requires A >=Int 1 andBool B >=Int 1
-    ensures ?R2 ==Int (minInt(A, B) *Int (minInt(A, B) +Int 1)) /Int 2
-    andBool ?I2 ==Int 0
-    andBool ?J2 ==Int 0
+    ensures ?R2 ==Int (#if A <=Int B #then (A *Int (A +Int 1)) /Int 2 #else (B *Int (B +Int 1)) /Int 2 #fi) andBool ?I2 ==Int 0 andBool ?J2 ==Int 0
     [all-path]
 endmodule

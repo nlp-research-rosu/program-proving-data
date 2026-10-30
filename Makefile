@@ -61,7 +61,7 @@ k-data: k-data-concrete k-data-symbolic k-data-verification
 k-validate:
 	$(PY) scripts/k/validate.py
 
-# ---- lean pipeline (data/lean) ----------------------------------------------
+# ---- lean pipeline (corpus/lean) ----------------------------------------------
 LEAN_PROGS := sum_to_n gcd buggy_abs collatz_steps abs_val half_of_even classify_triangle \
               kb_assign kb_swap kb_chain kb_double_half kb_arith_mix kb_abs kb_max kb_min \
               kb_countdown kb_max3 kb_clamp kb_abs_times kb_countup kb_sum kb_add_loop \
@@ -95,7 +95,7 @@ lean-gen: build/lean/minipy-lean build/lean/minipy-lean-hints
 	$(PY) scripts/lean/gen_lean_paths.py
 
 lean-build:
-	cd data/lean && PATH="$$HOME/.elan/bin:$$PATH" lake build
+	cd corpus/lean && PATH="$$HOME/.elan/bin:$$PATH" lake build
 
 # ---- provenance ------------------------------------------------------------
 vendor-diff:

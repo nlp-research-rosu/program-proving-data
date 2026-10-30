@@ -5,4 +5,4 @@ __pycache__/
 vendor/klever/tests/verification/range-loop/verification-kompiled/
 
 # lean
-data/lean/.lake/
+corpus/lean/.lake/

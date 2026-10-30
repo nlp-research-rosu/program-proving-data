@@ -31,11 +31,11 @@ end. Nothing is hand-labeled; nothing came out of a model. Concretely:
 
 ## The two data products
 
-- **K data** ([data/k/](data/k/)): the JSON records — execution traces annotated with the
+- **K data** ([corpus/k/](corpus/k/)): the JSON records — execution traces annotated with the
   semantic rule behind every step, symbolic execution trees with path conditions and solver
   witnesses, and verification records: specs, a loop invariant, and a refutation tied to its
   counterexample run. Per sample: `.jsonl` (canonical) + `.md` (readable).
-- **Lean data** ([data/lean/](data/lean/)): the same claims as mathematics — a package for
+- **Lean data** ([corpus/lean/](corpus/lean/)): the same claims as mathematics — a package for
   [Lean 4](https://lean-lang.org) (a proof assistant: a program that mechanically checks
   proofs). The semantics is translated by klean (K's Lean backend); program properties are
   theorems over it, each with a complete machine-checked proof. `lake build` replays
@@ -47,14 +47,14 @@ end. Nothing is hand-labeled; nothing came out of a model. Concretely:
 
 | program | K data | Lean theorems |
 |---|---|---|
-| [sum_to_n](programs/sum_to_n.py) | [concrete trace](data/k/concrete/a1_sum_to_n.md) | [224-step execution, proved](data/lean/KMiniPy/Concrete/A1SumToN.lean) · [Gauss form ∀ n ≥ 0, derived in reachability logic](data/lean/KMiniPy/Verification/C1SumToN.lean) |
-| [gcd](programs/gcd.py) | [concrete trace](data/k/concrete/a2_gcd.md) | [138-step execution, proved](data/lean/KMiniPy/Concrete/A2Gcd.lean) |
-| [collatz_steps](programs/collatz_steps.py) | [concrete trace](data/k/concrete/a3_collatz_steps.md) | [491-step execution, proved](data/lean/KMiniPy/Concrete/A3CollatzSteps.lean) |
-| [half_of_even](programs/half_of_even.py) | [concrete trace to assert-fail](data/k/concrete/a4_half_of_even.md) | [29-step execution to assert-failure, proved](data/lean/KMiniPy/Concrete/A4HalfOfEven.lean) |
-| [abs_val](programs/abs_val.py) | [symbolic tree](data/k/symbolic/b1_abs_val.md) · [spec, proved](data/k/verification/c2_abs_val.md) | [per-path ∀ theorems, proved](data/lean/KMiniPy/Symbolic/B1AbsVal.lean) · [functional spec, derived in reachability logic](data/lean/KMiniPy/Verification/C2AbsVal.lean) |
-| [classify_triangle](programs/classify_triangle.py) | [symbolic tree, 5 paths + 3 infeasible](data/k/symbolic/b2_classify_triangle.md) | [5 path theorems ∀ a b c, proved](data/lean/KMiniPy/Symbolic/B2ClassifyTriangle.lean) |
-| [buggy_abs](programs/buggy_abs.py) | [spec refuted + counterexample](data/k/verification/c3_buggy_abs.md) | [46-step trace at x = 0, proved](data/lean/KMiniPy/Verification/C3BuggyAbsAt0.lean) · [refutation ∃ x, proved](data/lean/KMiniPy/Verification/C3Refutation.lean) |
-| range_loop (vendored) | [loop invariant, proved](data/k/verification/c1_range_loop.md) | — |
+| [sum_to_n](programs/sum_to_n.py) | [concrete trace](corpus/k/concrete/a1_sum_to_n.md) | [224-step execution, proved](corpus/lean/KMiniPy/Concrete/A1SumToN.lean) · [Gauss form ∀ n ≥ 0, derived in reachability logic](corpus/lean/KMiniPy/Verification/C1SumToN.lean) |
+| [gcd](programs/gcd.py) | [concrete trace](corpus/k/concrete/a2_gcd.md) | [138-step execution, proved](corpus/lean/KMiniPy/Concrete/A2Gcd.lean) |
+| [collatz_steps](programs/collatz_steps.py) | [concrete trace](corpus/k/concrete/a3_collatz_steps.md) | [491-step execution, proved](corpus/lean/KMiniPy/Concrete/A3CollatzSteps.lean) |
+| [half_of_even](programs/half_of_even.py) | [concrete trace to assert-fail](corpus/k/concrete/a4_half_of_even.md) | [29-step execution to assert-failure, proved](corpus/lean/KMiniPy/Concrete/A4HalfOfEven.lean) |
+| [abs_val](programs/abs_val.py) | [symbolic tree](corpus/k/symbolic/b1_abs_val.md) · [spec, proved](corpus/k/verification/c2_abs_val.md) | [per-path ∀ theorems, proved](corpus/lean/KMiniPy/Symbolic/B1AbsVal.lean) · [functional spec, derived in reachability logic](corpus/lean/KMiniPy/Verification/C2AbsVal.lean) |
+| [classify_triangle](programs/classify_triangle.py) | [symbolic tree, 5 paths + 3 infeasible](corpus/k/symbolic/b2_classify_triangle.md) | [5 path theorems ∀ a b c, proved](corpus/lean/KMiniPy/Symbolic/B2ClassifyTriangle.lean) |
+| [buggy_abs](programs/buggy_abs.py) | [spec refuted + counterexample](corpus/k/verification/c3_buggy_abs.md) | [46-step trace at x = 0, proved](corpus/lean/KMiniPy/Verification/C3BuggyAbsAt0.lean) · [refutation ∃ x, proved](corpus/lean/KMiniPy/Verification/C3Refutation.lean) |
+| range_loop (vendored) | [loop invariant, proved](corpus/k/verification/c1_range_loop.md) | — |
 
 ### The KleverBench port (samples c4–c34)
 
@@ -74,52 +74,52 @@ verdict on the K side, `lake build` plus the 85-theorem axiom audit on the Lean 
 
 | tier | program | K data | Lean theorems |
 |---|---|---|---|
-| 1 · straight-line | [kb_assign](programs/kb_assign.py) | [c4](data/k/verification/c4_kb_assign.md) | [C4KbAssign](data/lean/KMiniPy/Verification/C4KbAssign.lean) |
-| | [kb_swap](programs/kb_swap.py) | [c5](data/k/verification/c5_kb_swap.md) | [C5KbSwap](data/lean/KMiniPy/Verification/C5KbSwap.lean) |
-| | [kb_chain](programs/kb_chain.py) | [c6](data/k/verification/c6_kb_chain.md) | [C6KbChain](data/lean/KMiniPy/Verification/C6KbChain.lean) |
-| | [kb_double_half](programs/kb_double_half.py) | [c7](data/k/verification/c7_kb_double_half.md) | [C7KbDoubleHalf](data/lean/KMiniPy/Verification/C7KbDoubleHalf.lean) |
-| | [kb_arith_mix](programs/kb_arith_mix.py) | [c8](data/k/verification/c8_kb_arith_mix.md) | [C8KbArithMix](data/lean/KMiniPy/Verification/C8KbArithMix.lean) |
-| 2 · single branch or loop | [kb_abs](programs/kb_abs.py) | [c9](data/k/verification/c9_kb_abs.md) | [C9KbAbs](data/lean/KMiniPy/Verification/C9KbAbs.lean) |
-| | [kb_max](programs/kb_max.py) | [c10](data/k/verification/c10_kb_max.md) | [C10KbMax](data/lean/KMiniPy/Verification/C10KbMax.lean) |
-| | [kb_min](programs/kb_min.py) | [c11](data/k/verification/c11_kb_min.md) | [C11KbMin](data/lean/KMiniPy/Verification/C11KbMin.lean) |
-| | [kb_countdown](programs/kb_countdown.py) | [c12](data/k/verification/c12_kb_countdown.md) | [C12KbCountdown](data/lean/KMiniPy/Verification/C12KbCountdown.lean) |
-| | [kb_countup](programs/kb_countup.py) | [c13](data/k/verification/c13_kb_countup.md) | [C13KbCountup](data/lean/KMiniPy/Verification/C13KbCountup.lean) |
-| | [kb_sum](programs/kb_sum.py) | [c14](data/k/verification/c14_kb_sum.md) | [C14KbSum](data/lean/KMiniPy/Verification/C14KbSum.lean) |
-| | [kb_add_loop](programs/kb_add_loop.py) | [c15](data/k/verification/c15_kb_add_loop.md) | [C15KbAddLoop](data/lean/KMiniPy/Verification/C15KbAddLoop.lean) |
-| | [kb_sub_loop](programs/kb_sub_loop.py) | [c16](data/k/verification/c16_kb_sub_loop.md) | [C16KbSubLoop](data/lean/KMiniPy/Verification/C16KbSubLoop.lean) |
-| 3 · mixed control | [kb_max3](programs/kb_max3.py) | [c17](data/k/verification/c17_kb_max3.md) | [C17KbMax3](data/lean/KMiniPy/Verification/C17KbMax3.lean) |
-| | [kb_clamp](programs/kb_clamp.py) | [c18](data/k/verification/c18_kb_clamp.md) | [C18KbClamp](data/lean/KMiniPy/Verification/C18KbClamp.lean) |
-| | [kb_abs_times](programs/kb_abs_times.py) | [c19](data/k/verification/c19_kb_abs_times.md) | [C19KbAbsTimes](data/lean/KMiniPy/Verification/C19KbAbsTimes.lean) |
-| | [kb_sumdiff](programs/kb_sumdiff.py) | [c20](data/k/verification/c20_kb_sumdiff.md) | [C20KbSumdiff](data/lean/KMiniPy/Verification/C20KbSumdiff.lean) |
-| | [kb_mult_loop](programs/kb_mult_loop.py) | [c21](data/k/verification/c21_kb_mult_loop.md) | [C21KbMultLoop](data/lean/KMiniPy/Verification/C21KbMultLoop.lean) |
-| | [kb_triangle_down](programs/kb_triangle_down.py) | [c22](data/k/verification/c22_kb_triangle_down.md) | [C22KbTriangleDown](data/lean/KMiniPy/Verification/C22KbTriangleDown.lean) |
-| | [kb_sum_up](programs/kb_sum_up.py) | [c23](data/k/verification/c23_kb_sum_up.md) | [C23KbSumUp](data/lean/KMiniPy/Verification/C23KbSumUp.lean) |
-| | [kb_count_even](programs/kb_count_even.py) | [c24](data/k/verification/c24_kb_count_even.md) | [C24KbCountEven](data/lean/KMiniPy/Verification/C24KbCountEven.lean) |
-| | [kb_loop_max](programs/kb_loop_max.py) | [c25](data/k/verification/c25_kb_loop_max.md) | [C25KbLoopMax](data/lean/KMiniPy/Verification/C25KbLoopMax.lean) |
-| 4 · nested loops | [kb_pure_nested](programs/kb_pure_nested.py) | [c26](data/k/verification/c26_kb_pure_nested.md) | [C26KbPureNested](data/lean/KMiniPy/Verification/C26KbPureNested.lean) |
-| | [kb_mult_nested](programs/kb_mult_nested.py) | [c27](data/k/verification/c27_kb_mult_nested.md) | [C27KbMultNested](data/lean/KMiniPy/Verification/C27KbMultNested.lean) |
-| | [kb_triangle_nested](programs/kb_triangle_nested.py) | [c28](data/k/verification/c28_kb_triangle_nested.md) | [C28KbTriangleNested](data/lean/KMiniPy/Verification/C28KbTriangleNested.lean) |
-| | [kb_squares_cubic](programs/kb_squares_cubic.py) | [c29](data/k/verification/c29_kb_squares_cubic.md) | [C29KbSquaresCubic](data/lean/KMiniPy/Verification/C29KbSquaresCubic.lean) |
-| | [kb_rows_sum_nested](programs/kb_rows_sum_nested.py) | [c30](data/k/verification/c30_kb_rows_sum_nested.md) | [C30KbRowsSumNested](data/lean/KMiniPy/Verification/C30KbRowsSumNested.lean) |
-| | [kb_nested_with_branch](programs/kb_nested_with_branch.py) | [c31](data/k/verification/c31_kb_nested_with_branch.md) | [C31KbNestedWithBranch](data/lean/KMiniPy/Verification/C31KbNestedWithBranch.lean) |
-| 5 · pipelines | [kb_pipeline](programs/kb_pipeline.py) | [c32](data/k/verification/c32_kb_pipeline.md) | [C32KbPipeline](data/lean/KMiniPy/Verification/C32KbPipeline.lean) |
-| | [kb_stats_pipeline](programs/kb_stats_pipeline.py) | [c33](data/k/verification/c33_kb_stats_pipeline.md) | [C33KbStatsPipeline](data/lean/KMiniPy/Verification/C33KbStatsPipeline.lean) |
-| | [kb_normalize_count](programs/kb_normalize_count.py) | [c34](data/k/verification/c34_kb_normalize_count.md) | [C34KbNormalizeCount](data/lean/KMiniPy/Verification/C34KbNormalizeCount.lean) |
+| 1 · straight-line | [kb_assign](programs/kb_assign.py) | [c4](corpus/k/verification/c4_kb_assign.md) | [C4KbAssign](corpus/lean/KMiniPy/Verification/C4KbAssign.lean) |
+| | [kb_swap](programs/kb_swap.py) | [c5](corpus/k/verification/c5_kb_swap.md) | [C5KbSwap](corpus/lean/KMiniPy/Verification/C5KbSwap.lean) |
+| | [kb_chain](programs/kb_chain.py) | [c6](corpus/k/verification/c6_kb_chain.md) | [C6KbChain](corpus/lean/KMiniPy/Verification/C6KbChain.lean) |
+| | [kb_double_half](programs/kb_double_half.py) | [c7](corpus/k/verification/c7_kb_double_half.md) | [C7KbDoubleHalf](corpus/lean/KMiniPy/Verification/C7KbDoubleHalf.lean) |
+| | [kb_arith_mix](programs/kb_arith_mix.py) | [c8](corpus/k/verification/c8_kb_arith_mix.md) | [C8KbArithMix](corpus/lean/KMiniPy/Verification/C8KbArithMix.lean) |
+| 2 · single branch or loop | [kb_abs](programs/kb_abs.py) | [c9](corpus/k/verification/c9_kb_abs.md) | [C9KbAbs](corpus/lean/KMiniPy/Verification/C9KbAbs.lean) |
+| | [kb_max](programs/kb_max.py) | [c10](corpus/k/verification/c10_kb_max.md) | [C10KbMax](corpus/lean/KMiniPy/Verification/C10KbMax.lean) |
+| | [kb_min](programs/kb_min.py) | [c11](corpus/k/verification/c11_kb_min.md) | [C11KbMin](corpus/lean/KMiniPy/Verification/C11KbMin.lean) |
+| | [kb_countdown](programs/kb_countdown.py) | [c12](corpus/k/verification/c12_kb_countdown.md) | [C12KbCountdown](corpus/lean/KMiniPy/Verification/C12KbCountdown.lean) |
+| | [kb_countup](programs/kb_countup.py) | [c13](corpus/k/verification/c13_kb_countup.md) | [C13KbCountup](corpus/lean/KMiniPy/Verification/C13KbCountup.lean) |
+| | [kb_sum](programs/kb_sum.py) | [c14](corpus/k/verification/c14_kb_sum.md) | [C14KbSum](corpus/lean/KMiniPy/Verification/C14KbSum.lean) |
+| | [kb_add_loop](programs/kb_add_loop.py) | [c15](corpus/k/verification/c15_kb_add_loop.md) | [C15KbAddLoop](corpus/lean/KMiniPy/Verification/C15KbAddLoop.lean) |
+| | [kb_sub_loop](programs/kb_sub_loop.py) | [c16](corpus/k/verification/c16_kb_sub_loop.md) | [C16KbSubLoop](corpus/lean/KMiniPy/Verification/C16KbSubLoop.lean) |
+| 3 · mixed control | [kb_max3](programs/kb_max3.py) | [c17](corpus/k/verification/c17_kb_max3.md) | [C17KbMax3](corpus/lean/KMiniPy/Verification/C17KbMax3.lean) |
+| | [kb_clamp](programs/kb_clamp.py) | [c18](corpus/k/verification/c18_kb_clamp.md) | [C18KbClamp](corpus/lean/KMiniPy/Verification/C18KbClamp.lean) |
+| | [kb_abs_times](programs/kb_abs_times.py) | [c19](corpus/k/verification/c19_kb_abs_times.md) | [C19KbAbsTimes](corpus/lean/KMiniPy/Verification/C19KbAbsTimes.lean) |
+| | [kb_sumdiff](programs/kb_sumdiff.py) | [c20](corpus/k/verification/c20_kb_sumdiff.md) | [C20KbSumdiff](corpus/lean/KMiniPy/Verification/C20KbSumdiff.lean) |
+| | [kb_mult_loop](programs/kb_mult_loop.py) | [c21](corpus/k/verification/c21_kb_mult_loop.md) | [C21KbMultLoop](corpus/lean/KMiniPy/Verification/C21KbMultLoop.lean) |
+| | [kb_triangle_down](programs/kb_triangle_down.py) | [c22](corpus/k/verification/c22_kb_triangle_down.md) | [C22KbTriangleDown](corpus/lean/KMiniPy/Verification/C22KbTriangleDown.lean) |
+| | [kb_sum_up](programs/kb_sum_up.py) | [c23](corpus/k/verification/c23_kb_sum_up.md) | [C23KbSumUp](corpus/lean/KMiniPy/Verification/C23KbSumUp.lean) |
+| | [kb_count_even](programs/kb_count_even.py) | [c24](corpus/k/verification/c24_kb_count_even.md) | [C24KbCountEven](corpus/lean/KMiniPy/Verification/C24KbCountEven.lean) |
+| | [kb_loop_max](programs/kb_loop_max.py) | [c25](corpus/k/verification/c25_kb_loop_max.md) | [C25KbLoopMax](corpus/lean/KMiniPy/Verification/C25KbLoopMax.lean) |
+| 4 · nested loops | [kb_pure_nested](programs/kb_pure_nested.py) | [c26](corpus/k/verification/c26_kb_pure_nested.md) | [C26KbPureNested](corpus/lean/KMiniPy/Verification/C26KbPureNested.lean) |
+| | [kb_mult_nested](programs/kb_mult_nested.py) | [c27](corpus/k/verification/c27_kb_mult_nested.md) | [C27KbMultNested](corpus/lean/KMiniPy/Verification/C27KbMultNested.lean) |
+| | [kb_triangle_nested](programs/kb_triangle_nested.py) | [c28](corpus/k/verification/c28_kb_triangle_nested.md) | [C28KbTriangleNested](corpus/lean/KMiniPy/Verification/C28KbTriangleNested.lean) |
+| | [kb_squares_cubic](programs/kb_squares_cubic.py) | [c29](corpus/k/verification/c29_kb_squares_cubic.md) | [C29KbSquaresCubic](corpus/lean/KMiniPy/Verification/C29KbSquaresCubic.lean) |
+| | [kb_rows_sum_nested](programs/kb_rows_sum_nested.py) | [c30](corpus/k/verification/c30_kb_rows_sum_nested.md) | [C30KbRowsSumNested](corpus/lean/KMiniPy/Verification/C30KbRowsSumNested.lean) |
+| | [kb_nested_with_branch](programs/kb_nested_with_branch.py) | [c31](corpus/k/verification/c31_kb_nested_with_branch.md) | [C31KbNestedWithBranch](corpus/lean/KMiniPy/Verification/C31KbNestedWithBranch.lean) |
+| 5 · pipelines | [kb_pipeline](programs/kb_pipeline.py) | [c32](corpus/k/verification/c32_kb_pipeline.md) | [C32KbPipeline](corpus/lean/KMiniPy/Verification/C32KbPipeline.lean) |
+| | [kb_stats_pipeline](programs/kb_stats_pipeline.py) | [c33](corpus/k/verification/c33_kb_stats_pipeline.md) | [C33KbStatsPipeline](corpus/lean/KMiniPy/Verification/C33KbStatsPipeline.lean) |
+| | [kb_normalize_count](programs/kb_normalize_count.py) | [c34](corpus/k/verification/c34_kb_normalize_count.md) | [C34KbNormalizeCount](corpus/lean/KMiniPy/Verification/C34KbNormalizeCount.lean) |
 
 Every Lean counterpart is proved — the package has no `sorry` (Lean's proof-omitted marker);
-[AxiomAudit.lean](data/lean/KMiniPy/AxiomAudit.lean) prints the axioms under every theorem
+[AxiomAudit.lean](corpus/lean/KMiniPy/AxiomAudit.lean) prints the axioms under every theorem
 (Lean's core axioms plus two documented String-hook declarations, nothing else — a stub
 anywhere would surface there as `sorryAx`). Executions are proved as step-by-step rewrite
 theorems; specs are derived in reachability logic, the proof calculus of K's own verifier,
-encoded in [RL.lean](data/lean/KMiniPy/RL.lean). The deliberate asymmetries (which program
+encoded in [RL.lean](corpus/lean/KMiniPy/RL.lean). The deliberate asymmetries (which program
 carries the Lean loop invariant; one-path vs all-path claims) and the full correspondence
-table are in [data/lean/README.md](data/lean/README.md).
+table are in [corpus/lean/README.md](corpus/lean/README.md).
 
 ## Layout
 
 ```
-data/k/          the K dataset: concrete/, symbolic/, verification/
-data/lean/       the Lean 4 package (lakefile at this root; library KMiniPy)
+corpus/k/          the K dataset: concrete/, symbolic/, verification/
+corpus/lean/       the Lean 4 package (lakefile at this root; library KMiniPy)
 programs/        the Python subjects
 semantics/       mpy-traced/ (klever's MiniPython "MPY" + trace overlay) and minipy-lean.k (klean-ready)
 specs/           K claim modules: c2/c3 plus kb-*/ for the 31 ported KleverBench problems
@@ -134,7 +134,7 @@ build/           (gitignored) kompiled definitions and other derived artifacts
 
 ```
 make k-validate              # re-check all committed K data against CPython + expectations
-cd data/lean && lake build   # replay every Lean proof (toolchain pinned; installs via elan)
+cd corpus/lean && lake build   # replay every Lean proof (toolchain pinned; installs via elan)
 ```
 
 Both run on a fresh clone: `k-validate` needs only `python3`, and `lake build` installs its

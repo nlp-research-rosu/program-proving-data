@@ -44,7 +44,7 @@ ROOT = Path(__file__).resolve().parent.parent.parent          # repo root
 REPO = ROOT
 DEFN = ROOT / "build/lean/minipy-lean"
 HINTS_DEFN = ROOT / "build/lean/minipy-lean-hints"
-PKG = ROOT / "data/lean"
+PKG = ROOT / "corpus/lean"
 
 sys.path.insert(0, str(REPO / ".venv/lib/python3.12/site-packages"))
 

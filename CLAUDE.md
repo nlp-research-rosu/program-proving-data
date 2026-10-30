@@ -1,15 +1,15 @@
 # CLAUDE.md — sample-data (K-generated trace data + K-to-Lean theorems)
 
-Two deliverables live here, both under `data/`: `data/k/` (execution/symbolic/verification
-traces from the klever MPY semantics) and `data/lean/` (a Lean 4 package: klean-generated
+Two deliverables live here, both under `corpus/`: `corpus/k/` (execution/symbolic/verification
+traces from the klever MPY semantics) and `corpus/lean/` (a Lean 4 package: klean-generated
 theorems over `semantics/minipy-lean.k`, with proofs). See README.md (map) + REPORT.md
-(details); historical plans in `docs/`. The `kb_*` programs / `specs/kb-*` /
+(details); historical plans in `docs/`. The `kb_*` programs / `corpus/specs/kb-*` /
 `c4+` verification records are ported KleverBench problems (upstream pin + port
 conventions in programs/PROVENANCE.md; nothing vendored): module-level MiniPy, inputs as
 magic literals replaced by symbolic ints in the claim, the ENTIRE final scope pinned
 ([all-path]), requires exactly the upstream intent's precondition, loop proofs as
 `#while`-anchored circularity claims (one per loop level, inner first). Sources: programs in `programs/`, both K semantics in
-`semantics/`, claims in `specs/`, all scripts in `scripts/{k,lean}/` + the shared
+`semantics/`, claims in `corpus/specs/`, all scripts in `scripts/{k,lean}/` + the shared
 `scripts/py2mpy_traced.py` frontend. Vendored upstream in `vendor/klever/` is never modified.
 Commit small and push often. Every K/Lean invocation runs
 under `timeout` sized ~2x expected; these programs are tiny, so anything running longer than
@@ -37,7 +37,7 @@ round-trip every few seconds against your whole context. (Recurred twice, 2026-0
 ## Proving execution theorems in Lean 4 against klean output
 
 - klean's `Rewrites` is one-or-more-step rewriting (a `tran` constructor is baked in; there is
-  no refl/⇒*/divergence/reachability — `data/lean/KMiniPy/Relations.lean` adds `MultiStep`,
+  no refl/⇒*/divergence/reachability — `corpus/lean/KMiniPy/Relations.lean` adds `MultiStep`,
   `Diverges`, `Reaches` = one-path reachability, all definable over `Rewrites` alone).
 - Proof architecture that works: one named theorem per rewrite step with EXPLICIT configs
   (`step_k : Rewrites c_k c_{k+1}`, configs from a `krun --depth` sweep, rule names from
@@ -93,7 +93,7 @@ round-trip every few seconds against your whole context. (Recurred twice, 2026-0
   never `;` — and `lake build | tail` launders the exit code (pipeline status is tail's).
   A red build got pushed this way once.
 
-## Reachability logic (verification claims) — data/lean/KMiniPy/RL.lean
+## Reachability logic (verification claims) — corpus/lean/KMiniPy/RL.lean
 
 - Statement taxonomy: execution claims (traces, symbolic paths) use `Rewrites`; VERIFICATION
   claims use reachability — the RL derivability judgment. Never state a verification claim

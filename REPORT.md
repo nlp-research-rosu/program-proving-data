@@ -30,13 +30,13 @@ a CPython oracle, and over which 62 HumanEval problems already have machine-chec
 additions are one trace cell, three rule patches totaling eight lines, and the extraction and
 validation scripts.
 
-## What is in data/k/
+## What is in corpus/k/
 
 | family | samples | each record contains | ground truth |
 |---|---|---|---|
-| concrete traces | [a1 sum_to_n](data/k/concrete/a1_sum_to_n.md) · [a2 gcd](data/k/concrete/a2_gcd.md) · [a3 collatz](data/k/concrete/a3_collatz_steps.md) · [a4 assert-fail](data/k/concrete/a4_half_of_even.md) | line/call/return/exception events with locals, and for each event the sequence of K rewrite rules that produced it | every event matches a fresh `sys.settrace` run exactly |
-| symbolic traces | [b1 abs_val](data/k/symbolic/b1_abs_val.md) · [b2 classify_triangle](data/k/symbolic/b2_classify_triangle.md) | the execution tree over all inputs: per path, line-tagged symbolic locals, the path condition, a z3 witness, and the infeasible paths the solver pruned | every witness replays through CPython and through the K build with the same line path and result |
-| verification traces | [c1 range-loop](data/k/verification/c1_range_loop.md) · [c2 abs_val](data/k/verification/c2_abs_val.md) · [c3 buggy_abs](data/k/verification/c3_buggy_abs.md) · c4–c34: the [31-problem KleverBench port](programs/PROVENANCE.md) | the spec, the loop invariant where there is one, the prover verdict, and on refutation the counterexample and its failing run | `kprove` reachability proofs (K Haskell backend with z3); counterexamples replayed concretely |
+| concrete traces | [a1 sum_to_n](corpus/k/concrete/a1_sum_to_n.md) · [a2 gcd](corpus/k/concrete/a2_gcd.md) · [a3 collatz](corpus/k/concrete/a3_collatz_steps.md) · [a4 assert-fail](corpus/k/concrete/a4_half_of_even.md) | line/call/return/exception events with locals, and for each event the sequence of K rewrite rules that produced it | every event matches a fresh `sys.settrace` run exactly |
+| symbolic traces | [b1 abs_val](corpus/k/symbolic/b1_abs_val.md) · [b2 classify_triangle](corpus/k/symbolic/b2_classify_triangle.md) | the execution tree over all inputs: per path, line-tagged symbolic locals, the path condition, a z3 witness, and the infeasible paths the solver pruned | every witness replays through CPython and through the K build with the same line path and result |
+| verification traces | [c1 range-loop](corpus/k/verification/c1_range_loop.md) · [c2 abs_val](corpus/k/verification/c2_abs_val.md) · [c3 buggy_abs](corpus/k/verification/c3_buggy_abs.md) · c4–c34: the [31-problem KleverBench port](programs/PROVENANCE.md) | the spec, the loop invariant where there is one, the prover verdict, and on refutation the counterexample and its failing run | `kprove` reachability proofs (K Haskell backend with z3); counterexamples replayed concretely |
 
 The c4–c34 block ports the complete seed set of
 [KleverBench](https://github.com/nlp-research-rosu/KleverBench), a benchmark of
@@ -132,7 +132,7 @@ breaks".
 
 ## The same claims in Lean
 
-Everything above is checked by the K toolchain. A second deliverable in [data/lean/](data/lean/) removes
+Everything above is checked by the K toolchain. A second deliverable in [corpus/lean/](corpus/lean/) removes
 even that dependency from verification: `klean`, K's Lean 4 backend, translates a
 constructor-based variant of the semantics into a Lean package, and generated theorem files
 state the dataset's claims over it. Anyone with Lean can replay every proof with `lake build`,
@@ -186,7 +186,7 @@ from a language semantics.
 klean's generated relation is one-or-more-step rewriting; the package adds many-step rewriting,
 divergence, and one-path reachability (reach the target or diverge), which is the right notion
 for pre/post specs and invariants without assuming determinism. The whole package builds in
-about a minute cold. Architecture and regeneration commands are in [data/lean/README.md](data/lean/README.md).
+about a minute cold. Architecture and regeneration commands are in [corpus/lean/README.md](corpus/lean/README.md).
 
 ## Cost
 
@@ -203,15 +203,15 @@ IMP source to proved, validated records with no changes to the semantics or the 
 ## Repository layout
 
 ```
-data/k/          the K dataset (concrete/, symbolic/, verification/): *.jsonl canonical, *.md readable
-data/lean/       the Lean 4 package: klean translation + theorem files (lakefile at this root)
+corpus/k/          the K dataset (concrete/, symbolic/, verification/): *.jsonl canonical, *.md readable
+corpus/lean/       the Lean 4 package: klean translation + theorem files (lakefile at this root)
 programs/        the Python subjects (self-contained: defs + entry call)
 semantics/       mpy-traced/ = vendor MPY + trace overlay (trace.k, patched/{core,call,functions}.k,
                  rules.yaml rule annotations); minipy-lean.k = the klean-translatable semantics
 specs/           abs-val and buggy-abs K claim modules (c2, c3; c1 reuses the vendored
                  range-loop spec) + kb-*/ claim modules for the 31 ported KleverBench problems
 scripts/         py2mpy_traced.py (vendored py2mpy + --linemarks); k/ = generation + validation
-                 pipeline for data/k; lean/ = theorem generators for data/lean
+                 pipeline for corpus/k; lean/ = theorem generators for corpus/lean
 docs/            the approved plans (historical record) and the klean feasibility experiment
 vendor/klever/   pinned upstream (sha in VENDOR.md; never modified — `make vendor-diff`)
 build/           gitignored: kompiled definitions, mpy files, proof hints (build/k, build/lean)
@@ -236,7 +236,7 @@ Every K invocation runs under `timeout` (kompile 600 s, krun 120 s, kprove 900 s
 memory cap). These programs are tiny, so anything slower than minutes is treated as stuck and
 investigated rather than waited on.
 
-The Lean package rebuilds with `make lean-build` (or `lake build` in `data/lean/`; no K
+The Lean package rebuilds with `make lean-build` (or `lake build` in `corpus/lean/`; no K
 toolchain needed). `make lean-gen` regenerates the theorem files from the semantics: it
 kompiles `build/lean/minipy-lean{,-hints}`, rebuilds the `.mpy` inputs, and runs the three
 generators in `scripts/lean/`, whose output is idempotent against the committed package. The
@@ -249,14 +249,14 @@ run to run).
 
 Every record carries `kind` (its family, below) and a stable `id`.
 
-**concrete_trace** (`data/k/concrete/`): `source{file, code, entry, args}`, `result`,
+**concrete_trace** (`corpus/k/concrete/`): `source{file, code, entry, args}`, `result`,
 `exception`, `trace[]` of events
 `{event: line|call|return|exception, line, locals, [func], [value], [exc], k_rules[]}`,
 where `k_rules[]` is `{rule: "<file>:<line>", name, kind: semantic|structural|instrumentation,
 desc, [count]}` (consecutive repeats collapsed), plus `k_prelude_rules[]` (program-load steps
 before the first event) and `provenance` (generator, K version, klever sha, validation status).
 
-**symbolic_trace** (`data/k/symbolic/`): `source` (args are `?x:int` style), `tree{n_nodes,
+**symbolic_trace** (`corpus/k/symbolic/`): `source` (args are `?x:int` style), `tree{n_nodes,
 edges[{from, to, condition}]}`, `leaves[]` of
 `{node, value (symbolic term or literal), path_condition[], trace[{event, line,
 locals(symbolic)}], witness, witness_validated, witness_replay, terminal_reason}`, and
@@ -264,7 +264,7 @@ locals(symbolic)}], witness, witness_validated, witness_replay, terminal_reason}
 under one representative symbol: a leaf whose locals read `a: c, b: c, c: c` had `a = b = c`
 forced by its path condition.
 
-**proof_trace** (`data/k/verification/`): `source`, `spec{requires, ensures, invariants[],
+**proof_trace** (`corpus/k/verification/`): `source`, `spec{requires, ensures, invariants[],
 claim_k (verbatim spec.k)}`, `result: proved|refuted`, `prover{tool, wall_seconds,
 verdict_marker, memory_cap}`, `note`, `provenance{definition, spec_module}`, and
 `counterexample` (null when proved) of `{stuck_path_condition, model, model_source,

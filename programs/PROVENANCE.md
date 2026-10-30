@@ -13,7 +13,7 @@ K reachability claim characterizing its exact final state.
   integers in the specs), and IMP idioms are written as idiomatic Python
   (`!(n <= 0)` → `0 < n`, `n + -1` → `n - 1`, `/` → `//`); dead initial
   bindings (overwritten before any read) are dropped. The reference claim is
-  restated over the vendored MPY semantics in `specs/kb-<problem>/` as a
+  restated over the vendored MPY semantics in `corpus/specs/kb-<problem>/` as a
   full-characterization claim: every binding the program creates is pinned to
   its exact final value. Each verification record carries the upstream problem
   id and original IMP text in `provenance.upstream`.

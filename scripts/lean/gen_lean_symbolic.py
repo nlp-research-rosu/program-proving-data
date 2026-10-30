@@ -16,7 +16,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent.parent
 REPO = ROOT
 DEFN = ROOT / "build/lean/minipy-lean"
-PKG = ROOT / "data/lean/KMiniPy"
+PKG = ROOT / "corpus/lean/KMiniPy"
 
 sys.path.insert(0, str(REPO / ".venv/lib/python3.12/site-packages"))
 from pyk.kore.parser import KoreParser  # noqa: E402

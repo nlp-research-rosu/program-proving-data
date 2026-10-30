@@ -163,12 +163,12 @@ def main() -> int:
     import tracelib
     meta = rules_meta()
     for sample_id, stem in SAMPLES.items():
-        path = ROOT / "data/k/concrete" / f"{sample_id}.jsonl"
+        path = ROOT / "corpus/k/concrete" / f"{sample_id}.jsonl"
         rec = json.loads(path.read_text())
         rec = annotate_record(rec, stem, meta)
         path.write_text(json.dumps(rec, sort_keys=True) + "\n")
         ft = tracelib.FuncTable(str(ROOT / rec["source"]["file"]))
-        (ROOT / "data/k/concrete" / f"{sample_id}.md").write_text(
+        (ROOT / "corpus/k/concrete" / f"{sample_id}.md").write_text(
             run_concrete.to_markdown(rec, ft))
         n = sum(len(e.get("k_rules", [])) for e in rec["trace"])
         print(f"[ok] {sample_id}: k_rules attached ({n} entries across {len(rec['trace'])} events)")

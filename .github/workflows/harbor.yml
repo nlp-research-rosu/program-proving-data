@@ -38,6 +38,8 @@ jobs:
       - run: pip install "harbor==${HARBOR_VERSION}"
       - name: tasks/ regenerates byte-for-byte and passes the offline checks
         run: python scripts/harbor/check_tasks.py
+      - name: task checks are repeatable without changing the generated tree
+        run: python scripts/harbor/check_tasks.py
       - name: reward checker rejects duplicate trials and infrastructure failures
         run: python -m unittest discover -s scripts/harbor -p 'test_*.py'
       - name: harbor lint (default rules)

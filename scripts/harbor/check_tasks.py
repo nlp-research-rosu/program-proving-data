@@ -25,6 +25,10 @@ import tempfile
 import tomllib
 from pathlib import Path
 
+# Loading generated graders must not create files that the next drift check
+# would mistake for generated-source changes.
+sys.dont_write_bytecode = True
+
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 sys.path.insert(0, str(HERE))

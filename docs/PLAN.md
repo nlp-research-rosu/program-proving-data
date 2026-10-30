@@ -90,7 +90,7 @@ cwm-alike-data/
 │   │                         #   functions.k (+ retEvt on #pop) — each a ≤6-line diff, `make vendor-diff` shows it
 ├── frontend/py2mpy_traced.py # vendored py2mpy + `--linemarks` flag: interleaves LineMark(lineno) per stmt
 ├── programs/                 # 7 self-contained .py files (defs + entry call; args live in the file)
-├── specs/                    # abs-val/ and buggy-abs/ dirs: {verification.k, spec.k} following tests/verification/range-loop
+├── corpus/specs/                    # abs-val/ and buggy-abs/ dirs: {verification.k, spec.k} following tests/verification/range-loop
 ├── scripts/
 │   ├── k2trace.py            # krun --output json → walk <trace>/<exc>/<scopes> → concrete JSONL
 │   ├── validate.py           # sys.settrace differential (exact match) + symbolic-witness replay
@@ -134,14 +134,14 @@ Trace overlay mechanics (settled during research):
 
 ### Task 4: Verification samples C1–C3 (60 min)
 - [ ] C1: re-run klever's `range-loop` (kompile per-dir verification.k + `kprove spec.k` → `#Top`, their verify.sh recipe incl. memory cap); serialize claim sources (entry + invariant circularity, both quoted verbatim), Pythonic spec rendering, verdict, prover stats into JSONL.
-- [ ] C2: `specs/abs-val/{verification.k,spec.k}` following the range-loop pattern verbatim (imports full MPY; entry-style claim with `X:Int`, `ensures (?R >=Int 0) andBool ((?R ==Int X) orBool (?R ==Int 0 -Int X))`, `[all-path]`); kprove → `#Top`.
+- [ ] C2: `corpus/specs/abs-val/{verification.k,spec.k}` following the range-loop pattern verbatim (imports full MPY; entry-style claim with `X:Int`, `ensures (?R >=Int 0) andBool ((?R ==Int X) orBool (?R ==Int 0 -Int X))`, `[all-path]`); kprove → `#Top`.
 - [ ] C3: same spec over `buggy_abs` → kprove fails; capture the stuck-claim-state output (kore-exec prints term + path condition, as seen in smoke tests); extract the counterexample (`x = 0` from the PC), replay `buggy_abs(0)` through the T1 pipeline, embed as `counterexample.failing_trace`. Emit JSONL + `.md`. Commit.
 - Cut-line: `proof_trace` detail is best-effort — claims + verdict + prover summary always; pyk `APRProof`/KCFG node-edge serialization only if it fits the timebox (provenance marks the detail level).
 
 ### Task 5: Validation sweep + REPORT + README (40 min)
 - [ ] `make data && make validate` from clean checkout regenerates and re-validates everything (differential checks, witness replays, `#Top` greps).
 - [ ] `README.md`: schemas, regeneration, normalization rules, klever attribution + sha.
-- [ ] `REPORT.md` (the pitch): (1) framing — CWM showed execution traces teach world-modeling; K makes them *semantics-grounded*; (2) table: sys.settrace vs K (faithful ✓/✓ · rule-annotated ✗/✓ · symbolic ✗/✓ · specs/invariants/proofs ✗/✓ · counterexamples ✗/✓); (3) one worked excerpt per family; (4) trust story: traces validated event-exact against CPython, proofs machine-checked, the underlying semantics CPython-oracle-tested (39/39) and already carrying 62 proved HumanEval problems; (5) scaling note: the harness maps over any py2mpy-covered corpus and any K-defined language. Final commit.
+- [ ] `REPORT.md` (the pitch): (1) framing — CWM showed execution traces teach world-modeling; K makes them *semantics-grounded*; (2) table: sys.settrace vs K (faithful ✓/✓ · rule-annotated ✗/✓ · symbolic ✗/✓ · corpus/specs/invariants/proofs ✗/✓ · counterexamples ✗/✓); (3) one worked excerpt per family; (4) trust story: traces validated event-exact against CPython, proofs machine-checked, the underlying semantics CPython-oracle-tested (39/39) and already carrying 62 proved HumanEval problems; (5) scaling note: the harness maps over any py2mpy-covered corpus and any K-defined language. Final commit.
 
 ## 5. Risks
 

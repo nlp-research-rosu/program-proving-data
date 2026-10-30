@@ -1,145 +1,221 @@
-# sample-data: machine-checked program-reasoning data for code models
+# Program reasoning sample data
 
-Forty reasoning samples over thirty-nine tiny Python programs — each sample a
-machine-generated, machine-checked record of one of the three kinds of reasoning one can
-do about code:
+Concrete execution traces, symbolic paths, and checked proofs for small Python programs.
 
-- **how it runs** — a complete execution trace, every step labeled with the exact language
-  rule that produced it;
-- **how it runs on every input at once** — a symbolic execution tree: each feasible path
-  through the program, the condition on the inputs that selects it, a concrete witness input
-  per path, and impossibility proofs for the infeasible branches;
-- **whether it is correct** — a formal spec with a machine-found proof (a loop invariant, a
-  functional spec), plus one deliberately buggy program whose spec is refuted with a concrete
-  counterexample run.
+This repository contains 40 JSON records for 39 small Python programs, a Lean proof corpus,
+and 87 Harbor task samples. The records pair source code with execution states, branch
+conditions, loop invariants, and formal claims about the result.
 
-**Why this exists, in AI terms.** Execution traces are how recent code models learn to
-*simulate* programs — the mid-training data of Meta's Code World Model
-([CWM](https://arxiv.org/abs/2510.02387)) is line-level Python traces logged by an
-instrumented interpreter. The records here are that shape of data with a stronger guarantee:
-they are derived from a single **formal semantics** — a machine-executable rulebook for the
-language, written in the [K framework](https://kframework.org) — and machine-checked end to
-end. Nothing is hand-labeled; nothing came out of a model. Concretely:
+Use these samples to study a model's predictions at each step, its reasoning about symbolic
+inputs, or its proof construction. The collection supports training experiments and evaluation design.
 
-- every trace step carries the semantic rule that caused it — supervision for *why* the state
-  changed, not just what it changed to;
-- everything is independently validated: traces replay against CPython, each symbolic path
-  re-runs its witness input, every proof verdict is checked;
-- the strongest tier is fully formal: the Lean package below re-verifies every theorem on any
-  machine with one command — trust rests on a proof checker, not on the authors;
-- the recipe is generic: programs in, records out, for anything the semantics covers.
+## Find data for your work
 
-## The two data products
-
-- **K data** ([data/k/](data/k/)): the JSON records — execution traces annotated with the
-  semantic rule behind every step, symbolic execution trees with path conditions and solver
-  witnesses, and verification records: specs, a loop invariant, and a refutation tied to its
-  counterexample run. Per sample: `.jsonl` (canonical) + `.md` (readable).
-- **Lean data** ([data/lean/](data/lean/)): the same claims as mathematics — a package for
-  [Lean 4](https://lean-lang.org) (a proof assistant: a program that mechanically checks
-  proofs). The semantics is translated by klean (K's Lean backend); program properties are
-  theorems over it, each with a complete machine-checked proof. `lake build` replays
-  everything — no K toolchain needed.
-
-## The samples
-
-### The nine original samples (a1–c3)
-
-| program | K data | Lean theorems |
+| If you work on | Start with | What the samples contain |
 |---|---|---|
-| [sum_to_n](programs/sum_to_n.py) | [concrete trace](data/k/concrete/a1_sum_to_n.md) | [224-step execution, proved](data/lean/KMiniPy/Concrete/A1SumToN.lean) · [Gauss form ∀ n ≥ 0, derived in reachability logic](data/lean/KMiniPy/Verification/C1SumToN.lean) |
-| [gcd](programs/gcd.py) | [concrete trace](data/k/concrete/a2_gcd.md) | [138-step execution, proved](data/lean/KMiniPy/Concrete/A2Gcd.lean) |
-| [collatz_steps](programs/collatz_steps.py) | [concrete trace](data/k/concrete/a3_collatz_steps.md) | [491-step execution, proved](data/lean/KMiniPy/Concrete/A3CollatzSteps.lean) |
-| [half_of_even](programs/half_of_even.py) | [concrete trace to assert-fail](data/k/concrete/a4_half_of_even.md) | [29-step execution to assert-failure, proved](data/lean/KMiniPy/Concrete/A4HalfOfEven.lean) |
-| [abs_val](programs/abs_val.py) | [symbolic tree](data/k/symbolic/b1_abs_val.md) · [spec, proved](data/k/verification/c2_abs_val.md) | [per-path ∀ theorems, proved](data/lean/KMiniPy/Symbolic/B1AbsVal.lean) · [functional spec, derived in reachability logic](data/lean/KMiniPy/Verification/C2AbsVal.lean) |
-| [classify_triangle](programs/classify_triangle.py) | [symbolic tree, 5 paths + 3 infeasible](data/k/symbolic/b2_classify_triangle.md) | [5 path theorems ∀ a b c, proved](data/lean/KMiniPy/Symbolic/B2ClassifyTriangle.lean) |
-| [buggy_abs](programs/buggy_abs.py) | [spec refuted + counterexample](data/k/verification/c3_buggy_abs.md) | [46-step trace at x = 0, proved](data/lean/KMiniPy/Verification/C3BuggyAbsAt0.lean) · [refutation ∃ x, proved](data/lean/KMiniPy/Verification/C3Refutation.lean) |
-| range_loop (vendored) | [loop invariant, proved](data/k/verification/c1_range_loop.md) | — |
+| Models that predict program execution | [Concrete traces](corpus/k/concrete/a1_sum_to_n.md) | Source lines, local variables, calls, returns, assertion failures, and the semantic rules behind each event. |
+| Models that reason about many inputs | [Symbolic execution trees](corpus/k/symbolic/b2_classify_triangle.md) | Symbolic states, path conditions, witness inputs, and evidence that some paths are impossible. |
+| Mathematical and formal proof reasoning | [Sum of squares](corpus/k/verification/c29_kb_squares_cubic.md) and its [Lean proof](corpus/lean/KMiniPy/Verification/C29KbSquaresCubic.lean) | Quantified arithmetic claims, induction, case analysis, and invariants for nested loops. |
+| RL frameworks and evaluation environments | [Harbor task samples](tasks/) and the [dataset registry](registry.json) | Programs, instructions, reference answers, verifier contracts, and binary rewards. |
+| Formal methods research or teaching | [The corpus guide](corpus/README.md) and [a refuted specification](corpus/k/verification/c3_buggy_abs.md) | Worked examples from concrete runs to proofs, including a bug and its counterexample. |
 
-### The KleverBench port (samples c4–c34)
+## What is in the collection
 
-All 31 problems of the [KleverBench](https://github.com/nlp-research-rosu/KleverBench) IMP
-seed set — upstream pin and translation rules in
-[programs/PROVENANCE.md](programs/PROVENANCE.md) — each proved TWICE. On the K side,
-kprove proves a full-characterization reachability claim: the ENTIRE final state pinned as
-closed forms of the symbolic inputs, loops handled by circularity claims (one invariant
-per loop level). On the Lean side, the same claim is derived in reachability logic over
-generated parametric execution legs: the loop-free tier as ∀-quantified path theorems
-entering through Axiom (with Case Analysis over branches), every loop program as a
-machine-checked **Circularity** derivation (invariants in omega-friendly additive form;
-piecewise `min`/`max` posts split by Case Analysis), and the nested-loop tier with the
-outer invariant as the Circularity mirror while the inner loop enters as a ∀-quantified
-execution lemma proved by fuel induction. Every cell below is machine-checked — kprove
-verdict on the K side, `lake build` plus the 85-theorem axiom audit on the Lean side.
+| Data | Count | Format and contents |
+|---|---:|---|
+| Concrete traces | 4 records | Line, call, return, and exception events with local variables and K rule annotations. |
+| Symbolic traces | 2 trees | Seven feasible paths and three infeasible paths, with conditions, symbolic states, and solver evidence. |
+| Verification records | 34 records | 33 proved specifications and one refutation, with claims, invariants, verdicts, and concrete witnesses. |
+| Lean proofs | 85 audited headline theorems | Execution proofs, symbolic path proofs, specification proofs, and a refutation. |
+| Harbor task samples | 87 tasks | Four families that reuse the corpus programs and proofs. |
 
-| tier | program | K data | Lean theorems |
-|---|---|---|---|
-| 1 · straight-line | [kb_assign](programs/kb_assign.py) | [c4](data/k/verification/c4_kb_assign.md) | [C4KbAssign](data/lean/KMiniPy/Verification/C4KbAssign.lean) |
-| | [kb_swap](programs/kb_swap.py) | [c5](data/k/verification/c5_kb_swap.md) | [C5KbSwap](data/lean/KMiniPy/Verification/C5KbSwap.lean) |
-| | [kb_chain](programs/kb_chain.py) | [c6](data/k/verification/c6_kb_chain.md) | [C6KbChain](data/lean/KMiniPy/Verification/C6KbChain.lean) |
-| | [kb_double_half](programs/kb_double_half.py) | [c7](data/k/verification/c7_kb_double_half.md) | [C7KbDoubleHalf](data/lean/KMiniPy/Verification/C7KbDoubleHalf.lean) |
-| | [kb_arith_mix](programs/kb_arith_mix.py) | [c8](data/k/verification/c8_kb_arith_mix.md) | [C8KbArithMix](data/lean/KMiniPy/Verification/C8KbArithMix.lean) |
-| 2 · single branch or loop | [kb_abs](programs/kb_abs.py) | [c9](data/k/verification/c9_kb_abs.md) | [C9KbAbs](data/lean/KMiniPy/Verification/C9KbAbs.lean) |
-| | [kb_max](programs/kb_max.py) | [c10](data/k/verification/c10_kb_max.md) | [C10KbMax](data/lean/KMiniPy/Verification/C10KbMax.lean) |
-| | [kb_min](programs/kb_min.py) | [c11](data/k/verification/c11_kb_min.md) | [C11KbMin](data/lean/KMiniPy/Verification/C11KbMin.lean) |
-| | [kb_countdown](programs/kb_countdown.py) | [c12](data/k/verification/c12_kb_countdown.md) | [C12KbCountdown](data/lean/KMiniPy/Verification/C12KbCountdown.lean) |
-| | [kb_countup](programs/kb_countup.py) | [c13](data/k/verification/c13_kb_countup.md) | [C13KbCountup](data/lean/KMiniPy/Verification/C13KbCountup.lean) |
-| | [kb_sum](programs/kb_sum.py) | [c14](data/k/verification/c14_kb_sum.md) | [C14KbSum](data/lean/KMiniPy/Verification/C14KbSum.lean) |
-| | [kb_add_loop](programs/kb_add_loop.py) | [c15](data/k/verification/c15_kb_add_loop.md) | [C15KbAddLoop](data/lean/KMiniPy/Verification/C15KbAddLoop.lean) |
-| | [kb_sub_loop](programs/kb_sub_loop.py) | [c16](data/k/verification/c16_kb_sub_loop.md) | [C16KbSubLoop](data/lean/KMiniPy/Verification/C16KbSubLoop.lean) |
-| 3 · mixed control | [kb_max3](programs/kb_max3.py) | [c17](data/k/verification/c17_kb_max3.md) | [C17KbMax3](data/lean/KMiniPy/Verification/C17KbMax3.lean) |
-| | [kb_clamp](programs/kb_clamp.py) | [c18](data/k/verification/c18_kb_clamp.md) | [C18KbClamp](data/lean/KMiniPy/Verification/C18KbClamp.lean) |
-| | [kb_abs_times](programs/kb_abs_times.py) | [c19](data/k/verification/c19_kb_abs_times.md) | [C19KbAbsTimes](data/lean/KMiniPy/Verification/C19KbAbsTimes.lean) |
-| | [kb_sumdiff](programs/kb_sumdiff.py) | [c20](data/k/verification/c20_kb_sumdiff.md) | [C20KbSumdiff](data/lean/KMiniPy/Verification/C20KbSumdiff.lean) |
-| | [kb_mult_loop](programs/kb_mult_loop.py) | [c21](data/k/verification/c21_kb_mult_loop.md) | [C21KbMultLoop](data/lean/KMiniPy/Verification/C21KbMultLoop.lean) |
-| | [kb_triangle_down](programs/kb_triangle_down.py) | [c22](data/k/verification/c22_kb_triangle_down.md) | [C22KbTriangleDown](data/lean/KMiniPy/Verification/C22KbTriangleDown.lean) |
-| | [kb_sum_up](programs/kb_sum_up.py) | [c23](data/k/verification/c23_kb_sum_up.md) | [C23KbSumUp](data/lean/KMiniPy/Verification/C23KbSumUp.lean) |
-| | [kb_count_even](programs/kb_count_even.py) | [c24](data/k/verification/c24_kb_count_even.md) | [C24KbCountEven](data/lean/KMiniPy/Verification/C24KbCountEven.lean) |
-| | [kb_loop_max](programs/kb_loop_max.py) | [c25](data/k/verification/c25_kb_loop_max.md) | [C25KbLoopMax](data/lean/KMiniPy/Verification/C25KbLoopMax.lean) |
-| 4 · nested loops | [kb_pure_nested](programs/kb_pure_nested.py) | [c26](data/k/verification/c26_kb_pure_nested.md) | [C26KbPureNested](data/lean/KMiniPy/Verification/C26KbPureNested.lean) |
-| | [kb_mult_nested](programs/kb_mult_nested.py) | [c27](data/k/verification/c27_kb_mult_nested.md) | [C27KbMultNested](data/lean/KMiniPy/Verification/C27KbMultNested.lean) |
-| | [kb_triangle_nested](programs/kb_triangle_nested.py) | [c28](data/k/verification/c28_kb_triangle_nested.md) | [C28KbTriangleNested](data/lean/KMiniPy/Verification/C28KbTriangleNested.lean) |
-| | [kb_squares_cubic](programs/kb_squares_cubic.py) | [c29](data/k/verification/c29_kb_squares_cubic.md) | [C29KbSquaresCubic](data/lean/KMiniPy/Verification/C29KbSquaresCubic.lean) |
-| | [kb_rows_sum_nested](programs/kb_rows_sum_nested.py) | [c30](data/k/verification/c30_kb_rows_sum_nested.md) | [C30KbRowsSumNested](data/lean/KMiniPy/Verification/C30KbRowsSumNested.lean) |
-| | [kb_nested_with_branch](programs/kb_nested_with_branch.py) | [c31](data/k/verification/c31_kb_nested_with_branch.md) | [C31KbNestedWithBranch](data/lean/KMiniPy/Verification/C31KbNestedWithBranch.lean) |
-| 5 · pipelines | [kb_pipeline](programs/kb_pipeline.py) | [c32](data/k/verification/c32_kb_pipeline.md) | [C32KbPipeline](data/lean/KMiniPy/Verification/C32KbPipeline.lean) |
-| | [kb_stats_pipeline](programs/kb_stats_pipeline.py) | [c33](data/k/verification/c33_kb_stats_pipeline.md) | [C33KbStatsPipeline](data/lean/KMiniPy/Verification/C33KbStatsPipeline.lean) |
-| | [kb_normalize_count](programs/kb_normalize_count.py) | [c34](data/k/verification/c34_kb_normalize_count.md) | [C34KbNormalizeCount](data/lean/KMiniPy/Verification/C34KbNormalizeCount.lean) |
+The [K records](corpus/k/README.md) use one JSON object per `.jsonl` file.
+Each record has a readable `.md` companion. Records include source code and provenance.
+The [record schemas](REPORT.md#record-schemas-jsonl-one-record-per-file) describe the fields.
+The [Lean corpus](corpus/lean/README.md) contains `.lean` files in a buildable package.
 
-Every Lean counterpart is proved — the package has no `sorry` (Lean's proof-omitted marker);
-[AxiomAudit.lean](data/lean/KMiniPy/AxiomAudit.lean) prints the axioms under every theorem
-(Lean's core axioms plus two documented String-hook declarations, nothing else — a stub
-anywhere would surface there as `sorryAx`). Executions are proved as step-by-step rewrite
-theorems; specs are derived in reachability logic, the proof calculus of K's own verifier,
-encoded in [RL.lean](data/lean/KMiniPy/RL.lean). The deliberate asymmetries (which program
-carries the Lean loop invariant; one-path vs all-path claims) and the full correspondence
-table are in [data/lean/README.md](data/lean/README.md).
+The subjects include 31 problems from the
+[KleverBench](https://github.com/nlp-research-rosu/KleverBench) IMP seed set and the original
+execution, symbolic, and verification examples. The problems range from straight-line
+assignments to nested loops and multi-stage pipelines.
+[Provenance notes](programs/PROVENANCE.md) give the upstream revision and translation rules.
 
-## Layout
+## Read a trace, a symbolic path, or a proof
+
+In [the `sum_to_n` trace](corpus/k/concrete/a1_sum_to_n.jsonl), line 5 executes
+`acc = acc + i`. The event records `acc = 0`, `i = 1`, and `n = 5` before that line.
+Its `k_rules` field names the rules for variable lookup, arithmetic, and assignment.
+The [rule index](semantics/mpy-traced/rules.yaml) gives their locations and meanings.
+This provides supervision for both the state and the rule that changes it.
+
+The [triangle classification tree](corpus/k/symbolic/b2_classify_triangle.jsonl) describes
+five feasible paths over symbolic inputs. Each path has a condition and a concrete witness.
+Three further paths are infeasible, including `a == b and b == c and not (a == c)`.
+The record includes solver evidence for their exclusion.
+
+[The sum-of-squares sample](corpus/k/verification/c29_kb_squares_cubic.md) states
+`res = n*(n+1)*(2*n+1)/6` for every integer `n >= 1` after a short nested loop.
+Its final state also fixes both loop counters at zero.
+The K claims and [Lean derivation](corpus/lean/KMiniPy/Verification/C29KbSquaresCubic.lean)
+show how loop invariants support the polynomial result.
+Other samples cover Gauss sums, absolute value, piecewise results, and several stages of computation.
+
+The [buggy absolute-value sample](corpus/k/verification/c3_buggy_abs.md) refutes the specification
+with the input `x = 0` and a concrete run that returns `None`.
+Its [Lean refutation](corpus/lean/KMiniPy/Verification/C3Refutation.lean) includes a checked witness.
+
+## Harbor task samples for RL and evaluation
+
+The [Harbor](https://docs.harborframework.com/tasks/overview) samples turn corpus problems
+into tasks with a reward of 1 or 0. Each task includes instructions, a container definition,
+a reference solution, and a verifier. The reference solution is the oracle.
+
+| Dataset | Tasks | The agent completes |
+|---|---:|---|
+| `k-proved-specs` | 33 | The full final-state specification and any loop circularity claims needed to prove it. |
+| `k-loop-invariants` | 21 | The loop circularity claims for a frozen entry claim. |
+| `lean-proved-specs` | 12 | A reachability-logic derivation of a frozen specification over proved execution paths. |
+| `lean-loop-invariants` | 21 | A loop invariant and Circularity derivation over proved execution steps. |
+
+A circularity claim states the invariant that the prover uses when reasoning about a loop.
+Reachability logic is the proof calculus used for the specification claims.
+K specification tasks ask the agent to write the specification.
+Lean specification tasks give the specification and ask the agent to prove it.
+
+The registry also includes `proved-specs`, `loop-invariants`, and `all`.
+Task metadata records the family, toolchain, structural tier, loop count, and loop depth.
+Difficulty labels are heuristic. Structural tiers describe the programs.
+The collection includes no model calibration results.
 
 ```
-data/k/          the K dataset: concrete/, symbolic/, verification/
-data/lean/       the Lean 4 package (lakefile at this root; library KMiniPy)
+harbor run --repo nlp-research-rosu/sample-data-public -d loop-invariants -a <agent> -m <model>
+harbor run --repo nlp-research-rosu/sample-data-public -p tasks -i 'k-spec-*' -a <agent> -m <model>
+harbor run -p tasks -a oracle          # local clone: every task scores 1
+harbor run -p tasks -a nop             # local clone: every task scores 0
+```
+
+The agent runs as a non-root user with no network access.
+A separate verifier checks the submitted files against its own source files and compiled artifacts.
+The public repository contains the reference answers, so the network restriction matters for evaluation.
+
+<details>
+<summary>Verifier contracts</summary>
+
+K submissions contain claims in a restricted grammar.
+The verifier requires the frozen regions of the entry claim to remain unchanged.
+It rejects extra imports, rules, syntax, or trusted attributes.
+For specification tasks, every final variable must have a value over the symbolic inputs.
+Each existential integer must have exactly one equality that determines its value.
+The verifier compares those values with CPython on sampled inputs, including precondition boundaries.
+It then requires `kprove` to print `#Top` within the limit stated in the task instructions.
+Invariant tasks also require an unchanged entry claim and at least one additional claim.
+
+The [claim checker](scripts/harbor/kclaims.py) defines the accepted expressions and integer semantics.
+The `abs_val` task uses the equivalent target `?R ==Int absInt(X)`.
+The nested-branch task expresses the triangular number of `minInt(A, B)` with `#if A <=Int B`.
+This follows the circularities' branch split and avoids an ambiguous nonlinear simplification.
+The corpus claims stay unchanged. CI proves the generated targets again.
+
+The Lean verifier assembles its own package and admits the proof files that the agent imports.
+It restricts imports, options, and language constructs that could bypass the proof checker.
+A verifier-owned Spec module fixes the claim. `Check.lean` applies the agent's theorem to that claim.
+The package must build without `sorry`, Lean's omitted-proof marker.
+The axiom audit permits only `propext`, `Classical.choice`, `Quot.sound`, and the two documented String-hook declarations.
+Those declarations are `eqStringHook` and `«_==String__STRING-COMMON_Bool_String_String»`.
+
+</details>
+
+<details>
+<summary>Task file layout</summary>
+
+```
+tasks/k-inv-kb-sum/
+├── instruction.md            what the agent is told (program, files, grading rules, a K primer)
+├── task.toml                 Harbor config + metadata; separate verifier; no network; artifacts
+├── environment/
+│   ├── Dockerfile            K 7.1.337 image → kompile the semantics (shared layer) → /app
+│   ├── klever/               the vendored klever MPY semantics + MPY-VERIFICATION module
+│   └── app/                  program.py, verification.k, spec.k (the skeleton)
+├── tests/
+│   ├── test.sh → grade.py    the grader (stdlib Python, `python3 -I`, pristine verification.k)
+│   ├── kclaims.py            claim parser / whitelist / closed-form evaluator
+│   └── reference.json        frozen regions, inputs, precondition, program text
+└── solution/
+    ├── solve.sh              copies the reference spec.k into /app
+    └── spec.k                the corpus claim module (kprove #Top)
+
+tasks/lean-inv-kb-sum/
+├── environment/
+│   ├── Dockerfile            ubuntu → elan + Lean v4.30.0 → base package built (shared layer) → task files
+│   ├── base/                 lakefile, toolchain, KMiniPy/{Prelude,Sorts,Inj,Func,Rewrite,Relations,RL}.lean
+│   └── task/                 KMiniPy.lean (root), Verification/C14KbSumLegs.lean (proved legs), Verification/C14KbSum.lean (stub)
+├── tests/
+│   ├── test.sh → grade.py    restores verifier-owned files + pristine build dir, lake build, Check.lean, axiom audit
+│   ├── Check.lean            the frozen statement over verifier-owned init/final, closed by the agent's theorem
+│   └── pristine/             every verifier-owned source file
+└── solution/C14KbSum.lean    the corpus derivation (proved; core axioms + two String-hook axioms)
+```
+
+</details>
+
+## Data checks
+
+The K records use Python semantics written in the [K framework](https://kframework.org),
+which makes language rules executable. K's [klean backend](corpus/lean/README.md) translates
+a related semantics variant into [Lean 4](https://lean-lang.org).
+
+- Concrete events match fresh CPython traces, including local variables and values.
+- Symbolic paths include witnesses that reproduce their results. Solver checks establish that pruned paths are infeasible.
+- K verification records contain reachability claims, loop circularities, and prover verdicts.
+- Lean checks the proof terms. The [axiom audit](corpus/lean/KMiniPy/AxiomAudit.lean) reports dependencies for each headline theorem.
+- CI checks that the task samples match the corpus and templates. Every oracle must score 1, and every untouched task must score 0.
+
+The samples cover a Python subset. Verification claims use reachability logic and do not
+by themselves establish termination. The Lean package encodes that calculus without a proof of its soundness.
+Read the [Lean correspondence and trust notes](corpus/lean/README.md) for the semantics differences and axiom assumptions.
+[REPORT.md](REPORT.md) documents the checks, record formats, and reproduction steps.
+
+## Use the data for training or evaluation
+
+Use `corpus/` for trace and proof data. Keep the benchmark files under `tasks/` out of training corpora.
+Those files contain training-exclusion canaries.
+
+The corpus and tasks share programs, claims, and reference proofs across both toolchains.
+For held-out evaluation, split by the underlying program or problem across the whole repository.
+Training on a corpus proof exposes answers to related task samples, even if their task files stay excluded.
+
+## Check or reproduce the samples
+
+Read the JSON and Markdown records without installing a prover.
+`make k-validate` checks the committed K records with Python 3.
+`make lean-build` checks the Lean corpus with the pinned toolchain and [elan](https://github.com/leanprover/elan).
+Running Harbor tasks requires Harbor and Docker.
+
+```
+make harbor-tasks        # regenerate tasks/ + registry.json from corpus/ (idempotent)
+make harbor-check        # drift check, shape, offline K graders, leaks, harbor lint
+make harbor-oracle-lean  # Docker: harbor run -a oracle / -a nop on the Lean tasks
+make harbor-oracle-k     # Docker: the same on the K tasks (kompile once, ~5 min)
+```
+
+Before repeating an oracle check, move previous `jobs/oracle-*` and `jobs/nop-*` results aside.
+The reward checker rejects duplicate task results.
+Pass one timestamped job directory to `scripts/harbor/ci_rewards.py` to inspect an existing run.
+
+The [CI workflow](.github/workflows/harbor.yml) runs on pull requests and pushes to `main`.
+The [task builder](scripts/harbor/build_tasks.py) reads the corpus and
+[templates](scripts/harbor/templates/) to create `tasks/` and `registry.json`.
+Edit those sources and regenerate the tasks. CI rejects any difference from the generated files.
+
+## Repository layout
+
+```
+tasks/           87 Harbor tasks (generated; implicit dataset for `harbor run -p tasks`)
+registry.json    named datasets over tasks/ for `harbor run --repo ... -d <name>`
+corpus/          the canonical, machine-checked source: k/ (records), lean/ (package), specs/ (K claims)
 programs/        the Python subjects
-semantics/       mpy-traced/ (klever's MiniPython "MPY" + trace overlay) and minipy-lean.k (klean-ready)
-specs/           K claim modules: c2/c3 plus kb-*/ for the 31 ported KleverBench problems
-                 (c1's spec ships inside vendor/klever)
-scripts/         py2mpy_traced.py frontend; k/ and lean/ generation + validation
+semantics/       mpy-traced/ (klever MPY + trace overlay) and minipy-lean.k (klean-ready)
+scripts/         harbor/ (generator, graders, checks), k/ and lean/ (corpus pipelines), py2mpy_traced.py
+vendor/klever/   pinned upstream semantics (never modified)
 docs/            historical plans and the klean feasibility experiment
-vendor/klever/   pinned upstream semantics (never modified; sha in VENDOR.md)
-build/           (gitignored) kompiled definitions and other derived artifacts
 ```
-
-## Quickstart
-
-```
-make k-validate              # re-check all committed K data against CPython + expectations
-cd data/lean && lake build   # replay every Lean proof (toolchain pinned; installs via elan)
-```
-
-Both run on a fresh clone: `k-validate` needs only `python3`, and `lake build` installs its
-pinned Lean via [elan](https://github.com/leanprover/elan). Regenerating the K data needs
-K v7.1.337 + pyk + z3 (`make check-env` checks; [REPORT.md](REPORT.md) has install pointers).
-
-[REPORT.md](REPORT.md) documents both data families in detail: what each record contains, why
-it can be trusted, how it is generated and validated, and the full regeneration recipe.

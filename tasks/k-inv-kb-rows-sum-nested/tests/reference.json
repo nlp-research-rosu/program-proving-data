@@ -1,0 +1,35 @@
+{
+  "task": "k-inv-kb-rows-sum-nested",
+  "family": "loop-invariant",
+  "program": "kb_rows_sum_nested",
+  "record": "c30_kb_rows_sum_nested",
+  "verification_module": "MPY-VERIFICATION",
+  "spec_module": "KB-ROWS-SUM-NESTED-SPEC",
+  "code": "sum = 0\ni = a\nwhile 0 < i:\n    j = b\n    while 0 < j:\n        sum = sum + j\n        j = j - 1\n    i = i - 1\n",
+  "inputs": {
+    "module": [
+      [
+        "a",
+        "A"
+      ],
+      [
+        "b",
+        "B"
+      ]
+    ],
+    "call": []
+  },
+  "fn_names": [],
+  "requires": "A >=Int 1",
+  "n_samples": 24,
+  "seed": 20261030,
+  "kprove_timeout": 900,
+  "kprove_flags": [
+    "--smt-timeout",
+    "10000",
+    "--haskell-backend-command",
+    "kore-exec --smt-retry-limit 3"
+  ],
+  "entry_k": "Assign(Name(\"a\"),A:Int)Assign(Name(\"b\"),B:Int)Assign(Name(\"sum\"),Int(0))Assign(Name(\"i\"),Name(\"a\"))While(Compare(Int(0),CmpOp(\"<\",Name(\"i\"))),Assign(Name(\"j\"),Name(\"b\"))While(Compare(Int(0),CmpOp(\"<\",Name(\"j\"))),Assign(Name(\"sum\"),BinOp(\"+\",Name(\"sum\"),Name(\"j\")))Assign(Name(\"j\"),BinOp(\"-\",Name(\"j\"),Int(1))))Assign(Name(\"i\"),BinOp(\"-\",Name(\"i\"),Int(1))))=>.K...",
+  "entry_normalized": "<k>Assign(Name(\"a\"),A:Int)Assign(Name(\"b\"),B:Int)Assign(Name(\"sum\"),Int(0))Assign(Name(\"i\"),Name(\"a\"))While(Compare(Int(0),CmpOp(\"<\",Name(\"i\"))),Assign(Name(\"j\"),Name(\"b\"))While(Compare(Int(0),CmpOp(\"<\",Name(\"j\"))),Assign(Name(\"sum\"),BinOp(\"+\",Name(\"sum\"),Name(\"j\")))Assign(Name(\"j\"),BinOp(\"-\",Name(\"j\"),Int(1))))Assign(Name(\"i\"),BinOp(\"-\",Name(\"i\"),Int(1))))=>.K...</k><env>0</env><scopes>-1|->builtinsScope0|->scope(.Map,parent(-1))=>-1|->builtinsScope0|->scope(.Map[\"a\"<-A][\"b\"<-B][\"sum\"<-?SUM:Int][\"i\"<-?I2:Int][\"j\"<-?J2:Int],parent(-1))</scopes><scopeLoc>1</scopeLoc><stack>.List</stack><ret>noRet</ret><exc>NoExc</exc><exit-code>0</exit-code>requiresA>=Int1ensures2*Int?SUM==IntA*Int(maxInt(B,0)*Int(maxInt(B,0)+Int1))andBool?I2==Int0andBool?J2==IntminInt(B,0)[all-path]"
+}

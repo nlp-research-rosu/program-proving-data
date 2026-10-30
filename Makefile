@@ -1,4 +1,4 @@
-# K-generated CWM-style (Code World Model) trace data — build & validation entry points.
+# Harbor tasks (tasks/, generated from corpus/) + the corpus pipelines (K data, Lean proofs).
 # Runtime discipline: every K tool call runs under `timeout` sized ~2x its
 # expected time (programs are tiny). A fired timeout means STUCK/LOOPING —
 # diagnose, do not blindly re-run bigger (see docs/PLAN.md).
@@ -61,7 +61,7 @@ k-data: k-data-concrete k-data-symbolic k-data-verification
 k-validate:
 	$(PY) scripts/k/validate.py
 
-# ---- lean pipeline (data/lean) ----------------------------------------------
+# ---- lean pipeline (corpus/lean) ----------------------------------------------
 LEAN_PROGS := sum_to_n gcd buggy_abs collatz_steps abs_val half_of_even classify_triangle \
               kb_assign kb_swap kb_chain kb_double_half kb_arith_mix kb_abs kb_max kb_min \
               kb_countdown kb_max3 kb_clamp kb_abs_times kb_countup kb_sum kb_add_loop \
@@ -95,7 +95,7 @@ lean-gen: build/lean/minipy-lean build/lean/minipy-lean-hints
 	$(PY) scripts/lean/gen_lean_paths.py
 
 lean-build:
-	cd data/lean && PATH="$$HOME/.elan/bin:$$PATH" lake build
+	cd corpus/lean && PATH="$$HOME/.elan/bin:$$PATH" lake build
 
 # ---- provenance ------------------------------------------------------------
 vendor-diff:
@@ -106,3 +106,29 @@ vendor-diff:
 
 clean:
 	rm -rf build
+
+# ---- harbor dataset (tasks/ is generated from corpus/) ---------------------
+# `harbor` is the Harbor CLI (pip install harbor); the oracle targets need Docker.
+HARBOR ?= harbor
+
+harbor-tasks:
+	$(PY) scripts/harbor/build_tasks.py
+
+harbor-check:
+	$(PY) scripts/harbor/check_tasks.py
+	$(PY) -m unittest discover -s scripts/harbor -p 'test_*.py'
+	$(HARBOR) lint tasks/*/
+
+harbor-oracle-lean:
+	$(HARBOR) run -p tasks -i 'lean-*' -a oracle -n 2 -y -q --jobs-dir jobs/oracle-lean
+	$(PY) scripts/harbor/ci_rewards.py jobs/oracle-lean --expect 1 --min-trials 33
+	$(HARBOR) run -p tasks -i 'lean-*' -a nop -n 2 -y -q --jobs-dir jobs/nop-lean
+	$(PY) scripts/harbor/ci_rewards.py jobs/nop-lean --expect 0 --min-trials 33
+
+harbor-oracle-k:
+	$(HARBOR) run -p tasks -i 'k-*' -a oracle -n 2 -y -q --jobs-dir jobs/oracle-k
+	$(PY) scripts/harbor/ci_rewards.py jobs/oracle-k --expect 1 --min-trials 54
+	$(HARBOR) run -p tasks -i 'k-*' -a nop -n 2 -y -q --jobs-dir jobs/nop-k
+	$(PY) scripts/harbor/ci_rewards.py jobs/nop-k --expect 0 --min-trials 54
+
+.PHONY: harbor-tasks harbor-check harbor-oracle-lean harbor-oracle-k

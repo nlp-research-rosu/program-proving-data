@@ -1,0 +1,119 @@
+name: harbor
+
+# Three layers of checking for the Harbor dataset:
+#   checks        — pure Python + harbor lint: tasks/ is in sync with the corpus,
+#                   every task has the Harbor shape, the K graders accept the
+#                   reference solutions and reject the skeletons offline, the
+#                   corpus validates against CPython.
+#   lean-corpus   — `lake build` of corpus/lean replays every Lean proof.
+#   oracle-*      — Docker: `harbor run -a oracle` must score 1 on every task and
+#                   `harbor run -a nop` must score 0 (the verifier rejects an
+#                   untouched skeleton). Split by toolchain; the K image kompiles
+#                   the semantics once (~5 min) and is shared by all K tasks.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# one run per branch; a new push cancels the previous run's long oracle jobs
+concurrency:
+  group: harbor-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  HARBOR_VERSION: "0.25.0"
+  PYTHONUTF8: "1"
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install "harbor==${HARBOR_VERSION}"
+      - name: tasks/ regenerates byte-for-byte and passes the offline checks
+        run: python scripts/harbor/check_tasks.py
+      - name: task checks are repeatable without changing the generated tree
+        run: python scripts/harbor/check_tasks.py
+      - name: reward checker rejects duplicate trials and infrastructure failures
+        run: python -m unittest discover -s scripts/harbor -p 'test_*.py'
+      - name: harbor lint (default rules)
+        run: harbor lint tasks/*/
+      - name: corpus validation against CPython
+        run: python scripts/k/validate.py
+
+  lean-corpus:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - name: install elan + pinned toolchain
+        run: |
+          curl -sSfL https://elan.lean-lang.org/elan-init.sh -o elan-init.sh
+          sh elan-init.sh -y --no-modify-path --default-toolchain "$(cat corpus/lean/lean-toolchain)"
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - uses: actions/cache@v4
+        with:
+          path: corpus/lean/.lake
+          key: lake-${{ hashFiles('corpus/lean/lean-toolchain', 'corpus/lean/KMiniPy/**') }}
+          restore-keys: lake-
+      - name: lake build (every theorem of the corpus)
+        working-directory: corpus/lean
+        run: timeout 3000 lake build
+
+  oracle-lean:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install "harbor==${HARBOR_VERSION}"
+      - name: oracle must score 1 on every Lean task
+        run: |
+          harbor run -p tasks -i 'lean-*' -a oracle -n 2 -y -q --jobs-dir jobs/oracle-lean
+          python scripts/harbor/ci_rewards.py jobs/oracle-lean --expect 1 --min-trials 33
+      - name: nop must score 0 on every Lean task
+        run: |
+          harbor run -p tasks -i 'lean-*' -a nop -n 2 -y -q --jobs-dir jobs/nop-lean
+          python scripts/harbor/ci_rewards.py jobs/nop-lean --expect 0 --min-trials 33
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: harbor-jobs-lean
+          path: jobs/
+          retention-days: 14
+
+  oracle-k:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install "harbor==${HARBOR_VERSION}"
+      - name: nested-branch reference proofs avoid ambiguous minInt simplification
+        run: |
+          harbor run -p tasks -i 'k-*-kb-nested-with-branch' -a oracle -n 2 -y -q --jobs-dir jobs/smoke-k
+          python scripts/harbor/ci_rewards.py jobs/smoke-k --expect 1 --min-trials 2
+      - name: oracle must score 1 on every K task
+        run: |
+          harbor run -p tasks -i 'k-*' -a oracle -n 2 -y -q --jobs-dir jobs/oracle-k
+          python scripts/harbor/ci_rewards.py jobs/oracle-k --expect 1 --min-trials 54
+      - name: nop must score 0 on every K task
+        run: |
+          harbor run -p tasks -i 'k-*' -a nop -n 2 -y -q --jobs-dir jobs/nop-k
+          python scripts/harbor/ci_rewards.py jobs/nop-k --expect 0 --min-trials 54
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: harbor-jobs-k
+          path: jobs/
+          retention-days: 14

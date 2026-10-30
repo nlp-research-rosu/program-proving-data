@@ -1,0 +1,42 @@
+{
+  "task": "k-spec-kb-sum-up",
+  "family": "proved-spec",
+  "program": "kb_sum_up",
+  "record": "c23_kb_sum_up",
+  "verification_module": "MPY-VERIFICATION",
+  "spec_module": "KB-SUM-UP-SPEC",
+  "code": "sum = 0\ni = 1\nwhile i <= n:\n    sum = sum + i\n    i = i + 1\n",
+  "inputs": {
+    "module": [
+      [
+        "n",
+        "N"
+      ]
+    ],
+    "call": []
+  },
+  "fn_names": [],
+  "requires": "N >=Int 0",
+  "n_samples": 24,
+  "seed": 20261030,
+  "kprove_timeout": 900,
+  "kprove_flags": [
+    "--smt-timeout",
+    "10000",
+    "--haskell-backend-command",
+    "kore-exec --smt-retry-limit 3"
+  ],
+  "entry_k": "Assign(Name(\"n\"),N:Int)Assign(Name(\"sum\"),Int(0))Assign(Name(\"i\"),Int(1))While(Compare(Name(\"i\"),CmpOp(\"<=\",Name(\"n\"))),Assign(Name(\"sum\"),BinOp(\"+\",Name(\"sum\"),Name(\"i\")))Assign(Name(\"i\"),BinOp(\"+\",Name(\"i\"),Int(1))))=>.K...",
+  "frozen_parts": {
+    "cell:k": "Assign(Name(\"n\"),N:Int)Assign(Name(\"sum\"),Int(0))Assign(Name(\"i\"),Int(1))While(Compare(Name(\"i\"),CmpOp(\"<=\",Name(\"n\"))),Assign(Name(\"sum\"),BinOp(\"+\",Name(\"sum\"),Name(\"i\")))Assign(Name(\"i\"),BinOp(\"+\",Name(\"i\"),Int(1))))=>.K...",
+    "cell:env": "0",
+    "cell:scopeLoc": "1",
+    "cell:stack": ".List",
+    "cell:ret": "noRet",
+    "cell:exc": "NoExc",
+    "cell:exit-code": "0",
+    "scopes_lhs": "-1|->builtinsScope0|->scope(.Map,parent(-1))",
+    "requires": "N>=Int0",
+    "attrs": "all-path"
+  }
+}

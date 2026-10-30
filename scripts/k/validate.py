@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""validate — standalone re-checks over the committed data/ (no regeneration).
+"""validate — standalone re-checks over the committed corpus/ (no regeneration).
 
   1. frontend golden identity: py2mpy_traced --no-linemarks is byte-identical
      to the vendored py2mpy on every program
@@ -50,7 +50,7 @@ def frontend_identity() -> None:
 
 
 def concrete() -> None:
-    for path in sorted((ROOT / "data/k/concrete").glob("*.jsonl")):
+    for path in sorted((ROOT / "corpus/k/concrete").glob("*.jsonl")):
         rec = json.loads(path.read_text())
         stored = [{k: v for k, v in e.items() if k != "k_rules"} for e in rec["trace"]]
         fresh = tracelib.cpython_events(str(ROOT / rec["source"]["file"]))
@@ -68,7 +68,7 @@ def _subst_magics(code: str, witness: dict) -> str:
 
 
 def symbolic() -> None:
-    for path in sorted((ROOT / "data/k/symbolic").glob("*.jsonl")):
+    for path in sorted((ROOT / "corpus/k/symbolic").glob("*.jsonl")):
         rec = json.loads(path.read_text())
         src_file = ROOT / rec["source"]["file"]
         for lf in rec["leaves"]:
@@ -116,11 +116,11 @@ def verification() -> None:
               "c31_kb_nested_with_branch": "proved",
               "c32_kb_pipeline": "proved", "c33_kb_stats_pipeline": "proved",
               "c34_kb_normalize_count": "proved"}
-    committed = {p.stem for p in (ROOT / "data/k/verification").glob("*.jsonl")}
+    committed = {p.stem for p in (ROOT / "corpus/k/verification").glob("*.jsonl")}
     check(committed == set(expect),
           f"verification records match the expectation table ({len(expect)})")
     for stem, want in expect.items():
-        rec = json.loads((ROOT / "data/k/verification" / f"{stem}.jsonl").read_text())
+        rec = json.loads((ROOT / "corpus/k/verification" / f"{stem}.jsonl").read_text())
         check(rec["result"] == want, f"{stem}: result == {want}")
         if rec.get("concrete_witness"):
             # module-level ported case: re-run the program at its magic literals

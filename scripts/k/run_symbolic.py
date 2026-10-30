@@ -388,7 +388,7 @@ def to_markdown(rec: dict) -> str:
 
 
 def main() -> int:
-    outdir = ROOT / "data/k/symbolic"
+    outdir = ROOT / "corpus/k/symbolic"
     outdir.mkdir(parents=True, exist_ok=True)
     print("starting kore-rpc server on MPY-TRACED-SYM ...")
     with kore_server(SYM_DEF, MODULE, smt_timeout=10000, smt_retry_limit=2) as server:

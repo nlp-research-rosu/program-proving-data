@@ -48,7 +48,7 @@ def kb_case(num: int, problem: str, spec: dict, source_code: str, args: dict,
     stem = problem.replace("-", "_")
     return {
         "id": f"c{num}_kb_{stem}",
-        "dir": ROOT / f"specs/kb-{problem}",
+        "dir": ROOT / f"corpus/specs/kb-{problem}",
         "module": f"KB-{problem.upper()}",
         "expect": "proved",
         "entry": None,  # module-level program: no entry function
@@ -90,7 +90,7 @@ CASES = [
     },
     {
         "id": "c2_abs_val",
-        "dir": ROOT / "specs/abs-val",
+        "dir": ROOT / "corpus/specs/abs-val",
         "module": "ABS-VAL",
         "expect": "proved",
         "entry": "abs_val",
@@ -107,7 +107,7 @@ CASES = [
     },
     {
         "id": "c3_buggy_abs",
-        "dir": ROOT / "specs/buggy-abs",
+        "dir": ROOT / "corpus/specs/buggy-abs",
         "module": "BUGGY-ABS",
         "expect": "refuted",
         "entry": "buggy_abs",
@@ -850,7 +850,7 @@ def to_markdown(rec: dict) -> str:
 
 def main() -> int:
     only = sys.argv[sys.argv.index("--only") + 1].split(",") if "--only" in sys.argv else None
-    outdir = ROOT / "data/k/verification"
+    outdir = ROOT / "corpus/k/verification"
     outdir.mkdir(parents=True, exist_ok=True)
     for case in CASES:
         if only is not None and case["id"] not in only:

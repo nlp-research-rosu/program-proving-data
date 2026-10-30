@@ -1,0 +1,35 @@
+{
+  "task": "k-inv-kb-nested-with-branch",
+  "family": "loop-invariant",
+  "program": "kb_nested_with_branch",
+  "record": "c31_kb_nested_with_branch",
+  "verification_module": "MPY-VERIFICATION",
+  "spec_module": "KB-NESTED-WITH-BRANCH-SPEC",
+  "code": "res = 0\ni = a\nwhile 0 < i:\n    if i <= b:\n        j = i\n        while 0 < j:\n            res = res + 1\n            j = j - 1\n    i = i - 1\n",
+  "inputs": {
+    "module": [
+      [
+        "a",
+        "A"
+      ],
+      [
+        "b",
+        "B"
+      ]
+    ],
+    "call": []
+  },
+  "fn_names": [],
+  "requires": "A >=Int 1 andBool B >=Int 1",
+  "n_samples": 24,
+  "seed": 20261030,
+  "kprove_timeout": 900,
+  "kprove_flags": [
+    "--smt-timeout",
+    "10000",
+    "--haskell-backend-command",
+    "kore-exec --smt-retry-limit 3"
+  ],
+  "entry_k": "Assign(Name(\"a\"),A:Int)Assign(Name(\"b\"),B:Int)Assign(Name(\"res\"),Int(0))Assign(Name(\"i\"),Name(\"a\"))While(Compare(Int(0),CmpOp(\"<\",Name(\"i\"))),If(Compare(Name(\"i\"),CmpOp(\"<=\",Name(\"b\"))),Assign(Name(\"j\"),Name(\"i\"))While(Compare(Int(0),CmpOp(\"<\",Name(\"j\"))),Assign(Name(\"res\"),BinOp(\"+\",Name(\"res\"),Int(1)))Assign(Name(\"j\"),BinOp(\"-\",Name(\"j\"),Int(1)))),.Stmts)Assign(Name(\"i\"),BinOp(\"-\",Name(\"i\"),Int(1))))=>.K...",
+  "entry_normalized": "<k>Assign(Name(\"a\"),A:Int)Assign(Name(\"b\"),B:Int)Assign(Name(\"res\"),Int(0))Assign(Name(\"i\"),Name(\"a\"))While(Compare(Int(0),CmpOp(\"<\",Name(\"i\"))),If(Compare(Name(\"i\"),CmpOp(\"<=\",Name(\"b\"))),Assign(Name(\"j\"),Name(\"i\"))While(Compare(Int(0),CmpOp(\"<\",Name(\"j\"))),Assign(Name(\"res\"),BinOp(\"+\",Name(\"res\"),Int(1)))Assign(Name(\"j\"),BinOp(\"-\",Name(\"j\"),Int(1)))),.Stmts)Assign(Name(\"i\"),BinOp(\"-\",Name(\"i\"),Int(1))))=>.K...</k><env>0</env><scopes>-1|->builtinsScope0|->scope(.Map,parent(-1))=>-1|->builtinsScope0|->scope(.Map[\"a\"<-A][\"b\"<-B][\"res\"<-?R2:Int][\"i\"<-?I2:Int][\"j\"<-?J2:Int],parent(-1))</scopes><scopeLoc>1</scopeLoc><stack>.List</stack><ret>noRet</ret><exc>NoExc</exc><exit-code>0</exit-code>requiresA>=Int1andBoolB>=Int1ensures?R2==Int(#ifA<=IntB#then(A*Int(A+Int1))/Int2#else(B*Int(B+Int1))/Int2#fi)andBool?I2==Int0andBool?J2==Int0[all-path]"
+}

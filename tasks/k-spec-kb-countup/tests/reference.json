@@ -1,0 +1,46 @@
+{
+  "task": "k-spec-kb-countup",
+  "family": "proved-spec",
+  "program": "kb_countup",
+  "record": "c13_kb_countup",
+  "verification_module": "MPY-VERIFICATION",
+  "spec_module": "KB-COUNTUP-SPEC",
+  "code": "while r < n:\n    r = r + 1\n",
+  "inputs": {
+    "module": [
+      [
+        "n",
+        "N"
+      ],
+      [
+        "r",
+        "R"
+      ]
+    ],
+    "call": []
+  },
+  "fn_names": [],
+  "requires": null,
+  "n_samples": 24,
+  "seed": 20261030,
+  "kprove_timeout": 900,
+  "kprove_flags": [
+    "--smt-timeout",
+    "10000",
+    "--haskell-backend-command",
+    "kore-exec --smt-retry-limit 3"
+  ],
+  "entry_k": "Assign(Name(\"n\"),N:Int)Assign(Name(\"r\"),R:Int)While(Compare(Name(\"r\"),CmpOp(\"<\",Name(\"n\"))),Assign(Name(\"r\"),BinOp(\"+\",Name(\"r\"),Int(1))))=>.K...",
+  "frozen_parts": {
+    "cell:k": "Assign(Name(\"n\"),N:Int)Assign(Name(\"r\"),R:Int)While(Compare(Name(\"r\"),CmpOp(\"<\",Name(\"n\"))),Assign(Name(\"r\"),BinOp(\"+\",Name(\"r\"),Int(1))))=>.K...",
+    "cell:env": "0",
+    "cell:scopeLoc": "1",
+    "cell:stack": ".List",
+    "cell:ret": "noRet",
+    "cell:exc": "NoExc",
+    "cell:exit-code": "0",
+    "scopes_lhs": "-1|->builtinsScope0|->scope(.Map,parent(-1))",
+    "requires": "",
+    "attrs": "all-path"
+  }
+}

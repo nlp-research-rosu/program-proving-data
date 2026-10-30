@@ -22,9 +22,9 @@ The 31 `kb_` programs are module-level ports of the complete
 [KleverBench](https://github.com/nlp-research-rosu/KleverBench) IMP problem set
 (upstream pin and translation rules in [PROVENANCE.md](PROVENANCE.md)): inputs are
 bound to magic literals first, then the IMP statements follow in idiomatic MiniPy.
-Each has a proved verification record `data/k/verification/c<n>_kb_<stem>` (n = 4–34,
+Each has a proved verification record `corpus/k/verification/c<n>_kb_<stem>` (n = 4–34,
 covering all five structural tiers: straight-line, single loop/branch, mixed,
 nested loops, multi-stage pipelines) AND a proved Lean counterpart
-`data/lean/KMiniPy/Verification/C<n>Kb*.lean` mirroring the K claim in reachability
+`corpus/lean/KMiniPy/Verification/C<n>Kb*.lean` mirroring the K claim in reachability
 logic — path theorems for the loop-free tier, Circularity derivations over generated
 execution legs for every loop program.

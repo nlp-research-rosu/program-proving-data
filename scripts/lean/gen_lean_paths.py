@@ -1078,7 +1078,7 @@ end C12KbCountdownLegs
 # KB: ported KleverBench problems — table-driven ∀-path theorems + RL specs
 # ---------------------------------------------------------------------------
 # Each ported problem (see programs/PROVENANCE.md) is a MODULE-LEVEL program
-# whose inputs are the magic init literals. The K-side claim (specs/kb-*/)
+# whose inputs are the magic init literals. The K-side claim (corpus/specs/kb-*/)
 # pins the entire final scope; here the same claim is one ∀-quantified path
 # theorem per feasible path (witness generalization, exactly the B1/B2
 # machinery) plus a reachability-logic `spec` theorem in the C2 style:
@@ -1472,7 +1472,7 @@ set_option linter.unusedVariables false  -- uniform path binders; hyps used only
 
 /-! # {name}: ported KleverBench problem `{prog['problem']}` — {prog['claim']}
 
-K-side record: data/k/verification/{krec} (claim proved by kprove over the
+K-side record: corpus/k/verification/{krec} (claim proved by kprove over the
 MPY semantics); upstream problem problems/imp/{prog['problem']} at
 KleverBench {KB_SHA[:7]} (see programs/PROVENANCE.md). The program is
 module-level MiniPy; its inputs are the init literals, generalized here to

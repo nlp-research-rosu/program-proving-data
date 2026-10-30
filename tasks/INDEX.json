@@ -1,0 +1,785 @@
+[
+  {
+    "name": "k-spec-range-loop",
+    "family": "proved-spec",
+    "toolchain": "k",
+    "program": "range_loop",
+    "tier": 2,
+    "loops": 1,
+    "depth": 1
+  },
+  {
+    "name": "k-inv-range-loop",
+    "family": "loop-invariant",
+    "toolchain": "k",
+    "program": "range_loop",
+    "tier": 2,
+    "loops": 1,
+    "depth": 1
+  },
+  {
+    "name": "k-spec-abs-val",
+    "family": "proved-spec",
+    "toolchain": "k",
+    "program": "abs_val",
+    "tier": 2,
+    "loops": 0,
+    "depth": 0
+  },
+  {
+    "name": "k-spec-kb-assign",
+    "family": "proved-spec",
+    "toolchain": "k",
+    "program": "kb_assign",
+    "tier": 1,
+    "loops": 0,
+    "depth": 0
+  },
+  {
+    "name": "k-spec-kb-swap",
+    "family": "proved-spec",
+    "toolchain": "k",
+    "program": "kb_swap",
+    "tier": 1,
+    "loops": 0,
+    "depth": 0
+  },
+  {
+    "name": "k-spec-kb-chain",
+    "family": "proved-spec",
+    "toolchain": "k",
+    "program": "kb_chain",
+    "tier": 1,
+    "loops": 0,
+    "depth": 0
+  },
+  {
+    "name": "k-spec-kb-double-half",
+    "family": "proved-spec",
+    "toolchain": "k",
+    "program": "kb_double_half",
+    "tier": 1,
+    "loops": 0,
+    "depth": 0
+  },
+  {
+    "name": "k-spec-kb-arith-mix",
+    "family": "proved-spec",
+    "toolchain": "k",
+    "program": "kb_arith_mix",
+    "tier": 1,
+    "loops": 0,
+    "depth": 0
+  },
+  {
+    "name": "k-spec-kb-abs",
+    "family": "proved-spec",
+    "toolchain": "k",
+    "program": "kb_abs",
+    "tier": 2,
+    "loops": 0,
+    "depth": 0
+  },
+  {
+    "name": "k-spec-kb-max",
+    "family": "proved-spec",
+    "toolchain": "k",
+    "program": "kb_max",
+    "tier": 2,
+    "loops": 0,
+    "depth": 0
+  },
+  {
+    "name": "k-spec-kb-min",
+    "family": "proved-spec",
+    "toolchain": "k",
+    "program": "kb_min",
+    "tier": 2,
+    "loops": 0,
+    "depth": 0
+  },
+  {
+    "name": "k-spec-kb-countdown",
+    "family": "proved-spec",
+    "toolchain": "k",
+    "program": "kb_countdown",
+    "tier": 2,
+    "loops": 1,
+    "depth": 1
+  },
+  {
+    "name": "k-inv-kb-countdown",
+    "family": "loop-invariant",
+    "toolchain": "k",
+    "program": "kb_countdown",
+    "tier": 2,
+    "loops": 1,
+    "depth": 1
+  },
+  {
+    "name": "k-spec-kb-countup",
+    "family": "proved-spec",
+    "toolchain": "k",
+    "program": "kb_countup",
+    "tier": 2,
+    "loops": 1,
+    "depth": 1
+  },
+  {
+    "name": "k-inv-kb-countup",
+    "family": "loop-invariant",
+    "toolchain": "k",
+    "program": "kb_countup",
+    "tier": 2,
+    "loops": 1,
+    "depth": 1
+  },
+  {
+    "name": "k-spec-kb-sum",
+    "family": "proved-spec",
+    "toolchain": "k",
+    "program": "kb_sum",
+    "tier": 2,
+    "loops": 1,
+    "depth": 1
+  },
+  {
+    "name": "k-inv-kb-sum",
+    "family": "loop-invariant",
+    "toolchain": "k",
+    "program": "kb_sum",
+    "tier": 2,
+    "loops": 1,
+    "depth": 1
+  },
+  {
+    "name": "k-spec-kb-add-loop",
+    "family": "proved-spec",
+    "toolchain": "k",
+    "program": "kb_add_loop",
+    "tier": 2,
+    "loops": 1,
+    "depth": 1
+  },
+  {
+    "name": "k-inv-kb-add-loop",
+    "family": "loop-invariant",
+    "toolchain": "k",
+    "program": "kb_add_loop",
+    "tier": 2,
+    "loops": 1,
+    "depth": 1
+  },
+  {
+    "name": "k-spec-kb-sub-loop",
+    "family": "proved-spec",
+    "toolchain": "k",
+    "program": "kb_sub_loop",
+    "tier": 2,
+    "loops": 1,
+    "depth": 1
+  },
+  {
+    "name": "k-inv-kb-sub-loop",
+    "family": "loop-invariant",
+    "toolchain": "k",
+    "program": "kb_sub_loop",
+    "tier": 2,
+    "loops": 1,
+    "depth": 1
+  },
+  {
+    "name": "k-spec-kb-max3",
+    "family": "proved-spec",
+    "toolchain": "k",
+    "program": "kb_max3",
+    "tier": 3,
+    "loops": 0,
+    "depth": 0
+  },
+  {
+    "name": "k-spec-kb-clamp",
+    "family": "proved-spec",
+    "toolchain": "k",
+    "program": "kb_clamp",
+    "tier": 3,
+    "loops": 0,
+    "depth": 0
+  },
+  {
+    "name": "k-spec-kb-abs-times",
+    "family": "proved-spec",
+    "toolchain": "k",
+    "program": "kb_abs_times",
+    "tier": 3,
+    "loops": 0,
+    "depth": 0
+  },
+  {
+    "name": "k-spec-kb-sumdiff",
+    "family": "proved-spec",
+    "toolchain": "k",
+    "program": "kb_sumdiff",
+    "tier": 3,
+    "loops": 1,
+    "depth": 1
+  },
+  {
+    "name": "k-inv-kb-sumdiff",
+    "family": "loop-invariant",
+    "toolchain": "k",
+    "program": "kb_sumdiff",
+    "tier": 3,
+    "loops": 1,
+    "depth": 1
+  },
+  {
+    "name": "k-spec-kb-mult-loop",
+    "family": "proved-spec",
+    "toolchain": "k",
+    "program": "kb_mult_loop",
+    "tier": 3,
+    "loops": 1,
+    "depth": 1
+  },
+  {
+    "name": "k-inv-kb-mult-loop",
+    "family": "loop-invariant",
+    "toolchain": "k",
+    "program": "kb_mult_loop",
+    "tier": 3,
+    "loops": 1,
+    "depth": 1
+  },
+  {
+    "name": "k-spec-kb-triangle-down",
+    "family": "proved-spec",
+    "toolchain": "k",
+    "program": "kb_triangle_down",
+    "tier": 3,
+    "loops": 1,
+    "depth": 1
+  },
+  {
+    "name": "k-inv-kb-triangle-down",
+    "family": "loop-invariant",
+    "toolchain": "k",
+    "program": "kb_triangle_down",
+    "tier": 3,
+    "loops": 1,
+    "depth": 1
+  },
+  {
+    "name": "k-spec-kb-sum-up",
+    "family": "proved-spec",
+    "toolchain": "k",
+    "program": "kb_sum_up",
+    "tier": 3,
+    "loops": 1,
+    "depth": 1
+  },
+  {
+    "name": "k-inv-kb-sum-up",
+    "family": "loop-invariant",
+    "toolchain": "k",
+    "program": "kb_sum_up",
+    "tier": 3,
+    "loops": 1,
+    "depth": 1
+  },
+  {
+    "name": "k-spec-kb-count-even",
+    "family": "proved-spec",
+    "toolchain": "k",
+    "program": "kb_count_even",
+    "tier": 3,
+    "loops": 1,
+    "depth": 1
+  },
+  {
+    "name": "k-inv-kb-count-even",
+    "family": "loop-invariant",
+    "toolchain": "k",
+    "program": "kb_count_even",
+    "tier": 3,
+    "loops": 1,
+    "depth": 1
+  },
+  {
+    "name": "k-spec-kb-loop-max",
+    "family": "proved-spec",
+    "toolchain": "k",
+    "program": "kb_loop_max",
+    "tier": 3,
+    "loops": 1,
+    "depth": 1
+  },
+  {
+    "name": "k-inv-kb-loop-max",
+    "family": "loop-invariant",
+    "toolchain": "k",
+    "program": "kb_loop_max",
+    "tier": 3,
+    "loops": 1,
+    "depth": 1
+  },
+  {
+    "name": "k-spec-kb-pure-nested",
+    "family": "proved-spec",
+    "toolchain": "k",
+    "program": "kb_pure_nested",
+    "tier": 4,
+    "loops": 2,
+    "depth": 2
+  },
+  {
+    "name": "k-inv-kb-pure-nested",
+    "family": "loop-invariant",
+    "toolchain": "k",
+    "program": "kb_pure_nested",
+    "tier": 4,
+    "loops": 2,
+    "depth": 2
+  },
+  {
+    "name": "k-spec-kb-mult-nested",
+    "family": "proved-spec",
+    "toolchain": "k",
+    "program": "kb_mult_nested",
+    "tier": 4,
+    "loops": 2,
+    "depth": 2
+  },
+  {
+    "name": "k-inv-kb-mult-nested",
+    "family": "loop-invariant",
+    "toolchain": "k",
+    "program": "kb_mult_nested",
+    "tier": 4,
+    "loops": 2,
+    "depth": 2
+  },
+  {
+    "name": "k-spec-kb-triangle-nested",
+    "family": "proved-spec",
+    "toolchain": "k",
+    "program": "kb_triangle_nested",
+    "tier": 4,
+    "loops": 2,
+    "depth": 2
+  },
+  {
+    "name": "k-inv-kb-triangle-nested",
+    "family": "loop-invariant",
+    "toolchain": "k",
+    "program": "kb_triangle_nested",
+    "tier": 4,
+    "loops": 2,
+    "depth": 2
+  },
+  {
+    "name": "k-spec-kb-squares-cubic",
+    "family": "proved-spec",
+    "toolchain": "k",
+    "program": "kb_squares_cubic",
+    "tier": 4,
+    "loops": 2,
+    "depth": 2
+  },
+  {
+    "name": "k-inv-kb-squares-cubic",
+    "family": "loop-invariant",
+    "toolchain": "k",
+    "program": "kb_squares_cubic",
+    "tier": 4,
+    "loops": 2,
+    "depth": 2
+  },
+  {
+    "name": "k-spec-kb-rows-sum-nested",
+    "family": "proved-spec",
+    "toolchain": "k",
+    "program": "kb_rows_sum_nested",
+    "tier": 4,
+    "loops": 2,
+    "depth": 2
+  },
+  {
+    "name": "k-inv-kb-rows-sum-nested",
+    "family": "loop-invariant",
+    "toolchain": "k",
+    "program": "kb_rows_sum_nested",
+    "tier": 4,
+    "loops": 2,
+    "depth": 2
+  },
+  {
+    "name": "k-spec-kb-nested-with-branch",
+    "family": "proved-spec",
+    "toolchain": "k",
+    "program": "kb_nested_with_branch",
+    "tier": 4,
+    "loops": 2,
+    "depth": 2
+  },
+  {
+    "name": "k-inv-kb-nested-with-branch",
+    "family": "loop-invariant",
+    "toolchain": "k",
+    "program": "kb_nested_with_branch",
+    "tier": 4,
+    "loops": 2,
+    "depth": 2
+  },
+  {
+    "name": "k-spec-kb-pipeline",
+    "family": "proved-spec",
+    "toolchain": "k",
+    "program": "kb_pipeline",
+    "tier": 5,
+    "loops": 1,
+    "depth": 1
+  },
+  {
+    "name": "k-inv-kb-pipeline",
+    "family": "loop-invariant",
+    "toolchain": "k",
+    "program": "kb_pipeline",
+    "tier": 5,
+    "loops": 1,
+    "depth": 1
+  },
+  {
+    "name": "k-spec-kb-stats-pipeline",
+    "family": "proved-spec",
+    "toolchain": "k",
+    "program": "kb_stats_pipeline",
+    "tier": 5,
+    "loops": 1,
+    "depth": 1
+  },
+  {
+    "name": "k-inv-kb-stats-pipeline",
+    "family": "loop-invariant",
+    "toolchain": "k",
+    "program": "kb_stats_pipeline",
+    "tier": 5,
+    "loops": 1,
+    "depth": 1
+  },
+  {
+    "name": "k-spec-kb-normalize-count",
+    "family": "proved-spec",
+    "toolchain": "k",
+    "program": "kb_normalize_count",
+    "tier": 5,
+    "loops": 1,
+    "depth": 1
+  },
+  {
+    "name": "k-inv-kb-normalize-count",
+    "family": "loop-invariant",
+    "toolchain": "k",
+    "program": "kb_normalize_count",
+    "tier": 5,
+    "loops": 1,
+    "depth": 1
+  },
+  {
+    "name": "lean-spec-kb-max",
+    "family": "proved-spec",
+    "toolchain": "lean",
+    "program": "kb_max",
+    "tier": 2,
+    "loops": 0,
+    "depth": 0
+  },
+  {
+    "name": "lean-spec-kb-min",
+    "family": "proved-spec",
+    "toolchain": "lean",
+    "program": "kb_min",
+    "tier": 2,
+    "loops": 0,
+    "depth": 0
+  },
+  {
+    "name": "lean-inv-kb-countdown",
+    "family": "loop-invariant",
+    "toolchain": "lean",
+    "program": "kb_countdown",
+    "tier": 2,
+    "loops": 1,
+    "depth": 1
+  },
+  {
+    "name": "lean-inv-kb-countup",
+    "family": "loop-invariant",
+    "toolchain": "lean",
+    "program": "kb_countup",
+    "tier": 2,
+    "loops": 1,
+    "depth": 1
+  },
+  {
+    "name": "lean-inv-kb-sum",
+    "family": "loop-invariant",
+    "toolchain": "lean",
+    "program": "kb_sum",
+    "tier": 2,
+    "loops": 1,
+    "depth": 1
+  },
+  {
+    "name": "lean-inv-kb-add-loop",
+    "family": "loop-invariant",
+    "toolchain": "lean",
+    "program": "kb_add_loop",
+    "tier": 2,
+    "loops": 1,
+    "depth": 1
+  },
+  {
+    "name": "lean-inv-kb-sub-loop",
+    "family": "loop-invariant",
+    "toolchain": "lean",
+    "program": "kb_sub_loop",
+    "tier": 2,
+    "loops": 1,
+    "depth": 1
+  },
+  {
+    "name": "lean-spec-kb-max3",
+    "family": "proved-spec",
+    "toolchain": "lean",
+    "program": "kb_max3",
+    "tier": 3,
+    "loops": 0,
+    "depth": 0
+  },
+  {
+    "name": "lean-spec-kb-clamp",
+    "family": "proved-spec",
+    "toolchain": "lean",
+    "program": "kb_clamp",
+    "tier": 3,
+    "loops": 0,
+    "depth": 0
+  },
+  {
+    "name": "lean-spec-kb-abs-times",
+    "family": "proved-spec",
+    "toolchain": "lean",
+    "program": "kb_abs_times",
+    "tier": 3,
+    "loops": 0,
+    "depth": 0
+  },
+  {
+    "name": "lean-inv-sum-to-n",
+    "family": "loop-invariant",
+    "toolchain": "lean",
+    "program": "sum_to_n",
+    "tier": 2,
+    "loops": 1,
+    "depth": 1
+  },
+  {
+    "name": "lean-inv-kb-sumdiff",
+    "family": "loop-invariant",
+    "toolchain": "lean",
+    "program": "kb_sumdiff",
+    "tier": 3,
+    "loops": 1,
+    "depth": 1
+  },
+  {
+    "name": "lean-inv-kb-mult-loop",
+    "family": "loop-invariant",
+    "toolchain": "lean",
+    "program": "kb_mult_loop",
+    "tier": 3,
+    "loops": 1,
+    "depth": 1
+  },
+  {
+    "name": "lean-inv-kb-triangle-down",
+    "family": "loop-invariant",
+    "toolchain": "lean",
+    "program": "kb_triangle_down",
+    "tier": 3,
+    "loops": 1,
+    "depth": 1
+  },
+  {
+    "name": "lean-inv-kb-sum-up",
+    "family": "loop-invariant",
+    "toolchain": "lean",
+    "program": "kb_sum_up",
+    "tier": 3,
+    "loops": 1,
+    "depth": 1
+  },
+  {
+    "name": "lean-inv-kb-count-even",
+    "family": "loop-invariant",
+    "toolchain": "lean",
+    "program": "kb_count_even",
+    "tier": 3,
+    "loops": 1,
+    "depth": 1
+  },
+  {
+    "name": "lean-inv-kb-loop-max",
+    "family": "loop-invariant",
+    "toolchain": "lean",
+    "program": "kb_loop_max",
+    "tier": 3,
+    "loops": 1,
+    "depth": 1
+  },
+  {
+    "name": "lean-inv-kb-pure-nested",
+    "family": "loop-invariant",
+    "toolchain": "lean",
+    "program": "kb_pure_nested",
+    "tier": 4,
+    "loops": 2,
+    "depth": 2
+  },
+  {
+    "name": "lean-inv-kb-mult-nested",
+    "family": "loop-invariant",
+    "toolchain": "lean",
+    "program": "kb_mult_nested",
+    "tier": 4,
+    "loops": 2,
+    "depth": 2
+  },
+  {
+    "name": "lean-inv-kb-triangle-nested",
+    "family": "loop-invariant",
+    "toolchain": "lean",
+    "program": "kb_triangle_nested",
+    "tier": 4,
+    "loops": 2,
+    "depth": 2
+  },
+  {
+    "name": "lean-inv-kb-squares-cubic",
+    "family": "loop-invariant",
+    "toolchain": "lean",
+    "program": "kb_squares_cubic",
+    "tier": 4,
+    "loops": 2,
+    "depth": 2
+  },
+  {
+    "name": "lean-spec-abs-val",
+    "family": "proved-spec",
+    "toolchain": "lean",
+    "program": "abs_val",
+    "tier": 2,
+    "loops": 0,
+    "depth": 0
+  },
+  {
+    "name": "lean-inv-kb-rows-sum-nested",
+    "family": "loop-invariant",
+    "toolchain": "lean",
+    "program": "kb_rows_sum_nested",
+    "tier": 4,
+    "loops": 2,
+    "depth": 2
+  },
+  {
+    "name": "lean-inv-kb-nested-with-branch",
+    "family": "loop-invariant",
+    "toolchain": "lean",
+    "program": "kb_nested_with_branch",
+    "tier": 4,
+    "loops": 2,
+    "depth": 2
+  },
+  {
+    "name": "lean-inv-kb-pipeline",
+    "family": "loop-invariant",
+    "toolchain": "lean",
+    "program": "kb_pipeline",
+    "tier": 5,
+    "loops": 1,
+    "depth": 1
+  },
+  {
+    "name": "lean-inv-kb-stats-pipeline",
+    "family": "loop-invariant",
+    "toolchain": "lean",
+    "program": "kb_stats_pipeline",
+    "tier": 5,
+    "loops": 1,
+    "depth": 1
+  },
+  {
+    "name": "lean-inv-kb-normalize-count",
+    "family": "loop-invariant",
+    "toolchain": "lean",
+    "program": "kb_normalize_count",
+    "tier": 5,
+    "loops": 1,
+    "depth": 1
+  },
+  {
+    "name": "lean-spec-kb-assign",
+    "family": "proved-spec",
+    "toolchain": "lean",
+    "program": "kb_assign",
+    "tier": 1,
+    "loops": 0,
+    "depth": 0
+  },
+  {
+    "name": "lean-spec-kb-swap",
+    "family": "proved-spec",
+    "toolchain": "lean",
+    "program": "kb_swap",
+    "tier": 1,
+    "loops": 0,
+    "depth": 0
+  },
+  {
+    "name": "lean-spec-kb-chain",
+    "family": "proved-spec",
+    "toolchain": "lean",
+    "program": "kb_chain",
+    "tier": 1,
+    "loops": 0,
+    "depth": 0
+  },
+  {
+    "name": "lean-spec-kb-double-half",
+    "family": "proved-spec",
+    "toolchain": "lean",
+    "program": "kb_double_half",
+    "tier": 1,
+    "loops": 0,
+    "depth": 0
+  },
+  {
+    "name": "lean-spec-kb-arith-mix",
+    "family": "proved-spec",
+    "toolchain": "lean",
+    "program": "kb_arith_mix",
+    "tier": 1,
+    "loops": 0,
+    "depth": 0
+  },
+  {
+    "name": "lean-spec-kb-abs",
+    "family": "proved-spec",
+    "toolchain": "lean",
+    "program": "kb_abs",
+    "tier": 2,
+    "loops": 0,
+    "depth": 0
+  }
+]

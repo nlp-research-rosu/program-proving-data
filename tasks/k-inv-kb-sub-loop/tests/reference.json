@@ -1,0 +1,35 @@
+{
+  "task": "k-inv-kb-sub-loop",
+  "family": "loop-invariant",
+  "program": "kb_sub_loop",
+  "record": "c16_kb_sub_loop",
+  "verification_module": "MPY-VERIFICATION",
+  "spec_module": "KB-SUB-LOOP-SPEC",
+  "code": "while 0 < b:\n    a = a - 1\n    b = b - 1\n",
+  "inputs": {
+    "module": [
+      [
+        "a",
+        "A"
+      ],
+      [
+        "b",
+        "B"
+      ]
+    ],
+    "call": []
+  },
+  "fn_names": [],
+  "requires": null,
+  "n_samples": 24,
+  "seed": 20261030,
+  "kprove_timeout": 900,
+  "kprove_flags": [
+    "--smt-timeout",
+    "10000",
+    "--haskell-backend-command",
+    "kore-exec --smt-retry-limit 3"
+  ],
+  "entry_k": "Assign(Name(\"a\"),A:Int)Assign(Name(\"b\"),B:Int)While(Compare(Int(0),CmpOp(\"<\",Name(\"b\"))),Assign(Name(\"a\"),BinOp(\"-\",Name(\"a\"),Int(1)))Assign(Name(\"b\"),BinOp(\"-\",Name(\"b\"),Int(1))))=>.K...",
+  "entry_normalized": "<k>Assign(Name(\"a\"),A:Int)Assign(Name(\"b\"),B:Int)While(Compare(Int(0),CmpOp(\"<\",Name(\"b\"))),Assign(Name(\"a\"),BinOp(\"-\",Name(\"a\"),Int(1)))Assign(Name(\"b\"),BinOp(\"-\",Name(\"b\"),Int(1))))=>.K...</k><env>0</env><scopes>-1|->builtinsScope0|->scope(.Map,parent(-1))=>-1|->builtinsScope0|->scope(.Map[\"a\"<-?F:Int][\"b\"<-?G:Int],parent(-1))</scopes><scopeLoc>1</scopeLoc><stack>.List</stack><ret>noRet</ret><exc>NoExc</exc><exit-code>0</exit-code>ensures?F==IntA-IntmaxInt(B,0)andBool?G==IntminInt(B,0)[all-path]"
+}

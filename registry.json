@@ -1,0 +1,1137 @@
+[
+  {
+    "name": "all",
+    "version": "1.0.0",
+    "description": "Every task: proved specs and loop invariants, K and Lean 4.",
+    "tasks": [
+      {
+        "name": "k-spec-range-loop",
+        "path": "tasks/k-spec-range-loop"
+      },
+      {
+        "name": "k-inv-range-loop",
+        "path": "tasks/k-inv-range-loop"
+      },
+      {
+        "name": "k-spec-abs-val",
+        "path": "tasks/k-spec-abs-val"
+      },
+      {
+        "name": "k-spec-kb-assign",
+        "path": "tasks/k-spec-kb-assign"
+      },
+      {
+        "name": "k-spec-kb-swap",
+        "path": "tasks/k-spec-kb-swap"
+      },
+      {
+        "name": "k-spec-kb-chain",
+        "path": "tasks/k-spec-kb-chain"
+      },
+      {
+        "name": "k-spec-kb-double-half",
+        "path": "tasks/k-spec-kb-double-half"
+      },
+      {
+        "name": "k-spec-kb-arith-mix",
+        "path": "tasks/k-spec-kb-arith-mix"
+      },
+      {
+        "name": "k-spec-kb-abs",
+        "path": "tasks/k-spec-kb-abs"
+      },
+      {
+        "name": "k-spec-kb-max",
+        "path": "tasks/k-spec-kb-max"
+      },
+      {
+        "name": "k-spec-kb-min",
+        "path": "tasks/k-spec-kb-min"
+      },
+      {
+        "name": "k-spec-kb-countdown",
+        "path": "tasks/k-spec-kb-countdown"
+      },
+      {
+        "name": "k-inv-kb-countdown",
+        "path": "tasks/k-inv-kb-countdown"
+      },
+      {
+        "name": "k-spec-kb-countup",
+        "path": "tasks/k-spec-kb-countup"
+      },
+      {
+        "name": "k-inv-kb-countup",
+        "path": "tasks/k-inv-kb-countup"
+      },
+      {
+        "name": "k-spec-kb-sum",
+        "path": "tasks/k-spec-kb-sum"
+      },
+      {
+        "name": "k-inv-kb-sum",
+        "path": "tasks/k-inv-kb-sum"
+      },
+      {
+        "name": "k-spec-kb-add-loop",
+        "path": "tasks/k-spec-kb-add-loop"
+      },
+      {
+        "name": "k-inv-kb-add-loop",
+        "path": "tasks/k-inv-kb-add-loop"
+      },
+      {
+        "name": "k-spec-kb-sub-loop",
+        "path": "tasks/k-spec-kb-sub-loop"
+      },
+      {
+        "name": "k-inv-kb-sub-loop",
+        "path": "tasks/k-inv-kb-sub-loop"
+      },
+      {
+        "name": "k-spec-kb-max3",
+        "path": "tasks/k-spec-kb-max3"
+      },
+      {
+        "name": "k-spec-kb-clamp",
+        "path": "tasks/k-spec-kb-clamp"
+      },
+      {
+        "name": "k-spec-kb-abs-times",
+        "path": "tasks/k-spec-kb-abs-times"
+      },
+      {
+        "name": "k-spec-kb-sumdiff",
+        "path": "tasks/k-spec-kb-sumdiff"
+      },
+      {
+        "name": "k-inv-kb-sumdiff",
+        "path": "tasks/k-inv-kb-sumdiff"
+      },
+      {
+        "name": "k-spec-kb-mult-loop",
+        "path": "tasks/k-spec-kb-mult-loop"
+      },
+      {
+        "name": "k-inv-kb-mult-loop",
+        "path": "tasks/k-inv-kb-mult-loop"
+      },
+      {
+        "name": "k-spec-kb-triangle-down",
+        "path": "tasks/k-spec-kb-triangle-down"
+      },
+      {
+        "name": "k-inv-kb-triangle-down",
+        "path": "tasks/k-inv-kb-triangle-down"
+      },
+      {
+        "name": "k-spec-kb-sum-up",
+        "path": "tasks/k-spec-kb-sum-up"
+      },
+      {
+        "name": "k-inv-kb-sum-up",
+        "path": "tasks/k-inv-kb-sum-up"
+      },
+      {
+        "name": "k-spec-kb-count-even",
+        "path": "tasks/k-spec-kb-count-even"
+      },
+      {
+        "name": "k-inv-kb-count-even",
+        "path": "tasks/k-inv-kb-count-even"
+      },
+      {
+        "name": "k-spec-kb-loop-max",
+        "path": "tasks/k-spec-kb-loop-max"
+      },
+      {
+        "name": "k-inv-kb-loop-max",
+        "path": "tasks/k-inv-kb-loop-max"
+      },
+      {
+        "name": "k-spec-kb-pure-nested",
+        "path": "tasks/k-spec-kb-pure-nested"
+      },
+      {
+        "name": "k-inv-kb-pure-nested",
+        "path": "tasks/k-inv-kb-pure-nested"
+      },
+      {
+        "name": "k-spec-kb-mult-nested",
+        "path": "tasks/k-spec-kb-mult-nested"
+      },
+      {
+        "name": "k-inv-kb-mult-nested",
+        "path": "tasks/k-inv-kb-mult-nested"
+      },
+      {
+        "name": "k-spec-kb-triangle-nested",
+        "path": "tasks/k-spec-kb-triangle-nested"
+      },
+      {
+        "name": "k-inv-kb-triangle-nested",
+        "path": "tasks/k-inv-kb-triangle-nested"
+      },
+      {
+        "name": "k-spec-kb-squares-cubic",
+        "path": "tasks/k-spec-kb-squares-cubic"
+      },
+      {
+        "name": "k-inv-kb-squares-cubic",
+        "path": "tasks/k-inv-kb-squares-cubic"
+      },
+      {
+        "name": "k-spec-kb-rows-sum-nested",
+        "path": "tasks/k-spec-kb-rows-sum-nested"
+      },
+      {
+        "name": "k-inv-kb-rows-sum-nested",
+        "path": "tasks/k-inv-kb-rows-sum-nested"
+      },
+      {
+        "name": "k-spec-kb-nested-with-branch",
+        "path": "tasks/k-spec-kb-nested-with-branch"
+      },
+      {
+        "name": "k-inv-kb-nested-with-branch",
+        "path": "tasks/k-inv-kb-nested-with-branch"
+      },
+      {
+        "name": "k-spec-kb-pipeline",
+        "path": "tasks/k-spec-kb-pipeline"
+      },
+      {
+        "name": "k-inv-kb-pipeline",
+        "path": "tasks/k-inv-kb-pipeline"
+      },
+      {
+        "name": "k-spec-kb-stats-pipeline",
+        "path": "tasks/k-spec-kb-stats-pipeline"
+      },
+      {
+        "name": "k-inv-kb-stats-pipeline",
+        "path": "tasks/k-inv-kb-stats-pipeline"
+      },
+      {
+        "name": "k-spec-kb-normalize-count",
+        "path": "tasks/k-spec-kb-normalize-count"
+      },
+      {
+        "name": "k-inv-kb-normalize-count",
+        "path": "tasks/k-inv-kb-normalize-count"
+      },
+      {
+        "name": "lean-spec-kb-max",
+        "path": "tasks/lean-spec-kb-max"
+      },
+      {
+        "name": "lean-spec-kb-min",
+        "path": "tasks/lean-spec-kb-min"
+      },
+      {
+        "name": "lean-inv-kb-countdown",
+        "path": "tasks/lean-inv-kb-countdown"
+      },
+      {
+        "name": "lean-inv-kb-countup",
+        "path": "tasks/lean-inv-kb-countup"
+      },
+      {
+        "name": "lean-inv-kb-sum",
+        "path": "tasks/lean-inv-kb-sum"
+      },
+      {
+        "name": "lean-inv-kb-add-loop",
+        "path": "tasks/lean-inv-kb-add-loop"
+      },
+      {
+        "name": "lean-inv-kb-sub-loop",
+        "path": "tasks/lean-inv-kb-sub-loop"
+      },
+      {
+        "name": "lean-spec-kb-max3",
+        "path": "tasks/lean-spec-kb-max3"
+      },
+      {
+        "name": "lean-spec-kb-clamp",
+        "path": "tasks/lean-spec-kb-clamp"
+      },
+      {
+        "name": "lean-spec-kb-abs-times",
+        "path": "tasks/lean-spec-kb-abs-times"
+      },
+      {
+        "name": "lean-inv-sum-to-n",
+        "path": "tasks/lean-inv-sum-to-n"
+      },
+      {
+        "name": "lean-inv-kb-sumdiff",
+        "path": "tasks/lean-inv-kb-sumdiff"
+      },
+      {
+        "name": "lean-inv-kb-mult-loop",
+        "path": "tasks/lean-inv-kb-mult-loop"
+      },
+      {
+        "name": "lean-inv-kb-triangle-down",
+        "path": "tasks/lean-inv-kb-triangle-down"
+      },
+      {
+        "name": "lean-inv-kb-sum-up",
+        "path": "tasks/lean-inv-kb-sum-up"
+      },
+      {
+        "name": "lean-inv-kb-count-even",
+        "path": "tasks/lean-inv-kb-count-even"
+      },
+      {
+        "name": "lean-inv-kb-loop-max",
+        "path": "tasks/lean-inv-kb-loop-max"
+      },
+      {
+        "name": "lean-inv-kb-pure-nested",
+        "path": "tasks/lean-inv-kb-pure-nested"
+      },
+      {
+        "name": "lean-inv-kb-mult-nested",
+        "path": "tasks/lean-inv-kb-mult-nested"
+      },
+      {
+        "name": "lean-inv-kb-triangle-nested",
+        "path": "tasks/lean-inv-kb-triangle-nested"
+      },
+      {
+        "name": "lean-inv-kb-squares-cubic",
+        "path": "tasks/lean-inv-kb-squares-cubic"
+      },
+      {
+        "name": "lean-spec-abs-val",
+        "path": "tasks/lean-spec-abs-val"
+      },
+      {
+        "name": "lean-inv-kb-rows-sum-nested",
+        "path": "tasks/lean-inv-kb-rows-sum-nested"
+      },
+      {
+        "name": "lean-inv-kb-nested-with-branch",
+        "path": "tasks/lean-inv-kb-nested-with-branch"
+      },
+      {
+        "name": "lean-inv-kb-pipeline",
+        "path": "tasks/lean-inv-kb-pipeline"
+      },
+      {
+        "name": "lean-inv-kb-stats-pipeline",
+        "path": "tasks/lean-inv-kb-stats-pipeline"
+      },
+      {
+        "name": "lean-inv-kb-normalize-count",
+        "path": "tasks/lean-inv-kb-normalize-count"
+      },
+      {
+        "name": "lean-spec-kb-assign",
+        "path": "tasks/lean-spec-kb-assign"
+      },
+      {
+        "name": "lean-spec-kb-swap",
+        "path": "tasks/lean-spec-kb-swap"
+      },
+      {
+        "name": "lean-spec-kb-chain",
+        "path": "tasks/lean-spec-kb-chain"
+      },
+      {
+        "name": "lean-spec-kb-double-half",
+        "path": "tasks/lean-spec-kb-double-half"
+      },
+      {
+        "name": "lean-spec-kb-arith-mix",
+        "path": "tasks/lean-spec-kb-arith-mix"
+      },
+      {
+        "name": "lean-spec-kb-abs",
+        "path": "tasks/lean-spec-kb-abs"
+      }
+    ],
+    "metrics": [
+      {
+        "type": "mean",
+        "kwargs": {}
+      }
+    ]
+  },
+  {
+    "name": "proved-specs",
+    "version": "1.0.0",
+    "description": "Write/derive and prove full final-state specifications (K + Lean).",
+    "tasks": [
+      {
+        "name": "k-spec-range-loop",
+        "path": "tasks/k-spec-range-loop"
+      },
+      {
+        "name": "k-spec-abs-val",
+        "path": "tasks/k-spec-abs-val"
+      },
+      {
+        "name": "k-spec-kb-assign",
+        "path": "tasks/k-spec-kb-assign"
+      },
+      {
+        "name": "k-spec-kb-swap",
+        "path": "tasks/k-spec-kb-swap"
+      },
+      {
+        "name": "k-spec-kb-chain",
+        "path": "tasks/k-spec-kb-chain"
+      },
+      {
+        "name": "k-spec-kb-double-half",
+        "path": "tasks/k-spec-kb-double-half"
+      },
+      {
+        "name": "k-spec-kb-arith-mix",
+        "path": "tasks/k-spec-kb-arith-mix"
+      },
+      {
+        "name": "k-spec-kb-abs",
+        "path": "tasks/k-spec-kb-abs"
+      },
+      {
+        "name": "k-spec-kb-max",
+        "path": "tasks/k-spec-kb-max"
+      },
+      {
+        "name": "k-spec-kb-min",
+        "path": "tasks/k-spec-kb-min"
+      },
+      {
+        "name": "k-spec-kb-countdown",
+        "path": "tasks/k-spec-kb-countdown"
+      },
+      {
+        "name": "k-spec-kb-countup",
+        "path": "tasks/k-spec-kb-countup"
+      },
+      {
+        "name": "k-spec-kb-sum",
+        "path": "tasks/k-spec-kb-sum"
+      },
+      {
+        "name": "k-spec-kb-add-loop",
+        "path": "tasks/k-spec-kb-add-loop"
+      },
+      {
+        "name": "k-spec-kb-sub-loop",
+        "path": "tasks/k-spec-kb-sub-loop"
+      },
+      {
+        "name": "k-spec-kb-max3",
+        "path": "tasks/k-spec-kb-max3"
+      },
+      {
+        "name": "k-spec-kb-clamp",
+        "path": "tasks/k-spec-kb-clamp"
+      },
+      {
+        "name": "k-spec-kb-abs-times",
+        "path": "tasks/k-spec-kb-abs-times"
+      },
+      {
+        "name": "k-spec-kb-sumdiff",
+        "path": "tasks/k-spec-kb-sumdiff"
+      },
+      {
+        "name": "k-spec-kb-mult-loop",
+        "path": "tasks/k-spec-kb-mult-loop"
+      },
+      {
+        "name": "k-spec-kb-triangle-down",
+        "path": "tasks/k-spec-kb-triangle-down"
+      },
+      {
+        "name": "k-spec-kb-sum-up",
+        "path": "tasks/k-spec-kb-sum-up"
+      },
+      {
+        "name": "k-spec-kb-count-even",
+        "path": "tasks/k-spec-kb-count-even"
+      },
+      {
+        "name": "k-spec-kb-loop-max",
+        "path": "tasks/k-spec-kb-loop-max"
+      },
+      {
+        "name": "k-spec-kb-pure-nested",
+        "path": "tasks/k-spec-kb-pure-nested"
+      },
+      {
+        "name": "k-spec-kb-mult-nested",
+        "path": "tasks/k-spec-kb-mult-nested"
+      },
+      {
+        "name": "k-spec-kb-triangle-nested",
+        "path": "tasks/k-spec-kb-triangle-nested"
+      },
+      {
+        "name": "k-spec-kb-squares-cubic",
+        "path": "tasks/k-spec-kb-squares-cubic"
+      },
+      {
+        "name": "k-spec-kb-rows-sum-nested",
+        "path": "tasks/k-spec-kb-rows-sum-nested"
+      },
+      {
+        "name": "k-spec-kb-nested-with-branch",
+        "path": "tasks/k-spec-kb-nested-with-branch"
+      },
+      {
+        "name": "k-spec-kb-pipeline",
+        "path": "tasks/k-spec-kb-pipeline"
+      },
+      {
+        "name": "k-spec-kb-stats-pipeline",
+        "path": "tasks/k-spec-kb-stats-pipeline"
+      },
+      {
+        "name": "k-spec-kb-normalize-count",
+        "path": "tasks/k-spec-kb-normalize-count"
+      },
+      {
+        "name": "lean-spec-kb-max",
+        "path": "tasks/lean-spec-kb-max"
+      },
+      {
+        "name": "lean-spec-kb-min",
+        "path": "tasks/lean-spec-kb-min"
+      },
+      {
+        "name": "lean-spec-kb-max3",
+        "path": "tasks/lean-spec-kb-max3"
+      },
+      {
+        "name": "lean-spec-kb-clamp",
+        "path": "tasks/lean-spec-kb-clamp"
+      },
+      {
+        "name": "lean-spec-kb-abs-times",
+        "path": "tasks/lean-spec-kb-abs-times"
+      },
+      {
+        "name": "lean-spec-abs-val",
+        "path": "tasks/lean-spec-abs-val"
+      },
+      {
+        "name": "lean-spec-kb-assign",
+        "path": "tasks/lean-spec-kb-assign"
+      },
+      {
+        "name": "lean-spec-kb-swap",
+        "path": "tasks/lean-spec-kb-swap"
+      },
+      {
+        "name": "lean-spec-kb-chain",
+        "path": "tasks/lean-spec-kb-chain"
+      },
+      {
+        "name": "lean-spec-kb-double-half",
+        "path": "tasks/lean-spec-kb-double-half"
+      },
+      {
+        "name": "lean-spec-kb-arith-mix",
+        "path": "tasks/lean-spec-kb-arith-mix"
+      },
+      {
+        "name": "lean-spec-kb-abs",
+        "path": "tasks/lean-spec-kb-abs"
+      }
+    ],
+    "metrics": [
+      {
+        "type": "mean",
+        "kwargs": {}
+      }
+    ]
+  },
+  {
+    "name": "loop-invariants",
+    "version": "1.0.0",
+    "description": "Find loop invariants that close a frozen claim (K circularities, Lean Circularity).",
+    "tasks": [
+      {
+        "name": "k-inv-range-loop",
+        "path": "tasks/k-inv-range-loop"
+      },
+      {
+        "name": "k-inv-kb-countdown",
+        "path": "tasks/k-inv-kb-countdown"
+      },
+      {
+        "name": "k-inv-kb-countup",
+        "path": "tasks/k-inv-kb-countup"
+      },
+      {
+        "name": "k-inv-kb-sum",
+        "path": "tasks/k-inv-kb-sum"
+      },
+      {
+        "name": "k-inv-kb-add-loop",
+        "path": "tasks/k-inv-kb-add-loop"
+      },
+      {
+        "name": "k-inv-kb-sub-loop",
+        "path": "tasks/k-inv-kb-sub-loop"
+      },
+      {
+        "name": "k-inv-kb-sumdiff",
+        "path": "tasks/k-inv-kb-sumdiff"
+      },
+      {
+        "name": "k-inv-kb-mult-loop",
+        "path": "tasks/k-inv-kb-mult-loop"
+      },
+      {
+        "name": "k-inv-kb-triangle-down",
+        "path": "tasks/k-inv-kb-triangle-down"
+      },
+      {
+        "name": "k-inv-kb-sum-up",
+        "path": "tasks/k-inv-kb-sum-up"
+      },
+      {
+        "name": "k-inv-kb-count-even",
+        "path": "tasks/k-inv-kb-count-even"
+      },
+      {
+        "name": "k-inv-kb-loop-max",
+        "path": "tasks/k-inv-kb-loop-max"
+      },
+      {
+        "name": "k-inv-kb-pure-nested",
+        "path": "tasks/k-inv-kb-pure-nested"
+      },
+      {
+        "name": "k-inv-kb-mult-nested",
+        "path": "tasks/k-inv-kb-mult-nested"
+      },
+      {
+        "name": "k-inv-kb-triangle-nested",
+        "path": "tasks/k-inv-kb-triangle-nested"
+      },
+      {
+        "name": "k-inv-kb-squares-cubic",
+        "path": "tasks/k-inv-kb-squares-cubic"
+      },
+      {
+        "name": "k-inv-kb-rows-sum-nested",
+        "path": "tasks/k-inv-kb-rows-sum-nested"
+      },
+      {
+        "name": "k-inv-kb-nested-with-branch",
+        "path": "tasks/k-inv-kb-nested-with-branch"
+      },
+      {
+        "name": "k-inv-kb-pipeline",
+        "path": "tasks/k-inv-kb-pipeline"
+      },
+      {
+        "name": "k-inv-kb-stats-pipeline",
+        "path": "tasks/k-inv-kb-stats-pipeline"
+      },
+      {
+        "name": "k-inv-kb-normalize-count",
+        "path": "tasks/k-inv-kb-normalize-count"
+      },
+      {
+        "name": "lean-inv-kb-countdown",
+        "path": "tasks/lean-inv-kb-countdown"
+      },
+      {
+        "name": "lean-inv-kb-countup",
+        "path": "tasks/lean-inv-kb-countup"
+      },
+      {
+        "name": "lean-inv-kb-sum",
+        "path": "tasks/lean-inv-kb-sum"
+      },
+      {
+        "name": "lean-inv-kb-add-loop",
+        "path": "tasks/lean-inv-kb-add-loop"
+      },
+      {
+        "name": "lean-inv-kb-sub-loop",
+        "path": "tasks/lean-inv-kb-sub-loop"
+      },
+      {
+        "name": "lean-inv-sum-to-n",
+        "path": "tasks/lean-inv-sum-to-n"
+      },
+      {
+        "name": "lean-inv-kb-sumdiff",
+        "path": "tasks/lean-inv-kb-sumdiff"
+      },
+      {
+        "name": "lean-inv-kb-mult-loop",
+        "path": "tasks/lean-inv-kb-mult-loop"
+      },
+      {
+        "name": "lean-inv-kb-triangle-down",
+        "path": "tasks/lean-inv-kb-triangle-down"
+      },
+      {
+        "name": "lean-inv-kb-sum-up",
+        "path": "tasks/lean-inv-kb-sum-up"
+      },
+      {
+        "name": "lean-inv-kb-count-even",
+        "path": "tasks/lean-inv-kb-count-even"
+      },
+      {
+        "name": "lean-inv-kb-loop-max",
+        "path": "tasks/lean-inv-kb-loop-max"
+      },
+      {
+        "name": "lean-inv-kb-pure-nested",
+        "path": "tasks/lean-inv-kb-pure-nested"
+      },
+      {
+        "name": "lean-inv-kb-mult-nested",
+        "path": "tasks/lean-inv-kb-mult-nested"
+      },
+      {
+        "name": "lean-inv-kb-triangle-nested",
+        "path": "tasks/lean-inv-kb-triangle-nested"
+      },
+      {
+        "name": "lean-inv-kb-squares-cubic",
+        "path": "tasks/lean-inv-kb-squares-cubic"
+      },
+      {
+        "name": "lean-inv-kb-rows-sum-nested",
+        "path": "tasks/lean-inv-kb-rows-sum-nested"
+      },
+      {
+        "name": "lean-inv-kb-nested-with-branch",
+        "path": "tasks/lean-inv-kb-nested-with-branch"
+      },
+      {
+        "name": "lean-inv-kb-pipeline",
+        "path": "tasks/lean-inv-kb-pipeline"
+      },
+      {
+        "name": "lean-inv-kb-stats-pipeline",
+        "path": "tasks/lean-inv-kb-stats-pipeline"
+      },
+      {
+        "name": "lean-inv-kb-normalize-count",
+        "path": "tasks/lean-inv-kb-normalize-count"
+      }
+    ],
+    "metrics": [
+      {
+        "type": "mean",
+        "kwargs": {}
+      }
+    ]
+  },
+  {
+    "name": "k-proved-specs",
+    "version": "1.0.0",
+    "description": "K: complete the entry claim (final scope + ensures + circularities) and prove it with kprove.",
+    "tasks": [
+      {
+        "name": "k-spec-range-loop",
+        "path": "tasks/k-spec-range-loop"
+      },
+      {
+        "name": "k-spec-abs-val",
+        "path": "tasks/k-spec-abs-val"
+      },
+      {
+        "name": "k-spec-kb-assign",
+        "path": "tasks/k-spec-kb-assign"
+      },
+      {
+        "name": "k-spec-kb-swap",
+        "path": "tasks/k-spec-kb-swap"
+      },
+      {
+        "name": "k-spec-kb-chain",
+        "path": "tasks/k-spec-kb-chain"
+      },
+      {
+        "name": "k-spec-kb-double-half",
+        "path": "tasks/k-spec-kb-double-half"
+      },
+      {
+        "name": "k-spec-kb-arith-mix",
+        "path": "tasks/k-spec-kb-arith-mix"
+      },
+      {
+        "name": "k-spec-kb-abs",
+        "path": "tasks/k-spec-kb-abs"
+      },
+      {
+        "name": "k-spec-kb-max",
+        "path": "tasks/k-spec-kb-max"
+      },
+      {
+        "name": "k-spec-kb-min",
+        "path": "tasks/k-spec-kb-min"
+      },
+      {
+        "name": "k-spec-kb-countdown",
+        "path": "tasks/k-spec-kb-countdown"
+      },
+      {
+        "name": "k-spec-kb-countup",
+        "path": "tasks/k-spec-kb-countup"
+      },
+      {
+        "name": "k-spec-kb-sum",
+        "path": "tasks/k-spec-kb-sum"
+      },
+      {
+        "name": "k-spec-kb-add-loop",
+        "path": "tasks/k-spec-kb-add-loop"
+      },
+      {
+        "name": "k-spec-kb-sub-loop",
+        "path": "tasks/k-spec-kb-sub-loop"
+      },
+      {
+        "name": "k-spec-kb-max3",
+        "path": "tasks/k-spec-kb-max3"
+      },
+      {
+        "name": "k-spec-kb-clamp",
+        "path": "tasks/k-spec-kb-clamp"
+      },
+      {
+        "name": "k-spec-kb-abs-times",
+        "path": "tasks/k-spec-kb-abs-times"
+      },
+      {
+        "name": "k-spec-kb-sumdiff",
+        "path": "tasks/k-spec-kb-sumdiff"
+      },
+      {
+        "name": "k-spec-kb-mult-loop",
+        "path": "tasks/k-spec-kb-mult-loop"
+      },
+      {
+        "name": "k-spec-kb-triangle-down",
+        "path": "tasks/k-spec-kb-triangle-down"
+      },
+      {
+        "name": "k-spec-kb-sum-up",
+        "path": "tasks/k-spec-kb-sum-up"
+      },
+      {
+        "name": "k-spec-kb-count-even",
+        "path": "tasks/k-spec-kb-count-even"
+      },
+      {
+        "name": "k-spec-kb-loop-max",
+        "path": "tasks/k-spec-kb-loop-max"
+      },
+      {
+        "name": "k-spec-kb-pure-nested",
+        "path": "tasks/k-spec-kb-pure-nested"
+      },
+      {
+        "name": "k-spec-kb-mult-nested",
+        "path": "tasks/k-spec-kb-mult-nested"
+      },
+      {
+        "name": "k-spec-kb-triangle-nested",
+        "path": "tasks/k-spec-kb-triangle-nested"
+      },
+      {
+        "name": "k-spec-kb-squares-cubic",
+        "path": "tasks/k-spec-kb-squares-cubic"
+      },
+      {
+        "name": "k-spec-kb-rows-sum-nested",
+        "path": "tasks/k-spec-kb-rows-sum-nested"
+      },
+      {
+        "name": "k-spec-kb-nested-with-branch",
+        "path": "tasks/k-spec-kb-nested-with-branch"
+      },
+      {
+        "name": "k-spec-kb-pipeline",
+        "path": "tasks/k-spec-kb-pipeline"
+      },
+      {
+        "name": "k-spec-kb-stats-pipeline",
+        "path": "tasks/k-spec-kb-stats-pipeline"
+      },
+      {
+        "name": "k-spec-kb-normalize-count",
+        "path": "tasks/k-spec-kb-normalize-count"
+      }
+    ],
+    "metrics": [
+      {
+        "type": "mean",
+        "kwargs": {}
+      }
+    ]
+  },
+  {
+    "name": "k-loop-invariants",
+    "version": "1.0.0",
+    "description": "K: add the circularity claims that let kprove prove the frozen entry claim.",
+    "tasks": [
+      {
+        "name": "k-inv-range-loop",
+        "path": "tasks/k-inv-range-loop"
+      },
+      {
+        "name": "k-inv-kb-countdown",
+        "path": "tasks/k-inv-kb-countdown"
+      },
+      {
+        "name": "k-inv-kb-countup",
+        "path": "tasks/k-inv-kb-countup"
+      },
+      {
+        "name": "k-inv-kb-sum",
+        "path": "tasks/k-inv-kb-sum"
+      },
+      {
+        "name": "k-inv-kb-add-loop",
+        "path": "tasks/k-inv-kb-add-loop"
+      },
+      {
+        "name": "k-inv-kb-sub-loop",
+        "path": "tasks/k-inv-kb-sub-loop"
+      },
+      {
+        "name": "k-inv-kb-sumdiff",
+        "path": "tasks/k-inv-kb-sumdiff"
+      },
+      {
+        "name": "k-inv-kb-mult-loop",
+        "path": "tasks/k-inv-kb-mult-loop"
+      },
+      {
+        "name": "k-inv-kb-triangle-down",
+        "path": "tasks/k-inv-kb-triangle-down"
+      },
+      {
+        "name": "k-inv-kb-sum-up",
+        "path": "tasks/k-inv-kb-sum-up"
+      },
+      {
+        "name": "k-inv-kb-count-even",
+        "path": "tasks/k-inv-kb-count-even"
+      },
+      {
+        "name": "k-inv-kb-loop-max",
+        "path": "tasks/k-inv-kb-loop-max"
+      },
+      {
+        "name": "k-inv-kb-pure-nested",
+        "path": "tasks/k-inv-kb-pure-nested"
+      },
+      {
+        "name": "k-inv-kb-mult-nested",
+        "path": "tasks/k-inv-kb-mult-nested"
+      },
+      {
+        "name": "k-inv-kb-triangle-nested",
+        "path": "tasks/k-inv-kb-triangle-nested"
+      },
+      {
+        "name": "k-inv-kb-squares-cubic",
+        "path": "tasks/k-inv-kb-squares-cubic"
+      },
+      {
+        "name": "k-inv-kb-rows-sum-nested",
+        "path": "tasks/k-inv-kb-rows-sum-nested"
+      },
+      {
+        "name": "k-inv-kb-nested-with-branch",
+        "path": "tasks/k-inv-kb-nested-with-branch"
+      },
+      {
+        "name": "k-inv-kb-pipeline",
+        "path": "tasks/k-inv-kb-pipeline"
+      },
+      {
+        "name": "k-inv-kb-stats-pipeline",
+        "path": "tasks/k-inv-kb-stats-pipeline"
+      },
+      {
+        "name": "k-inv-kb-normalize-count",
+        "path": "tasks/k-inv-kb-normalize-count"
+      }
+    ],
+    "metrics": [
+      {
+        "type": "mean",
+        "kwargs": {}
+      }
+    ]
+  },
+  {
+    "name": "lean-proved-specs",
+    "version": "1.0.0",
+    "description": "Lean 4: derive the frozen functional spec in reachability logic over proved paths.",
+    "tasks": [
+      {
+        "name": "lean-spec-kb-max",
+        "path": "tasks/lean-spec-kb-max"
+      },
+      {
+        "name": "lean-spec-kb-min",
+        "path": "tasks/lean-spec-kb-min"
+      },
+      {
+        "name": "lean-spec-kb-max3",
+        "path": "tasks/lean-spec-kb-max3"
+      },
+      {
+        "name": "lean-spec-kb-clamp",
+        "path": "tasks/lean-spec-kb-clamp"
+      },
+      {
+        "name": "lean-spec-kb-abs-times",
+        "path": "tasks/lean-spec-kb-abs-times"
+      },
+      {
+        "name": "lean-spec-abs-val",
+        "path": "tasks/lean-spec-abs-val"
+      },
+      {
+        "name": "lean-spec-kb-assign",
+        "path": "tasks/lean-spec-kb-assign"
+      },
+      {
+        "name": "lean-spec-kb-swap",
+        "path": "tasks/lean-spec-kb-swap"
+      },
+      {
+        "name": "lean-spec-kb-chain",
+        "path": "tasks/lean-spec-kb-chain"
+      },
+      {
+        "name": "lean-spec-kb-double-half",
+        "path": "tasks/lean-spec-kb-double-half"
+      },
+      {
+        "name": "lean-spec-kb-arith-mix",
+        "path": "tasks/lean-spec-kb-arith-mix"
+      },
+      {
+        "name": "lean-spec-kb-abs",
+        "path": "tasks/lean-spec-kb-abs"
+      }
+    ],
+    "metrics": [
+      {
+        "type": "mean",
+        "kwargs": {}
+      }
+    ]
+  },
+  {
+    "name": "lean-loop-invariants",
+    "version": "1.0.0",
+    "description": "Lean 4: invent the invariant and derive the frozen loop claim by Circularity over proved legs.",
+    "tasks": [
+      {
+        "name": "lean-inv-kb-countdown",
+        "path": "tasks/lean-inv-kb-countdown"
+      },
+      {
+        "name": "lean-inv-kb-countup",
+        "path": "tasks/lean-inv-kb-countup"
+      },
+      {
+        "name": "lean-inv-kb-sum",
+        "path": "tasks/lean-inv-kb-sum"
+      },
+      {
+        "name": "lean-inv-kb-add-loop",
+        "path": "tasks/lean-inv-kb-add-loop"
+      },
+      {
+        "name": "lean-inv-kb-sub-loop",
+        "path": "tasks/lean-inv-kb-sub-loop"
+      },
+      {
+        "name": "lean-inv-sum-to-n",
+        "path": "tasks/lean-inv-sum-to-n"
+      },
+      {
+        "name": "lean-inv-kb-sumdiff",
+        "path": "tasks/lean-inv-kb-sumdiff"
+      },
+      {
+        "name": "lean-inv-kb-mult-loop",
+        "path": "tasks/lean-inv-kb-mult-loop"
+      },
+      {
+        "name": "lean-inv-kb-triangle-down",
+        "path": "tasks/lean-inv-kb-triangle-down"
+      },
+      {
+        "name": "lean-inv-kb-sum-up",
+        "path": "tasks/lean-inv-kb-sum-up"
+      },
+      {
+        "name": "lean-inv-kb-count-even",
+        "path": "tasks/lean-inv-kb-count-even"
+      },
+      {
+        "name": "lean-inv-kb-loop-max",
+        "path": "tasks/lean-inv-kb-loop-max"
+      },
+      {
+        "name": "lean-inv-kb-pure-nested",
+        "path": "tasks/lean-inv-kb-pure-nested"
+      },
+      {
+        "name": "lean-inv-kb-mult-nested",
+        "path": "tasks/lean-inv-kb-mult-nested"
+      },
+      {
+        "name": "lean-inv-kb-triangle-nested",
+        "path": "tasks/lean-inv-kb-triangle-nested"
+      },
+      {
+        "name": "lean-inv-kb-squares-cubic",
+        "path": "tasks/lean-inv-kb-squares-cubic"
+      },
+      {
+        "name": "lean-inv-kb-rows-sum-nested",
+        "path": "tasks/lean-inv-kb-rows-sum-nested"
+      },
+      {
+        "name": "lean-inv-kb-nested-with-branch",
+        "path": "tasks/lean-inv-kb-nested-with-branch"
+      },
+      {
+        "name": "lean-inv-kb-pipeline",
+        "path": "tasks/lean-inv-kb-pipeline"
+      },
+      {
+        "name": "lean-inv-kb-stats-pipeline",
+        "path": "tasks/lean-inv-kb-stats-pipeline"
+      },
+      {
+        "name": "lean-inv-kb-normalize-count",
+        "path": "tasks/lean-inv-kb-normalize-count"
+      }
+    ],
+    "metrics": [
+      {
+        "type": "mean",
+        "kwargs": {}
+      }
+    ]
+  }
+]

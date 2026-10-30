@@ -130,7 +130,7 @@ def build_one(sample_id: str, program: str, entry: str, args: dict) -> dict:
 
 
 def main() -> int:
-    outdir = ROOT / "data/k/concrete"
+    outdir = ROOT / "corpus/k/concrete"
     outdir.mkdir(parents=True, exist_ok=True)
     for sample_id, program, entry, args in SAMPLES:
         rec = build_one(sample_id, program, entry, args)

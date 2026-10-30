@@ -1,0 +1,50 @@
+{
+  "task": "k-spec-kb-stats-pipeline",
+  "family": "proved-spec",
+  "program": "kb_stats_pipeline",
+  "record": "c33_kb_stats_pipeline",
+  "verification_module": "MPY-VERIFICATION",
+  "spec_module": "KB-STATS-PIPELINE-SPEC",
+  "code": "if a <= b:\n    m = a\n    x = b\nelse:\n    m = b\n    x = a\nt = x - m\nres = 0\ni = 0\nwhile i < n:\n    res = res + t\n    i = i + 1\nres = res + m\n",
+  "inputs": {
+    "module": [
+      [
+        "a",
+        "A"
+      ],
+      [
+        "b",
+        "B"
+      ],
+      [
+        "n",
+        "N"
+      ]
+    ],
+    "call": []
+  },
+  "fn_names": [],
+  "requires": "N >=Int 0",
+  "n_samples": 24,
+  "seed": 20261030,
+  "kprove_timeout": 900,
+  "kprove_flags": [
+    "--smt-timeout",
+    "10000",
+    "--haskell-backend-command",
+    "kore-exec --smt-retry-limit 3"
+  ],
+  "entry_k": "Assign(Name(\"a\"),A:Int)Assign(Name(\"b\"),B:Int)Assign(Name(\"n\"),N:Int)If(Compare(Name(\"a\"),CmpOp(\"<=\",Name(\"b\"))),Assign(Name(\"m\"),Name(\"a\"))Assign(Name(\"x\"),Name(\"b\")),Assign(Name(\"m\"),Name(\"b\"))Assign(Name(\"x\"),Name(\"a\")))Assign(Name(\"t\"),BinOp(\"-\",Name(\"x\"),Name(\"m\")))Assign(Name(\"res\"),Int(0))Assign(Name(\"i\"),Int(0))While(Compare(Name(\"i\"),CmpOp(\"<\",Name(\"n\"))),Assign(Name(\"res\"),BinOp(\"+\",Name(\"res\"),Name(\"t\")))Assign(Name(\"i\"),BinOp(\"+\",Name(\"i\"),Int(1))))Assign(Name(\"res\"),BinOp(\"+\",Name(\"res\"),Name(\"m\")))=>.K...",
+  "frozen_parts": {
+    "cell:k": "Assign(Name(\"a\"),A:Int)Assign(Name(\"b\"),B:Int)Assign(Name(\"n\"),N:Int)If(Compare(Name(\"a\"),CmpOp(\"<=\",Name(\"b\"))),Assign(Name(\"m\"),Name(\"a\"))Assign(Name(\"x\"),Name(\"b\")),Assign(Name(\"m\"),Name(\"b\"))Assign(Name(\"x\"),Name(\"a\")))Assign(Name(\"t\"),BinOp(\"-\",Name(\"x\"),Name(\"m\")))Assign(Name(\"res\"),Int(0))Assign(Name(\"i\"),Int(0))While(Compare(Name(\"i\"),CmpOp(\"<\",Name(\"n\"))),Assign(Name(\"res\"),BinOp(\"+\",Name(\"res\"),Name(\"t\")))Assign(Name(\"i\"),BinOp(\"+\",Name(\"i\"),Int(1))))Assign(Name(\"res\"),BinOp(\"+\",Name(\"res\"),Name(\"m\")))=>.K...",
+    "cell:env": "0",
+    "cell:scopeLoc": "1",
+    "cell:stack": ".List",
+    "cell:ret": "noRet",
+    "cell:exc": "NoExc",
+    "cell:exit-code": "0",
+    "scopes_lhs": "-1|->builtinsScope0|->scope(.Map,parent(-1))",
+    "requires": "N>=Int0",
+    "attrs": "all-path"
+  }
+}

@@ -1,4 +1,4 @@
-# Program reasoning sample data
+# Program proving data
 
 Concrete execution traces, symbolic paths, and checked proofs for small Python programs.
 
@@ -88,8 +88,8 @@ Difficulty labels are heuristic. Structural tiers describe the programs.
 The collection includes no model calibration results.
 
 ```
-harbor run --repo nlp-research-rosu/sample-data-public -d loop-invariants -a <agent> -m <model>
-harbor run --repo nlp-research-rosu/sample-data-public -p tasks -i 'k-spec-*' -a <agent> -m <model>
+harbor run --repo nlp-research-rosu/program-proving-data -d loop-invariants -a <agent> -m <model>
+harbor run --repo nlp-research-rosu/program-proving-data -p tasks -i 'k-spec-*' -a <agent> -m <model>
 harbor run -p tasks -a oracle          # local clone: every task scores 1
 harbor run -p tasks -a nop             # local clone: every task scores 0
 ```

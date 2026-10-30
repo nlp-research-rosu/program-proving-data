@@ -1,4 +1,4 @@
-# sample-data: machine-checked program-reasoning data for code models
+# Program proving data: machine-checked program-reasoning data for code models
 
 Forty reasoning samples over thirty-nine tiny Python programs — each sample a
 machine-generated, machine-checked record of one of the three kinds of reasoning one can

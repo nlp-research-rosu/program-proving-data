@@ -40,7 +40,7 @@ sys.path.insert(0, str(HERE))
 import kclaims as K  # noqa: E402
 
 ORG = "nlp-research-rosu"
-REPO_URL = "https://github.com/nlp-research-rosu/sample-data-public"
+REPO_URL = "https://github.com/nlp-research-rosu/program-proving-data"
 K_VERSION = "7.1.337"
 K_IMAGE = f"runtimeverificationinc/kframework-k:ubuntu-jammy-{K_VERSION}"
 VMOD = "MPY-VERIFICATION"

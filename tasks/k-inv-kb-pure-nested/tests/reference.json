@@ -23,6 +23,13 @@
   "requires": "A >=Int 1",
   "n_samples": 24,
   "seed": 20261030,
-  "kprove_timeout": 600,
+  "kprove_timeout": 900,
+  "kprove_flags": [
+    "--smt-timeout",
+    "10000",
+    "--smt-retry-limit",
+    "3"
+  ],
+  "entry_k": "Assign(Name(\"a\"),A:Int)Assign(Name(\"b\"),B:Int)Assign(Name(\"i\"),Name(\"a\"))While(Compare(Int(0),CmpOp(\"<\",Name(\"i\"))),Assign(Name(\"j\"),Name(\"b\"))While(Compare(Int(0),CmpOp(\"<\",Name(\"j\"))),Assign(Name(\"j\"),BinOp(\"-\",Name(\"j\"),Int(1))))Assign(Name(\"i\"),BinOp(\"-\",Name(\"i\"),Int(1))))=>.K...",
   "entry_normalized": "<k>Assign(Name(\"a\"),A:Int)Assign(Name(\"b\"),B:Int)Assign(Name(\"i\"),Name(\"a\"))While(Compare(Int(0),CmpOp(\"<\",Name(\"i\"))),Assign(Name(\"j\"),Name(\"b\"))While(Compare(Int(0),CmpOp(\"<\",Name(\"j\"))),Assign(Name(\"j\"),BinOp(\"-\",Name(\"j\"),Int(1))))Assign(Name(\"i\"),BinOp(\"-\",Name(\"i\"),Int(1))))=>.K...</k><env>0</env><scopes>-1|->builtinsScope0|->scope(.Map,parent(-1))=>-1|->builtinsScope0|->scope(.Map[\"a\"<-A][\"b\"<-B][\"i\"<-?I2:Int][\"j\"<-?J2:Int],parent(-1))</scopes><scopeLoc>1</scopeLoc><stack>.List</stack><ret>noRet</ret><exc>NoExc</exc><exit-code>0</exit-code>requiresA>=Int1ensures?I2==Int0andBool?J2==IntminInt(B,0)[all-path]"
 }

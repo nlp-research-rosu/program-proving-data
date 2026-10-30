@@ -1,13 +1,7 @@
+import KMiniPy.Verification.C4KbAssignSpec
 import KMiniPy.Verification.C4KbAssign
 
-open RLogic
+theorem harborCheck : _root_.C4KbAssignSpec.statement :=
+  fun a => _root_.C4KbAssign.spec a
 
-namespace HarborCheck
-
-theorem check (a : SortInt) :
-    RLOne (pat (C4KbAssign.init a)) (pat (C4KbAssign.final a)) :=
-  C4KbAssign.spec a
-
-end HarborCheck
-
-#print axioms HarborCheck.check
+#print axioms harborCheck

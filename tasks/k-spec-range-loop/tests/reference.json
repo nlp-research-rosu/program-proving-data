@@ -21,7 +21,14 @@
   "requires": "N >=Int 0",
   "n_samples": 24,
   "seed": 20261030,
-  "kprove_timeout": 600,
+  "kprove_timeout": 900,
+  "kprove_flags": [
+    "--smt-timeout",
+    "10000",
+    "--smt-retry-limit",
+    "3"
+  ],
+  "entry_k": "FuncDef(\"f\",Params(\"n\"),Assign(Name(\"total\"),Int(0))Assign(Name(\"i\"),Int(0))For(Name(\"i\"),Call(Name(\"range\"),Name(\"n\")),AugAssign(Name(\"total\"),\"+\",Name(\"i\")))Return(Name(\"total\")))Assign(Name(\"result\"),Call(Name(\"f\"),N:Int))=>.K...",
   "frozen_parts": {
     "cell:k": "FuncDef(\"f\",Params(\"n\"),Assign(Name(\"total\"),Int(0))Assign(Name(\"i\"),Int(0))For(Name(\"i\"),Call(Name(\"range\"),Name(\"n\")),AugAssign(Name(\"total\"),\"+\",Name(\"i\")))Return(Name(\"total\")))Assign(Name(\"result\"),Call(Name(\"f\"),N:Int))=>.K...",
     "cell:env": "0",

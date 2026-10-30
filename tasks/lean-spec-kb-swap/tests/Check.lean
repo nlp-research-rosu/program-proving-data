@@ -1,13 +1,7 @@
+import KMiniPy.Verification.C5KbSwapSpec
 import KMiniPy.Verification.C5KbSwap
 
-open RLogic
+theorem harborCheck : _root_.C5KbSwapSpec.statement :=
+  fun a b => _root_.C5KbSwap.spec a b
 
-namespace HarborCheck
-
-theorem check (a b : SortInt) :
-    RLOne (pat (C5KbSwap.init a b)) (pat (C5KbSwap.final a b)) :=
-  C5KbSwap.spec a b
-
-end HarborCheck
-
-#print axioms HarborCheck.check
+#print axioms harborCheck

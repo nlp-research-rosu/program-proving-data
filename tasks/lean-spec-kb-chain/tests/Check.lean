@@ -1,13 +1,7 @@
+import KMiniPy.Verification.C6KbChainSpec
 import KMiniPy.Verification.C6KbChain
 
-open RLogic
+theorem harborCheck : _root_.C6KbChainSpec.statement :=
+  fun a => _root_.C6KbChain.spec a
 
-namespace HarborCheck
-
-theorem check (a : SortInt) :
-    RLOne (pat (C6KbChain.init a)) (pat (C6KbChain.final a)) :=
-  C6KbChain.spec a
-
-end HarborCheck
-
-#print axioms HarborCheck.check
+#print axioms harborCheck

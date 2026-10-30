@@ -69,32 +69,46 @@ tasks/lean-inv-kb-sum/
 ```
 
 Verifiers run in a **separate** copy of the environment: only the declared artifacts
-(`/app/spec.k`, or the agent's `/app` tree minus `.lake`) are carried over, every
-verifier-owned file is restored from the verifier's own copy, and the kompiled definition /
-pristine Lean build directory come from the image. `network_mode = "no-network"` keeps the
-agent from fetching this public repository, which contains every solution.
+(`/app/spec.k`, or the agent's `/app/KMiniPy/Verification/` directory) are carried over, the
+verifier builds from its own copies of every verifier-owned file, and the kompiled
+definition / pristine Lean build directory come from the image. The agent runs as a non-root
+user; `network_mode = "no-network"` keeps it from fetching this public repository, which
+contains every solution.
 
 What the verifiers refuse, by construction:
 
 - **K.** Anything but `requires "verification.k"`, one module importing
   `MPY-VERIFICATION`, and `[all-path]` claims: no `rule`, `syntax`, `[trusted]`,
-  `[simplification]`, extra `imports`/`requires`. The entry claim's frozen regions are
+  `[simplification]`, extra `imports`/`requires`, no other attributes, ASCII only. The entry
+  claim (the unique claim whose `<k>` cell is the frozen program) has its frozen regions
   compared modulo whitespace and comments. In the proved-spec family the final scope must bind
-  every variable the program assigns, every `?`-variable must be bound directly to a variable,
-  the terms must evaluate (K integer semantics: `/Int` truncates) to CPython's final values on
-  24 random inputs satisfying the precondition, and `ensures` must turn false under any
-  perturbation of a `?`-variable — so `ensures true` or a disjunction of candidates is not a
-  specification. Then `kprove` must print `#Top`.
-- **Lean.** The check file re-declares `pre`/`post` over the verifier-owned `init`/`final` and
-  proves the frozen statement by the agent's theorem (a changed statement is a type error);
+  every name the program binds in scope 0, every `?`-variable must be bound directly to a
+  variable and pinned by **exactly one** `?X ==Int TERM` conjunct of an `andBool`-conjunction
+  (no existential under `orBool`/`notBool`/`#if`, none shared between conjuncts — so a
+  disjunction of candidates, a region-restricted postcondition or `ensures true` is rejected
+  before the prover runs), and the terms must evaluate (K integer semantics: `/Int`
+  truncates; `andBool`/`orBool` may not be mixed unparenthesized) to CPython's final values
+  on random inputs at two magnitudes plus the precondition's boundary values. Then `kprove`
+  must print `#Top` within the same timeout and SMT flags the instruction shows.
+- **Lean.** The verifier assembles its own package from verifier-owned files and admits only
+  the files the agent's module imports from `KMiniPy/Verification/`; those must pass a
+  lexical ban (no `set_option` outside a whitelist, no `unsafe`/`implemented_by`/`extern`/
+  `axiom`/`opaque`/`partial`/`instance`/`deriving`, no attributes, no `notation`/`macro`/
+  `syntax`/`elab`, no `initialize`/`IO`/`#`-commands, imports only `KMiniPy.*`). `pre`,
+  `post` and the frozen `statement` live in a verifier-owned Spec module compiled into the
+  image; the check file proves `statement` by the agent's theorem with every name
+  `_root_`-qualified and no `open`, so a changed or weakened theorem type is a type error;
   `#print axioms` must list nothing beyond `propext`, `Classical.choice`, `Quot.sound`,
-  `eqStringHook` and klean's signature-only String-equality symbol — `sorryAx`,
-  `Lean.ofReduceBool` (`native_decide`) or any added axiom fails.
+  `eqStringHook` and klean's signature-only String-equality symbol.
 
 `scripts/harbor/check_tasks.py` exercises the K graders offline (reference solutions pass
 every step but `kprove`; untouched skeletons, `[trusted]`, lemma rules, extra imports,
-`ensures true` and modified entry claims are rejected) and checks that no agent-visible
-file contains a reference circularity or postcondition.
+attribute groups, `ensures true`, band-restricted and disjunctive postconditions, `==Bool`
+tautologies and modified entry claims are rejected), exercises the Lean lexical ban on a
+dozen known bypasses, and checks that no agent-visible file contains a reference
+circularity, postcondition or derivation plan. The one reference claim not already in the
+canonical `?X ==Int TERM` form (`abs_val`: `?R >= 0 ∧ (?R = X ∨ ?R = -X)`) is rewritten to
+`?R ==Int absInt(X)` for its task; CI's oracle re-proves it.
 
 ## Regeneration and checking
 

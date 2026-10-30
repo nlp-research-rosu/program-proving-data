@@ -1,27 +1,21 @@
-import KMiniPy.Verification.C34KbNormalizeCountLegs
+import KMiniPy.Verification.C34KbNormalizeCountSpec
 import KMiniPy.RL
 
 set_option linter.unusedVariables false
 
-/-! # C34KbNormalizeCount: `kb_normalize_count` — the loop claim, to be derived
+/-! # C34KbNormalizeCount: `kb_normalize_count` — the claim, to be derived
 
 `spec` states the one-path reachability claim of this program over
-the proved execution legs of `C34KbNormalizeCountLegs`. Replace the `sorry` with a
-derivation in the `RL` calculus (see instruction.md). The statement, `pre`
-and `post` are frozen. -/
+the proved execution legs of `C34KbNormalizeCountLegs`. `pre`/`post` and the frozen statement live in the
+verifier-owned module `C34KbNormalizeCountSpec`. Replace the `sorry` with a derivation in
+the `RL` calculus (see instruction.md); the statement must stay as given. -/
 
 open RLogic
 
 namespace C34KbNormalizeCount
 
 open C34KbNormalizeCountLegs
-
-/-- Precondition: at program start; the spec is total (no constraint). -/
-def pre (a b n : Int) : Pat := pat (init a b n)
-
-/-- Postcondition: terminated with `a`, `b` unchanged, `n ↦ 0`,
-`count ↦ max n (0 - n)` (= `|n|`) and `res ↦ (max n (0 - n)) * a + b`. -/
-def post (a b n : Int) : Pat := pat (final a b (max n (0 - n)) ((max n (0 - n)) * a + b))
+open C34KbNormalizeCountSpec
 
 /-- The claim. Replace `sorry` with a complete derivation. -/
 theorem spec (a b n : SortInt) : RLOne (pre a b n) (post a b n) := by

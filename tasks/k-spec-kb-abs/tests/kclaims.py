@@ -11,8 +11,10 @@ One file, two consumers:
 * every K task's verifier (tests/kclaims.py, a verbatim copy) uses it to
   decide whether the agent's spec.k is admissible BEFORE kprove runs:
   whitelist grammar, frozen regions intact, and — for the proved-spec family —
-  that the pinned final state is a full characterization that agrees with
-  CPython on random inputs.
+  that the pinned final state is a full characterization: every program
+  variable bound, every existential determined by exactly one `?X ==Int TERM`
+  conjunct (so no disjunction of candidates, no region-restricted postcondition
+  can pass), and the pinned values equal to CPython's on random inputs.
 
 The module is dependency-free (stdlib only) and must stay that way: inside the
 sandbox it runs under `python3 -I`.
@@ -38,6 +40,7 @@ FORBIDDEN_WORDS = (
     "owise", "priority", "concrete", "symbolic", "anywhere", "macro",
     "smt-lemma", "smt-hook", "unboundVariables", "function", "total", "hook",
     "alias", "cool", "heat", "strict", "seqstrict", "label", "one-path",
+    "preserves-definedness", "depends", "comm", "assoc", "unit", "idem",
 )
 
 
@@ -93,6 +96,8 @@ def parse_module(text: str, *, verification_module: str) -> Module:
     """Parse an admissible spec.k: one requires line, one module importing
     exactly the verification module, and nothing but claims inside."""
     body = strip_comments(text)
+    if any(ord(c) > 127 for c in body):
+        raise SpecError("spec.k must be ASCII outside comments")
     scan = strip_strings(body)
     for word in FORBIDDEN_WORDS:
         if re.search(rf"(?<![\w-]){re.escape(word)}(?![\w-])", scan):
@@ -136,6 +141,7 @@ def parse_module(text: str, *, verification_module: str) -> Module:
 # ---------------------------------------------------------------------------
 
 CELL_RE = re.compile(r"<([a-zA-Z][\w-]*)(?:\s+[^>]*)?>(.*?)</\1>", re.S)
+ATTR_GROUP_RE = re.compile(r"\[([^\[\]]*)\]\s*$")
 
 
 @dataclass
@@ -147,7 +153,7 @@ class Claim:
     attrs: list[str]
 
     @property
-    def is_entry(self) -> bool:
+    def has_scope_loc(self) -> bool:
         return "scopeLoc" in self.cells
 
 
@@ -162,16 +168,20 @@ def parse_claim(text: str) -> Claim:
     if "k" not in cells:
         raise SpecError("claim without a <k> cell")
     tail = text[last_end:]
+    # at most one trailing attribute group `[key, key, ...]`, every key allowed, no arguments
     attrs: list[str] = []
-    while True:
-        am = re.search(r"\[\s*([A-Za-z][\w-]*)\s*\]\s*$", tail)
-        if not am:
-            break
-        attrs.insert(0, am.group(1))
+    am = ATTR_GROUP_RE.search(tail)
+    if am:
+        for item in am.group(1).split(","):
+            key = item.strip()
+            if not re.fullmatch(r"[A-Za-z][\w-]*", key):
+                raise SpecError(f"claim attribute {key!r} is not allowed")
+            if key not in ALLOWED_ATTRS:
+                raise SpecError(f"claim attribute [{key}] is not allowed")
+            attrs.append(key)
         tail = tail[:am.start()]
-    for a in attrs:
-        if a not in ALLOWED_ATTRS:
-            raise SpecError(f"claim attribute [{a}] is not allowed")
+    if "[" in strip_strings(tail) or "]" in strip_strings(tail):
+        raise SpecError("unexpected bracket after the cells (only one trailing [all-path] group is allowed)")
     requires = ensures = None
     rm = re.search(r"(?<![\w-])requires(?![\w-])", tail)
     em = re.search(r"(?<![\w-])ensures(?![\w-])", tail)
@@ -228,26 +238,30 @@ def parse_scope_map(rhs: str) -> list[tuple[str, str]]:
 
 
 # ---------------------------------------------------------------------------
-# K Int / Bool expression evaluator
+# K Int / Bool expression evaluator (the admissible subset)
 # ---------------------------------------------------------------------------
 
 TOKEN_RE = re.compile(r"""
     (?P<ws>\s+)
   | (?P<op>\+Int|-Int|\*Int|/Int|%Int|divInt|modInt|\^Int|<=Int|>=Int|<Int|>Int|==Int|=/=Int
-          |andBool|orBool|xorBool|impliesBool|notBool|==Bool|=/=Bool)
+          |andBool|orBool|notBool)
   | (?P<kw>\#if|\#then|\#else|\#fi)
   | (?P<int>-?\d+)
   | (?P<ident>\??[A-Za-z_][A-Za-z0-9_]*)
   | (?P<punct>[(),])
 """, re.X)
 
-BINOPS = {  # operator -> precedence (higher binds tighter)
+# operator -> precedence tier (higher binds tighter), mirroring K's domains.md:
+# ^Int > (*Int /Int %Int divInt modInt) > (+Int -Int) > comparisons (non-assoc)
+# > (andBool orBool: ONE tier in K, so mixing them without parentheses is
+# ambiguous and refused here).
+BINOPS = {
     "^Int": 60, "*Int": 50, "/Int": 50, "%Int": 50, "divInt": 50, "modInt": 50,
     "+Int": 40, "-Int": 40,
     "<Int": 30, "<=Int": 30, ">Int": 30, ">=Int": 30, "==Int": 30, "=/=Int": 30,
-    "==Bool": 25, "=/=Bool": 25,
-    "andBool": 20, "xorBool": 18, "orBool": 16, "impliesBool": 14,
+    "andBool": 20, "orBool": 20,
 }
+NON_ASSOC_TIER = 30
 FUNCS = {"minInt": 2, "maxInt": 2, "absInt": 1}
 
 
@@ -298,13 +312,21 @@ class Parser:
 
     def expr(self, min_prec):
         left = self.unary()
+        chain_op = None
         while True:
             k, v = self.peek()
             if k != "op" or v not in BINOPS or BINOPS[v] < min_prec:
                 return left
+            prec = BINOPS[v]
+            if chain_op is not None and BINOPS[chain_op] == prec:
+                if prec == NON_ASSOC_TIER:
+                    raise EvalError(f"chained comparison {chain_op} ... {v} needs parentheses")
+                if chain_op != v and prec == BINOPS["andBool"]:
+                    raise EvalError(f"mixing {chain_op} and {v} needs parentheses (K parses them in one tier)")
             self.i += 1
-            right = self.expr(BINOPS[v] + 1)  # left-assoc
+            right = self.expr(prec + 1)  # left-assoc
             left = ("bin", v, left, right)
+            chain_op = v
 
     def unary(self):
         k, v = self.peek()
@@ -393,11 +415,10 @@ def eval_expr(ast, env: dict):
             return max(args)
         return abs(args[0])
     op, l, r = ast[1], eval_expr(ast[2], env), eval_expr(ast[3], env)
-    if op in ("andBool", "orBool", "xorBool", "impliesBool", "==Bool", "=/=Bool"):
+    if op in ("andBool", "orBool"):
         _need(l, bool, op)
         _need(r, bool, op)
-        return {"andBool": l and r, "orBool": l or r, "xorBool": l != r,
-                "impliesBool": (not l) or r, "==Bool": l == r, "=/=Bool": l != r}[op]
+        return (l and r) if op == "andBool" else (l or r)
     _need(l, int, op)
     _need(r, int, op)
     if op == "+Int":
@@ -447,6 +468,62 @@ def free_vars(ast) -> set[str]:
     return out
 
 
+def existentials(ast) -> set[str]:
+    return {v for v in free_vars(ast) if v.startswith("?")}
+
+
+def conjuncts(ast) -> list:
+    if ast[0] == "bin" and ast[1] == "andBool":
+        return conjuncts(ast[2]) + conjuncts(ast[3])
+    return [ast]
+
+
+def pinned_var(side):
+    """`?X`, `c *Int ?X` or `?X *Int c` (literal c != 0) -> "?X", else None."""
+    if side[0] == "var" and side[1].startswith("?"):
+        return side[1]
+    if side[0] == "bin" and side[1] == "*Int":
+        l, r = side[2], side[3]
+        if l[0] == "int" and l[1] != 0 and r[0] == "var" and r[1].startswith("?"):
+            return r[1]
+        if r[0] == "int" and r[1] != 0 and l[0] == "var" and l[1].startswith("?"):
+            return l[1]
+    return None
+
+
+def determination_problems(ensures_ast, needed: set[str]) -> list[str]:
+    """The structural uniqueness rule of the proved-spec family.
+
+    `ensures` must be a conjunction (over andBool) in which every existential
+    `?X` that the final scope uses occurs in EXACTLY one conjunct, of the shape
+    `?X ==Int TERM`, `TERM ==Int ?X`, `c *Int ?X ==Int TERM` or symmetric, with
+    a non-zero literal `c` and TERM free of existentials. No existential may
+    occur anywhere else (in particular not under orBool, notBool, #if, or in a
+    conjunct with another existential). Then on every input the ensures has at
+    most one solution, by construction, whatever region of the inputs a
+    conjunct about the inputs selects."""
+    problems: list[str] = []
+    pinned: dict[str, int] = {}
+    for c in conjuncts(ensures_ast):
+        ex = existentials(c)
+        if not ex:
+            continue  # a pure constraint on the inputs is fine
+        if c[0] == "bin" and c[1] == "==Int":
+            for lhs, rhs in ((c[2], c[3]), (c[3], c[2])):
+                v = pinned_var(lhs)
+                if v and not existentials(rhs) and ex == {v}:
+                    pinned[v] = pinned.get(v, 0) + 1
+                    break
+            else:
+                problems.append(f"conjunct with existentials {sorted(ex)} is not of the form `?X ==Int TERM`")
+        else:
+            problems.append(f"existentials {sorted(ex)} occur outside a `?X ==Int TERM` conjunct")
+    for v in sorted(needed):
+        if pinned.get(v, 0) != 1:
+            problems.append(f"existential {v} must be pinned by exactly one `{v} ==Int TERM` conjunct (found {pinned.get(v, 0)})")
+    return problems
+
+
 # ---------------------------------------------------------------------------
 # Entry-claim metadata (shared by generator and verifier)
 # ---------------------------------------------------------------------------
@@ -493,12 +570,20 @@ def discover_inputs(k_lhs: str, arg_names: list[str]) -> Inputs:
 # Verifier-side checks
 # ---------------------------------------------------------------------------
 
-def entry_claim(mod: Module) -> tuple[Claim, list[Claim]]:
+def entry_claim(mod: Module, k_cell: str | None = None) -> tuple[Claim, list[Claim]]:
+    """The entry claim is the unique claim whose <k> cell is the frozen program
+    (normalized text `k_cell`); without a reference, the unique claim carrying a
+    <scopeLoc> cell (the generator's view of the corpus)."""
     parsed = [parse_claim(c) for c in mod.claims]
-    entries = [c for c in parsed if c.is_entry]
+    if k_cell is not None:
+        entries = [c for c in parsed if normalize(c.cells["k"]) == k_cell]
+        what = "whose <k> cell is the frozen program"
+    else:
+        entries = [c for c in parsed if c.has_scope_loc]
+        what = "with <scopeLoc>"
     if len(entries) != 1:
-        raise SpecError(f"expected exactly one entry claim (with <scopeLoc>), found {len(entries)}")
-    others = [c for c in parsed if not c.is_entry]
+        raise SpecError(f"expected exactly one entry claim ({what}), found {len(entries)}")
+    others = [c for c in parsed if c is not entries[0]]
     return entries[0], others
 
 
@@ -532,35 +617,60 @@ def run_program(code: str, inputs: dict[str, int]) -> dict:
     return g
 
 
-def sample_inputs(kvars: list[str], requires: str | None, *, n: int, seed: int,
-                  lo: int = -25, hi: int = 25) -> list[dict[str, int]]:
-    """Deterministic random inputs satisfying the frozen precondition."""
+def sample_inputs(kvars: list[str], requires: str | None, *, n: int, seed: int) -> list[dict[str, int]]:
+    """Deterministic inputs satisfying the frozen precondition: `n` draws in
+    [-25, 25], n/3 draws in [-400, 400] (loops still run instantly in CPython),
+    and the boundary points suggested by the literals of the precondition."""
     rng = random.Random(seed)
     req = parse_expr(requires) if requires else None
     out: list[dict[str, int]] = []
     seen: set[tuple] = set()
-    tries = 0
-    while len(out) < n and tries < 5000:
-        tries += 1
-        cand = {k: rng.randint(lo, hi) for k in kvars}
+
+    def admit(cand: dict[str, int]) -> bool:
         key = tuple(cand[k] for k in kvars)
         if key in seen:
-            continue
+            return False
         if req is not None and eval_expr(req, dict(cand)) is not True:
-            continue
+            return False
         seen.add(key)
         out.append(cand)
-    if len(out) < n:
-        raise SpecError("could not sample enough inputs satisfying the precondition")
+        return True
+
+    for lo, hi, want in ((-25, 25, n), (-400, 400, max(1, n // 3))):
+        got, tries = 0, 0
+        while got < want and tries < 5000:
+            tries += 1
+            got += admit({k: rng.randint(lo, hi) for k in kvars})
+        if got < want:
+            raise SpecError("could not sample enough inputs satisfying the precondition")
+    lits = {0, 1, -1}
+    for lit in re.findall(r"-?\d+", requires or ""):
+        v = int(lit)
+        lits |= {v - 1, v, v + 1}
+    points = sorted(lits)
+    boundary = 0
+    for combo in _combos(points, len(kvars)):
+        if boundary >= 12:
+            break
+        boundary += admit(dict(zip(kvars, combo)))
     return out
+
+
+def _combos(points, k):
+    if k == 0:
+        yield ()
+        return
+    for p in points:
+        for rest in _combos(points, k - 1):
+            yield (p,) + rest
 
 
 def check_closed_forms(entry: Claim, *, code: str, inputs: Inputs, requires: str | None,
                        fn_names: list[str], n_samples: int = 24, seed: int = 20261030) -> list[str]:
     """The proved-spec semantic check: the final scope pins every program
     variable to a term whose value agrees with CPython on random inputs
-    satisfying the precondition, and the ensures clause determines every
-    existential uniquely."""
+    satisfying the precondition, and `ensures` determines every existential
+    uniquely by construction (see determination_problems)."""
     problems: list[str] = []
     try:
         _lhs, rhs = split_scopes(entry.cells["scopes"])
@@ -587,15 +697,20 @@ def check_closed_forms(entry: Claim, *, code: str, inputs: Inputs, requires: str
     for fn in fn_names:
         if fn not in bound:
             problems.append(f"the function binding {fn!r} is missing from the final scope")
+    # existentials: every one used must be bound bare to a program variable, and
+    # the scope terms themselves may not combine existentials with anything
     bare: dict[str, str] = {}
     for name, ast in terms.items():
+        ex = existentials(ast)
         if ast[0] == "var" and ast[1].startswith("?"):
             bare.setdefault(ast[1], name)
+        elif ex:
+            problems.append(f"the term bound to {name!r} mixes existentials {sorted(ex)} with other symbols; bind a bare ?X and pin it in ensures")
     used: set[str] = set()
     for ast in terms.values():
-        used |= {v for v in free_vars(ast) if v.startswith("?")}
+        used |= existentials(ast)
     if ensures_ast is not None:
-        used |= {v for v in free_vars(ensures_ast) if v.startswith("?")}
+        used |= existentials(ensures_ast)
     for v in sorted(used):
         if v not in bare:
             problems.append(f"existential {v} is not bound directly to a program variable in the final scope")
@@ -606,6 +721,12 @@ def check_closed_forms(entry: Claim, *, code: str, inputs: Inputs, requires: str
                 problems.append(f"unknown variable {v} (inputs are {sorted(kv)})")
     if problems:
         return problems
+    if bare:
+        if ensures_ast is None:
+            return [f"existentials {sorted(bare)} are bound but there is no ensures to pin them"]
+        problems = determination_problems(ensures_ast, set(bare))
+        if problems:
+            return problems
     call_names = {py for py, _ in inputs.call}
     samples = sample_inputs(inputs.kvars, requires, n=n_samples, seed=seed)
     for sample in samples:
@@ -634,13 +755,12 @@ def check_closed_forms(entry: Claim, *, code: str, inputs: Inputs, requires: str
                 problems.append(f"at inputs {sample}: ensures is false on the actual final state")
             if problems:
                 return problems
-            for ex in bare:
+            for ex in bare:  # belt and braces: the structural rule already forces this
                 for delta in (1, -1, 7):
                     env2 = dict(env)
                     env2[ex] += delta
-                    if ensures_ast is None or eval_expr(ensures_ast, env2) is not False:
-                        problems.append(f"{ex} is not pinned: ensures also holds at {ex} {delta:+d}")
-                        return problems
+                    if eval_expr(ensures_ast, env2) is not False:
+                        return [f"{ex} is not pinned: ensures also holds at {ex} {delta:+d}"]
         except EvalError as e:
             return [f"evaluation error at inputs {sample}: {e}"]
     return problems

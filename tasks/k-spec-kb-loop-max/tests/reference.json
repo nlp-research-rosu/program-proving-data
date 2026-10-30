@@ -23,7 +23,14 @@
   "requires": "N >=Int 1",
   "n_samples": 24,
   "seed": 20261030,
-  "kprove_timeout": 600,
+  "kprove_timeout": 900,
+  "kprove_flags": [
+    "--smt-timeout",
+    "10000",
+    "--smt-retry-limit",
+    "3"
+  ],
+  "entry_k": "Assign(Name(\"a\"),A:Int)Assign(Name(\"n\"),N:Int)Assign(Name(\"max\"),Name(\"a\"))Assign(Name(\"i\"),Int(0))While(Compare(Name(\"i\"),CmpOp(\"<\",Name(\"n\"))),If(Compare(Name(\"max\"),CmpOp(\"<\",Name(\"i\"))),Assign(Name(\"max\"),Name(\"i\")),.Stmts)Assign(Name(\"i\"),BinOp(\"+\",Name(\"i\"),Int(1))))=>.K...",
   "frozen_parts": {
     "cell:k": "Assign(Name(\"a\"),A:Int)Assign(Name(\"n\"),N:Int)Assign(Name(\"max\"),Name(\"a\"))Assign(Name(\"i\"),Int(0))While(Compare(Name(\"i\"),CmpOp(\"<\",Name(\"n\"))),If(Compare(Name(\"max\"),CmpOp(\"<\",Name(\"i\"))),Assign(Name(\"max\"),Name(\"i\")),.Stmts)Assign(Name(\"i\"),BinOp(\"+\",Name(\"i\"),Int(1))))=>.K...",
     "cell:env": "0",

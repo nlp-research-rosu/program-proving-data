@@ -1,22 +1,20 @@
-import KMiniPy.Verification.C17KbMax3Paths
+import KMiniPy.Verification.C17KbMax3Spec
 import KMiniPy.RL
 
-/-! # C17KbMax3: `kb_max3` — the functional spec, to be derived
+set_option linter.unusedVariables false
+
+/-! # C17KbMax3: `kb_max3` — the claim, to be derived
 
 `spec` states the one-path reachability claim of this program over
-the proved path theorems of `KMiniPy.Verification.C17KbMax3Paths`. Replace the `sorry` with a
-derivation in the `RL` calculus (see instruction.md). The statement (and
-`post`) are frozen. -/
+the proved path theorems of `KMiniPy.Verification.C17KbMax3Paths`. `pre`/`post` and the frozen statement live in the
+verifier-owned module `C17KbMax3Spec`. Replace the `sorry` with a derivation in
+the `RL` calculus (see instruction.md); the statement must stay as given. -/
 
 open RLogic
 
 namespace C17KbMax3
 
-/-- Postcondition: terminated with the full final scope pinned — the
-result slot holds an integer satisfying the spec (K's `?`-variable,
-existential inside the pattern). -/
-def post (a b n : Int) : Pat := fun γ =>
-  ∃ m : Int, γ = final a b n (iV m) ∧ a ≤ m ∧ b ≤ m ∧ n ≤ m ∧ (m = a ∨ m = b ∨ m = n)
+open C17KbMax3Spec
 
 /-- The claim. Replace `sorry` with a complete derivation. -/
 theorem spec (a b n : SortInt) :

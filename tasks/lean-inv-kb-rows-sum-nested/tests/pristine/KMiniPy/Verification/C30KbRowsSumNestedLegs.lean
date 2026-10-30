@@ -3,13 +3,7 @@ import KMiniPy.Relations
 set_option linter.unusedSimpArgs false
 set_option linter.unusedVariables false  -- uniform leg binders; hyps used only on guard steps
 
-/-! C30KbRowsSumNestedLegs: PROVED parametric execution legs for `kb_rows_sum_nested` — the NESTED-loop
-stage. The reachability-logic derivation (C30KbRowsSumNested.lean) keeps ONE Circularity
-(the outer loop, over `outerCfg4`) and summarizes the whole inner loop as a
-∀-quantified `Rewrites` lemma proved by fuel induction from `inner_body_leg` /
-`inner_exit_leg` / `inner_nil_step`.
-
-Two outer loop-head shapes (the env assoc-list grows when `j` is first bound
+/-!Two outer loop-head shapes (the env assoc-list grows when `j` is first bound
 inside the first outer iteration): `outerCfg3 a b sum i rest` at first arrival,
 `outerCfg4 a b sum i j rest` afterwards. The inner configs take an opaque
 `irest : SortK`; in the composition it is always the concrete `midK rest`

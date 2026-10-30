@@ -1,13 +1,7 @@
+import KMiniPy.Verification.C8KbArithMixSpec
 import KMiniPy.Verification.C8KbArithMix
 
-open RLogic
+theorem harborCheck : _root_.C8KbArithMixSpec.statement :=
+  fun a b => _root_.C8KbArithMix.spec a b
 
-namespace HarborCheck
-
-theorem check (a b : SortInt) :
-    RLOne (pat (C8KbArithMix.init a b)) (pat (C8KbArithMix.final a b)) :=
-  C8KbArithMix.spec a b
-
-end HarborCheck
-
-#print axioms HarborCheck.check
+#print axioms harborCheck

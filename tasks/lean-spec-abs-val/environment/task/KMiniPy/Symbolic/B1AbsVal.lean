@@ -16,7 +16,7 @@ Program (CPython-validated against the same K semantics):
         if x < 0:
             return -x
         return x
-    
+
     result = abs_val(31337)
 Proof: 35-step (neg) and 33-step (nonneg) tran-folds of rule applications.
 -/

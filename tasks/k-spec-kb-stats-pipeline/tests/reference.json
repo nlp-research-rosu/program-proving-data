@@ -27,7 +27,14 @@
   "requires": "N >=Int 0",
   "n_samples": 24,
   "seed": 20261030,
-  "kprove_timeout": 600,
+  "kprove_timeout": 900,
+  "kprove_flags": [
+    "--smt-timeout",
+    "10000",
+    "--smt-retry-limit",
+    "3"
+  ],
+  "entry_k": "Assign(Name(\"a\"),A:Int)Assign(Name(\"b\"),B:Int)Assign(Name(\"n\"),N:Int)If(Compare(Name(\"a\"),CmpOp(\"<=\",Name(\"b\"))),Assign(Name(\"m\"),Name(\"a\"))Assign(Name(\"x\"),Name(\"b\")),Assign(Name(\"m\"),Name(\"b\"))Assign(Name(\"x\"),Name(\"a\")))Assign(Name(\"t\"),BinOp(\"-\",Name(\"x\"),Name(\"m\")))Assign(Name(\"res\"),Int(0))Assign(Name(\"i\"),Int(0))While(Compare(Name(\"i\"),CmpOp(\"<\",Name(\"n\"))),Assign(Name(\"res\"),BinOp(\"+\",Name(\"res\"),Name(\"t\")))Assign(Name(\"i\"),BinOp(\"+\",Name(\"i\"),Int(1))))Assign(Name(\"res\"),BinOp(\"+\",Name(\"res\"),Name(\"m\")))=>.K...",
   "frozen_parts": {
     "cell:k": "Assign(Name(\"a\"),A:Int)Assign(Name(\"b\"),B:Int)Assign(Name(\"n\"),N:Int)If(Compare(Name(\"a\"),CmpOp(\"<=\",Name(\"b\"))),Assign(Name(\"m\"),Name(\"a\"))Assign(Name(\"x\"),Name(\"b\")),Assign(Name(\"m\"),Name(\"b\"))Assign(Name(\"x\"),Name(\"a\")))Assign(Name(\"t\"),BinOp(\"-\",Name(\"x\"),Name(\"m\")))Assign(Name(\"res\"),Int(0))Assign(Name(\"i\"),Int(0))While(Compare(Name(\"i\"),CmpOp(\"<\",Name(\"n\"))),Assign(Name(\"res\"),BinOp(\"+\",Name(\"res\"),Name(\"t\")))Assign(Name(\"i\"),BinOp(\"+\",Name(\"i\"),Int(1))))Assign(Name(\"res\"),BinOp(\"+\",Name(\"res\"),Name(\"m\")))=>.K...",
     "cell:env": "0",

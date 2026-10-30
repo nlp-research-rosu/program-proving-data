@@ -26,7 +26,6 @@ module ABS-VAL-SPEC
     <ret> noRet </ret>
     <exc> NoExc </exc>
     <exit-code> 0 </exit-code>
-    ensures (?R >=Int 0)
-      andBool ((?R ==Int X) orBool (?R ==Int (0 -Int X)))
+    ensures ?R ==Int absInt(X)
     [all-path]
 endmodule

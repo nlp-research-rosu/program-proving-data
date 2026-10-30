@@ -19,7 +19,14 @@
   "requires": "N >=Int 1",
   "n_samples": 24,
   "seed": 20261030,
-  "kprove_timeout": 600,
+  "kprove_timeout": 900,
+  "kprove_flags": [
+    "--smt-timeout",
+    "10000",
+    "--smt-retry-limit",
+    "3"
+  ],
+  "entry_k": "Assign(Name(\"n\"),N:Int)Assign(Name(\"count\"),Int(0))Assign(Name(\"i\"),Name(\"n\"))While(Compare(Int(0),CmpOp(\"<\",Name(\"i\"))),Assign(Name(\"j\"),Name(\"i\"))While(Compare(Int(0),CmpOp(\"<\",Name(\"j\"))),Assign(Name(\"count\"),BinOp(\"+\",Name(\"count\"),Int(1)))Assign(Name(\"j\"),BinOp(\"-\",Name(\"j\"),Int(1))))Assign(Name(\"i\"),BinOp(\"-\",Name(\"i\"),Int(1))))=>.K...",
   "frozen_parts": {
     "cell:k": "Assign(Name(\"n\"),N:Int)Assign(Name(\"count\"),Int(0))Assign(Name(\"i\"),Name(\"n\"))While(Compare(Int(0),CmpOp(\"<\",Name(\"i\"))),Assign(Name(\"j\"),Name(\"i\"))While(Compare(Int(0),CmpOp(\"<\",Name(\"j\"))),Assign(Name(\"count\"),BinOp(\"+\",Name(\"count\"),Int(1)))Assign(Name(\"j\"),BinOp(\"-\",Name(\"j\"),Int(1))))Assign(Name(\"i\"),BinOp(\"-\",Name(\"i\"),Int(1))))=>.K...",
     "cell:env": "0",

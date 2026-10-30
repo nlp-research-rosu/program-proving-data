@@ -1,13 +1,7 @@
+import KMiniPy.Verification.C7KbDoubleHalfSpec
 import KMiniPy.Verification.C7KbDoubleHalf
 
-open RLogic
+theorem harborCheck : _root_.C7KbDoubleHalfSpec.statement :=
+  fun a => _root_.C7KbDoubleHalf.spec a
 
-namespace HarborCheck
-
-theorem check (a : SortInt) :
-    RLOne (pat (C7KbDoubleHalf.init a)) (pat (C7KbDoubleHalf.final a)) :=
-  C7KbDoubleHalf.spec a
-
-end HarborCheck
-
-#print axioms HarborCheck.check
+#print axioms harborCheck

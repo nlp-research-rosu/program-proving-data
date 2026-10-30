@@ -38,7 +38,7 @@ Program (CPython-validated against the same K semantics):
             acc = acc + i
             i = i + 1
         return acc
-    
+
     result = sum_to_n(5)
 Proof: 23-step prologue, 35-step body, 13-step exit,
 1-step nil_step, 8-step epilogue tran-folds of rule applications.

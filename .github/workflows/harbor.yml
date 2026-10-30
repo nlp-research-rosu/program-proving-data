@@ -13,9 +13,14 @@ name: harbor
 
 on:
   push:
-    branches: [main, harbor-dataset]
+    branches: [main]
   pull_request:
   workflow_dispatch:
+
+# one run per branch; a new push cancels the previous run's long oracle jobs
+concurrency:
+  group: harbor-${{ github.ref }}
+  cancel-in-progress: true
 
 env:
   HARBOR_VERSION: "0.25.0"

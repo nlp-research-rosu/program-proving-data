@@ -25,6 +25,7 @@ tags = ["k-framework", "reachability-logic", "formal-verification", "loop-invari
 reference_prover_seconds = 8.9
 spec_module = "KB-TRIANGLE-DOWN-SPEC"
 reference_claims = 2
+solution_note = "reference minInt(X, 0) rewritten as X -Int maxInt(X, 0) (equivalent to the corpus claim) to avoid conditional minInt simplification"
 
 [verifier]
 timeout_sec = 1500.0

@@ -22,7 +22,7 @@ module KB-TRIANGLE-DOWN-SPEC
       0 |-> scope(.Map, parent(-1))
     =>
       -1 |-> builtinsScope
-      0 |-> scope(.Map [ "n" <- minInt(N, 0) ] [ "sum" <- ?T:Int ], parent(-1))
+      0 |-> scope(.Map [ "n" <- (N -Int maxInt(N, 0)) ] [ "sum" <- ?T:Int ], parent(-1))
     </scopes>
     <scopeLoc> 1 </scopeLoc>
     <stack> .List </stack>

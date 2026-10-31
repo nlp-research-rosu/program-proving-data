@@ -114,6 +114,8 @@ The [claim checker](scripts/harbor/kclaims.py) defines the accepted expressions 
 The `abs_val` task uses the equivalent target `?R ==Int absInt(X)`.
 The nested-branch task expresses the triangular number of `minInt(A, B)` with `#if A <=Int B`.
 This follows the circularities' branch split and avoids an ambiguous nonlinear simplification.
+The triangle-down tasks express `minInt(X, 0)` as `X -Int maxInt(X, 0)` in the entry
+and circularity claims, avoiding a conditional `minInt` simplification that can return SMT `unknown`.
 The corpus claims stay unchanged. CI proves the generated targets again.
 
 The Lean verifier assembles its own package and admits the proof files that the agent imports.

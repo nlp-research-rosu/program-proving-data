@@ -71,6 +71,16 @@ CANONICAL_ENSURES = {
         "andBool ?I2 ==Int 0 andBool ?J2 ==Int 0"
     ),
 }
+# minInt's conditional simplification rules ask z3 to decide a sign even when
+# the path condition contains nonlinear triangle arithmetic. On CI this can
+# return unknown (domains.md:1450). The equivalent subtraction uses only
+# hooked arithmetic, leaving the piecewise expression to the SMT solver.
+CANONICAL_TERMS = {
+    "kb_triangle_down": {
+        "minInt(I, 0)": "(I -Int maxInt(I, 0))",
+        "minInt(N, 0)": "(N -Int maxInt(N, 0))",
+    },
+}
 DATASET_VERSION = "1.0.0"
 
 # programs outside the KleverBench port: structural tier by analogy with PROVENANCE.md
@@ -250,6 +260,10 @@ def load_programs() -> dict[str, Program]:
         spec_dir = (ROOT / "vendor/klever/tests/verification/range-loop" if key == "range_loop"
                     else CORPUS / "specs" / slug)
         spec_text = (spec_dir / "spec.k").read_text(encoding="utf-8")
+        for original, canonical in CANONICAL_TERMS.get(key, {}).items():
+            if original not in spec_text:
+                raise SystemExit(f"cannot canonicalize {original} in {key}")
+            spec_text = spec_text.replace(original, canonical)
         pf = ROOT / "programs" / f"{key}.py"
         prog = Program(record_stem=p.stem, num=num, key=key, slug=slug, record=rec,
                        spec_dir=spec_dir, spec_text=spec_text, tier=tier[key],
@@ -452,7 +466,11 @@ def build_k_task(out: Out, prog: Program, family: str, registry: list[dict]) -> 
                     **({"solution_note": toml_str(
                         f"reference ensures rewritten to `{CANONICAL_ENSURES[prog.key]}` "
                         "(equivalent to the corpus claim) for the verifier's canonical form")}
-                       if prog.key in CANONICAL_ENSURES else {})}))
+                       if prog.key in CANONICAL_ENSURES else {}),
+                    **({"solution_note": toml_str(
+                        "reference minInt(X, 0) rewritten as X -Int maxInt(X, 0) "
+                        "(equivalent to the corpus claim) to avoid conditional minInt simplification")}
+                       if prog.key in CANONICAL_TERMS else {})}))
     registry.append({"name": name, "family": family, "toolchain": "k", "program": prog.key,
                      "tier": prog.tier, "loops": prog.loops, "depth": prog.depth})
 

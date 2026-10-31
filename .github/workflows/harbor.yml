@@ -103,6 +103,10 @@ jobs:
         run: |
           harbor run -p tasks -i 'k-*-kb-nested-with-branch' -a oracle -n 2 -y -q --jobs-dir jobs/smoke-k
           python scripts/harbor/ci_rewards.py jobs/smoke-k --expect 1 --min-trials 2
+      - name: triangle-down reference proofs avoid conditional minInt simplification
+        run: |
+          harbor run -p tasks -i 'k-*-kb-triangle-down' -a oracle -n 2 -y -q --jobs-dir jobs/smoke-k-triangle-down
+          python scripts/harbor/ci_rewards.py jobs/smoke-k-triangle-down --expect 1 --min-trials 2
       - name: oracle must score 1 on every K task
         run: |
           harbor run -p tasks -i 'k-*' -a oracle -n 2 -y -q --jobs-dir jobs/oracle-k

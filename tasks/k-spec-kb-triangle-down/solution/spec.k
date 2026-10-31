@@ -20,7 +20,7 @@ module KB-TRIANGLE-DOWN-SPEC
     <env> 0 </env>
     <exc> NoExc </exc>
     <exit-code> 0 </exit-code>
-    ensures ?F ==Int minInt(I, 0)
+    ensures ?F ==Int (I -Int maxInt(I, 0))
     andBool ?T ==Int S +Int (maxInt(I, 0) *Int (maxInt(I, 0) +Int 1)) /Int 2
     [all-path]
 
@@ -42,7 +42,7 @@ module KB-TRIANGLE-DOWN-SPEC
       0 |-> scope(.Map, parent(-1))
     =>
       -1 |-> builtinsScope
-      0 |-> scope(.Map [ "n" <- minInt(N, 0) ] [ "sum" <- ?T:Int ], parent(-1))
+      0 |-> scope(.Map [ "n" <- (N -Int maxInt(N, 0)) ] [ "sum" <- ?T:Int ], parent(-1))
     </scopes>
     <scopeLoc> 1 </scopeLoc>
     <stack> .List </stack>
